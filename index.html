@@ -3364,11 +3364,11 @@ D.addEventListener('keydown', function (e) {
     var ys = v && !big ? v.querySelector('.ysum') : null, sb = v ? v.querySelector('.selbar:not([hidden])') : null, val = null;
     if (sb) {
       var cnt = sb.querySelector('.grow > .sm.b:not([hidden])');
-      big = cnt || sb; target = sb.querySelector('a.btn'); lab = 'Valittu';
+      big = cnt || sb; target = sb.querySelector('a.btn'); var tv0 = v.querySelector('.ysum .tot .v'); lab = tv0 ? 'Valittu, hanke yhteensä ' + tv0.textContent.trim() : 'Valittu';
       val = cnt ? cnt.textContent.trim().replace(/ valittu$/, '') : 'Ei vielä valintoja';
       t = target ? target.textContent.trim() : '';
     } else if (ys) {
-      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr') || ys; t = 'Jatka'; lab = 'Yhteensä';
+      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr') || ys; t = 'Miten jatketaan?'; lab = 'Yhteensä';
       if (ys.getBoundingClientRect().top < window.innerHeight - 40) { bar.hidden = true; return; }
     } else {
       t = target ? (target.textContent || '').trim().replace(/^Seuraava:.*$/i, 'Seuraava') : '';
