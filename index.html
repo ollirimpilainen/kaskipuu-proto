@@ -1,0 +1,2105 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{color-scheme:light}html,body{background:oklch(0.985 0.003 250)}</style>
+<script>(function(){function fit(){var z=Math.min(1,window.innerWidth/1280);document.documentElement.style.zoom=z<1?String(z):"";}fit();window.addEventListener("resize",fit);})();</script>
+<meta name="viewport" content="width=1280">
+<title>Ikkunan valintapolku</title>
+<style>
+body{margin:0}
+.w{--ink:oklch(0.24 0.01 250);--ink2:oklch(0.36 0.01 250);--mu:oklch(0.45 0.01 250);--bg:oklch(0.985 0.003 250);--sf:oklch(0.955 0.004 250);--phc:oklch(0.91 0.005 250);--ln:oklch(0.85 0.006 250);--ln2:oklch(0.58 0.008 250);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;color:var(--ink);background:var(--bg);min-height:100%}
+a{color:var(--ink);text-underline-offset:3px}
+a:hover{color:var(--ink2)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+h1{font-size:32px;line-height:1.15;font-weight:700;letter-spacing:-.01em;margin:0}
+h2{font-size:26px;line-height:1.2;font-weight:700;margin:0}
+h3,.t3{font-size:20px;line-height:1.3;font-weight:650;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding-left:22px}
+.lead{font-size:19px;max-width:62ch}
+.sm{font-size:14px}
+.mu{color:var(--mu)}
+.b{font-weight:650}
+.eb{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.c{max-width:1230px;margin:0 auto;padding:0 32px;box-sizing:border-box}
+.pg{padding-top:48px;padding-bottom:96px}
+.row{display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start}
+.main{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:40px}
+.side{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:20px;position:sticky;top:24px}
+.s4{display:flex;flex-direction:column;gap:4px}
+.s8{display:flex;flex-direction:column;gap:8px}
+.s12{display:flex;flex-direction:column;gap:12px}
+.s16{display:flex;flex-direction:column;gap:16px}
+.s24{display:flex;flex-direction:column;gap:24px}
+.s32{display:flex;flex-direction:column;gap:32px}
+.s48{display:flex;flex-direction:column;gap:48px}
+.cl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sp{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.top{border-bottom:1px solid var(--ln)}
+.top .c{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;min-height:76px}
+.logo{font-size:22px;font-weight:800;letter-spacing:.12em;text-decoration:none}
+.nav{display:flex;gap:32px;flex-wrap:wrap}
+.nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.nav a[aria-current="page"]{font-weight:700;text-decoration:underline;text-decoration-thickness:2px}
+.hum{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn,.btn2{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:6px;font:inherit;font-weight:600;line-height:1.2;text-decoration:none;text-align:center;box-sizing:border-box;cursor:pointer}
+.btn{background:var(--ink);color:var(--bg);border:1.5px solid var(--ink)}
+.btn:hover{background:var(--ink2);color:var(--bg)}
+.btn2{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn2:hover{background:var(--sf)}
+.bs{min-height:44px;padding:0 16px;font-size:15px}
+.wide{width:100%}
+.lk{font-weight:600}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;cursor:pointer;box-sizing:border-box}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{font-weight:600;font-size:15px;padding:0;margin-bottom:12px}
+label{font-weight:600;font-size:15px}
+.f{display:flex;flex-direction:column;gap:8px}
+.in{display:block;width:100%;min-height:48px;padding:0 14px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:inherit;font:inherit;box-sizing:border-box}
+.pn{background:var(--sf);padding:32px;box-sizing:border-box}
+.bx{border:1.5px solid var(--ln);padding:24px;box-sizing:border-box}
+.card{border:1.5px solid var(--ln2);padding:32px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.route{border:2px solid var(--ink);padding:40px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box}
+.opt2{border:1.5px solid var(--ln2);background:var(--bg);padding:24px;display:flex;flex-direction:column;gap:8px;box-sizing:border-box}
+.note{border:2px solid var(--ink);background:var(--bg);padding:20px 24px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box}
+.ph{background:var(--phc);border:1.5px dashed var(--ln2);display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:14px;box-sizing:border-box;text-align:center}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.big{font-size:40px;line-height:1;font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum{display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:15px;margin:0}
+.sum dt{color:var(--ink2)}
+.sum dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tb{width:100%;border-collapse:collapse;font-size:15px}
+.tb th{text-align:left;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mu);padding:0 12px 10px 0;border-bottom:1.5px solid var(--ink)}
+.tb td{padding:14px 12px 14px 0;border-bottom:1px solid var(--ln);vertical-align:top}
+.tb .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-right:0}
+.tb th.r{padding-right:0}
+.tb .fill{border-bottom:1.5px solid var(--ln2);display:inline-block;width:160px;height:22px}
+.pic{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:16px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:15px;cursor:pointer;box-sizing:border-box;text-align:left;color:var(--ink)}
+.pic[aria-pressed="true"]{border:2.5px solid var(--ink)}
+.sec{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding:32px 0;border-top:1px solid var(--ln)}
+.lab{display:flex;flex-direction:column;gap:4px}
+.slot{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:0;padding:0 10px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-variant-numeric:tabular-nums;cursor:pointer;box-sizing:border-box}
+.slot[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+.day{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--ln)}
+.steps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid var(--ln)}
+.steps .n{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;box-sizing:border-box}
+.steps .done .n{background:var(--ink);color:var(--bg)}
+.usps{list-style:none;margin:0;padding:16px 24px;background:var(--sf);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px}
+.usp{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.stp{border-bottom:1px solid var(--ln);background:var(--sf)}
+.stp ol{list-style:none;margin:0 auto;padding:0 32px;max-width:1230px;box-sizing:border-box;display:flex;gap:40px;min-height:60px;align-items:center}
+.stp li{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--mu)}
+.stp li a{color:var(--mu);text-decoration:none;display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.stp .k{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ln2);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;box-sizing:border-box}
+.stp li[aria-current="step"]{color:var(--ink);font-weight:700}
+.stp li[aria-current="step"] .k{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.stp .done a{color:var(--ink)}
+.stp .done .k{border-color:var(--ink)}
+.typ{display:flex;flex-direction:column;gap:10px;padding:12px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:15px;cursor:pointer;box-sizing:border-box;text-align:left;color:var(--ink)}
+.typ[aria-pressed="true"]{border:2.5px solid var(--ink);font-weight:650}
+.typ .ph{height:110px;font-size:12px}
+.sw{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ln2);box-sizing:border-box;cursor:pointer;padding:0}
+.sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px}
+.acc{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--ln)}
+.acc:last-child{border-bottom:1px solid var(--ln)}
+.ok{font-size:14px;font-weight:600}
+.grp td{background:var(--sf);font-weight:650}
+.tb .ck{width:34px;padding-right:6px}
+.tb .ck input{width:20px;height:20px;margin:0}
+.selr td{background:#f6f7f8}
+.bar{border:1.5px solid var(--ln2);padding:10px 14px}
+.bxp{border:2px solid var(--ink)}
+.bf{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln)}
+.bf.chg{background:#f3f4f6;margin:0 -8px;padding:9px 8px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-right:6px}
+.mdl{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center;padding:14px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:15px;cursor:pointer;box-sizing:border-box;text-align:left;color:var(--ink)}
+.mdl[aria-pressed="true"]{border:2.5px solid var(--ink)}
+.en{gap:6px}
+.mc{position:relative;display:grid;grid-template-columns:26px minmax(0,1fr);gap:12px;align-items:start;padding:16px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);cursor:pointer}
+.mc[aria-checked="true"]{border:2.5px solid var(--ink)}
+.mc .box{width:22px;height:22px;border:2px solid var(--ink);border-radius:4px;box-sizing:border-box;margin-top:1px;position:relative}
+.mc[aria-checked="true"] .box{background:var(--ink)}
+.mc[aria-checked="true"] .box::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid var(--bg);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.pv{display:flex;flex-direction:column;gap:8px;background:var(--bg);border:1.5px solid var(--ln);padding:16px;color:var(--ink)}
+.mguide{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:start}
+.sec{grid-template-columns:200px minmax(0,1fr)}
+.big2{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;padding:16px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:15px;cursor:pointer;box-sizing:border-box;text-align:left;color:var(--ink)}
+.big2 img{width:96px;height:auto;display:block}
+.big2[aria-pressed="true"]{border:2.5px solid var(--ink)}
+.g4m{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.mm4{display:flex;align-items:center;justify-content:center;padding:12px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);cursor:pointer;box-sizing:border-box}
+.mm4 img{width:100%;max-width:96px;aspect-ratio:1/1;object-fit:contain;display:block}
+.mm4[aria-pressed="true"]{border:2.5px solid var(--ink)}
+.mgrp{display:grid;grid-template-columns:58px minmax(0,1fr);gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--ln)}
+.mgrp:first-child{border-top:0;padding-top:0}
+.mrow{display:flex;flex-wrap:wrap;gap:4px}
+.mm{display:flex;flex-direction:column;align-items:center;gap:2px;width:54px;padding:5px 2px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-sizing:border-box;color:var(--ink)}
+.mm img{width:44px;height:44px;object-fit:contain;display:block}
+.mm[aria-pressed="true"]{border:2.5px solid var(--ink)}
+.guide{display:flex;flex-direction:column;gap:10px}
+.guide img{display:block;width:100%;height:auto}
+.guide ul{font-size:14px;line-height:1.45;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.navb{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:32px;border-top:1px solid var(--ln)}
+.pvw{display:grid;grid-template-columns:auto 28px;grid-template-rows:24px auto;gap:6px;justify-content:center;align-items:center;padding:8px 0}
+.pvw .dw{grid-column:1;grid-row:1;border-bottom:1.2px solid var(--ink);text-align:center;font-size:12px;line-height:18px}
+.pvw .dh{grid-column:2;grid-row:2;border-left:1.2px solid var(--ink);writing-mode:vertical-rl;text-align:center;font-size:12px;height:100%;padding-left:4px;box-sizing:border-box}
+.pvw img{grid-column:1;grid-row:2;display:block}
+.side .pv,.side .opt2{border:0;padding:0;background:transparent}
+.msec{grid-template-columns:minmax(0,1fr) 220px;gap:32px}
+.steps2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
+.steps2 svg{display:block;border:1px solid var(--ln)}
+.qsec{padding:32px 0;border-top:1px solid var(--ln)}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:center;padding:20px 0;border-top:1px solid var(--ln)}
+.qrow:first-of-type{margin-top:12px}
+.qv{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:center}
+.qv svg{display:block;border:1px solid var(--ln)}
+input[type=checkbox],input[type=radio]{accent-color:#111010}
+.sec{display:block}
+.sec .lab{margin-bottom:16px}
+.qv2{display:flex;flex-direction:column;gap:10px}
+.pics2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pics2 svg{display:block;border:1px solid var(--ln)}
+.mgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start;margin-top:16px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sec{grid-template-columns:260px minmax(0,1fr)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .fr{display:grid;grid-template-columns:170px minmax(0,1fr);gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--ln)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .fr:first-child{border-top:0;padding-top:0}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .fr .lg{font-weight:600;font-size:15px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .hc{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:14px;cursor:pointer;box-sizing:border-box;color:var(--ink);text-align:center}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .hc[aria-pressed="true"]{border:2.5px solid var(--ink)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:start}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .cc{display:flex;flex-direction:column;gap:8px;width:126px;padding:10px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:13px;line-height:1.3;cursor:pointer;box-sizing:border-box;color:var(--ink);text-align:left}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .cc[aria-pressed="true"]{border:2.5px solid var(--ink)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .cc .sq{display:block;width:100%;height:36px;border:1px solid var(--ln2);border-radius:4px;box-sizing:border-box}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sel{min-height:44px;padding:0 12px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:inherit;font:inherit;font-size:15px;width:240px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .aff{background:var(--sf);padding:12px 16px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sub{font-size:17px;font-weight:650;margin:0}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swr{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sw2{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ln2);box-sizing:border-box;cursor:pointer;padding:0}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sw2[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .ol{display:flex;flex-direction:column}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .orow{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:16px 0;border-top:1px solid var(--ln);font-weight:400;cursor:pointer}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .orow:first-child{border-top:0;padding-top:0}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .orow input[type=checkbox]{width:22px;height:22px;margin:2px 0 0;accent-color:#111010}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .orow .ttl{font-weight:650;font-size:16px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .orow .why{font-size:14px;line-height:1.5;color:var(--ink2);max-width:60ch;font-weight:400}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sub{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:10px;font-size:15px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sub label{display:inline-flex;align-items:center;gap:8px;font-weight:400;min-height:32px;cursor:pointer}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sub input{width:18px;height:18px;margin:0;accent-color:#111010}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sub .q{width:100%;font-size:14px;font-weight:600}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swc{display:grid;grid-template-columns:repeat(3,120px);gap:14px 8px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swb{display:flex;flex-direction:column;align-items:center;gap:6px;width:120px;background:none;border:0;padding:0;font:inherit;font-size:13px;line-height:1.25;text-align:center;color:var(--ink);cursor:pointer}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swb span.swd{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ln2);box-sizing:border-box;display:block}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swb[aria-pressed="true"] span.swd{outline:3px solid var(--ink);outline-offset:3px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .swb[aria-pressed="true"]{font-weight:650}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .lab img{display:block;width:100%;max-width:200px;height:auto;border:1px solid var(--ln);margin-top:8px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .ccard{display:flex;flex-direction:column;gap:8px;width:126px;padding:10px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:13px;line-height:1.3;cursor:pointer;box-sizing:border-box;color:var(--ink);text-align:left}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .ccard[aria-pressed="true"]{border:2.5px solid var(--ink)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .ccard .sq{display:block;width:100%;height:36px;border:1px solid var(--ln2);border-radius:4px;box-sizing:border-box}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .csel{min-height:44px;padding:0 12px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:inherit;font:inherit;font-size:15px;width:240px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .affx{background:var(--sf);padding:12px 16px;font-size:14px;display:flex;flex-direction:column;gap:4px;max-width:394px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .subh{font-size:17px;font-weight:650;margin:0}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .sec .lab img{display:none}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .vgrid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:32px;align-items:start}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .v3d{position:sticky;top:24px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .v3d svg{display:block;border:1px solid var(--ln)}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+:where(#v-rakenne,#v-ominaisuudet,#v-lisavarusteet,#v-muokkaa) .cgrid .ccard{width:auto}
+:where(#v-hanke) .minis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+:where(#v-hanke) .mini{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:14px;font-weight:650;cursor:pointer;color:var(--ink)}
+:where(#v-hanke) .mini svg{width:40px;height:40px}
+:where(#v-hanke) .mini[aria-pressed="true"]{border:2.5px solid var(--ink)}
+:where(#v-hanke) .en{gap:4px;width:100%}
+:where(#v-hanke) .stepper{display:inline-flex;align-items:center;border:1.5px solid var(--ln2);border-radius:6px;overflow:hidden}
+:where(#v-hanke) .stepper button{width:44px;height:44px;border:0;background:var(--bg);font:inherit;font-size:20px;cursor:pointer;color:var(--ink)}
+:where(#v-hanke) .stepper span{min-width:36px;text-align:center;font-weight:650;font-variant-numeric:tabular-nums}
+:where(#v-hanke) .mdl{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center;padding:14px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;font-size:15px;box-sizing:border-box;text-align:left;color:var(--ink)}
+:where(#v-hanke) .xs{font-size:13px;line-height:1.45}
+:where(#v-hanke) .off{border-color:var(--ln);color:var(--mu);background:var(--sf);cursor:not-allowed}
+:where(#v-hanke) .act{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;text-decoration:none;min-height:36px;color:var(--ink)}
+:where(#v-hanke) .act:hover{text-decoration:underline}
+:where(#v-hanke) .acts{display:flex;flex-wrap:wrap;gap:4px 20px}
+:where(#v-hanke) .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:where(#v-hanke) .tabs{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+:where(#v-hanke) .newt{width:64px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--bg);font-size:28px;font-weight:600;text-decoration:none;border-radius:4px}
+:where(#v-hanke) .tab{border:1.5px solid var(--ln2);padding:10px 14px;min-width:240px;display:flex;flex-direction:column;gap:2px;box-sizing:border-box;border-radius:4px;text-decoration:none;color:var(--ink)}
+:where(#v-hanke) .tab[aria-current="true"]{border:2.5px solid var(--ink)}
+:where(#v-hanke) .tab .meta{display:flex;justify-content:space-between;gap:16px;font-size:14px;color:var(--ink2)}
+:where(#v-hanke) .lay{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+:where(#v-hanke) .plan{border:2px solid var(--ink);background:var(--bg)}
+:where(#v-hanke) .plan-h{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 20px;border-bottom:2px solid var(--ink)}
+:where(#v-hanke) .plan-b{padding:20px;display:flex;flex-direction:column;gap:20px}
+:where(#v-hanke) .room{background:var(--bg);border:1.5px solid var(--ln2)}
+:where(#v-hanke) .room-h{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 20px;border-bottom:1.5px solid var(--ln)}
+:where(#v-hanke) .room-f{display:flex;gap:24px;padding:12px 20px;border-top:1px solid var(--ln)}
+:where(#v-hanke) .add{font-weight:600;font-size:15px;text-decoration:none;min-height:36px;display:inline-flex;align-items:center}
+:where(#v-hanke) .add:hover{text-decoration:underline}
+:where(#v-hanke) .addroom{align-self:flex-start;border-style:dashed;min-width:240px}
+:where(#v-hanke) .badge{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+:where(#v-hanke) .nb{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none}
+:where(#v-hanke) .item{display:grid;grid-template-columns:200px minmax(0,1fr)}
+:where(#v-hanke) .item-l{background:var(--sf);padding:16px 20px 24px;display:flex;flex-direction:column;gap:24px}
+:where(#v-hanke) .item-r{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+:where(#v-hanke) .draw{position:relative;margin:4px 0 0 36px;border:5px solid var(--ln2);border-bottom-width:10px;box-sizing:border-box;background:var(--bg)}
+:where(#v-hanke) .draw.door{border-bottom-width:5px}
+:where(#v-hanke) .draw .dleaf{position:absolute;right:8px;top:50%;width:6px;height:6px;border-radius:50%;background:var(--ln2)}
+:where(#v-hanke) .draw .dw{position:absolute;top:-22px;left:-30px;right:-30px;text-align:center;font-size:12px;color:var(--ink2)}
+:where(#v-hanke) .draw .dh{position:absolute;left:calc(100% + 8px);top:0;bottom:0;display:flex;align-items:center;font-size:12px;color:var(--ink2)}
+:where(#v-hanke) .draw.empty{border-style:dashed;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:28px;font-weight:600}
+:where(#v-hanke) .prod{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:24px;align-items:start}
+:where(#v-hanke) .col{display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right}
+:where(#v-hanke) .col .h{font-size:13px;font-weight:650;color:var(--ink2)}
+:where(#v-hanke) .qty{min-width:64px;min-height:40px;border:1.5px solid var(--ln2);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;box-sizing:border-box;font-size:15px}
+:where(#v-hanke) .ysum{background:var(--bg);border:2px solid var(--ink);position:sticky;top:24px}
+:where(#v-hanke) .ysum-h{padding:16px 20px;border-bottom:1.5px solid var(--ln);font-size:18px;font-weight:650;margin:0}
+:where(#v-hanke) .ysum-b{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+:where(#v-hanke) .sr{display:flex;justify-content:space-between;gap:16px;font-size:15px}
+:where(#v-hanke) .sr span:last-child{font-weight:600}
+:where(#v-hanke) .tot{border-top:1.5px solid var(--ln);padding-top:12px;display:flex;flex-direction:column;gap:2px}
+:where(#v-hanke) .tot .v{font-size:30px;font-weight:750;letter-spacing:-.01em}
+:where(#v-hanke) .or{display:flex;align-items:center;gap:12px;color:var(--mu);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+:where(#v-hanke) .or::before,:where(#v-hanke) .or::after{content:"";flex:1;border-top:1px solid var(--ln2)}
+:where(#v-hanke) .plan{border:0;background:transparent}
+:where(#v-hanke) .plan-h{padding:0 0 14px;border-bottom:2px solid var(--ink)}
+:where(#v-hanke) .plan-b{padding:0;gap:0}
+:where(#v-hanke) .plan-b>.sp{border:0 !important;border-bottom:1px solid var(--ln) !important;padding:12px 0 !important}
+:where(#v-hanke) .room{border:0;border-bottom:1.5px solid var(--ln2);background:transparent}
+:where(#v-hanke) .room-h{padding:16px 0 8px;border-bottom:0}
+:where(#v-hanke) .room-f{display:none}
+:where(#v-hanke) .item{border-top:1px solid var(--ln)}
+:where(#v-hanke) .item-l{background:transparent;padding:14px 0 16px}
+:where(#v-hanke) .item-r{padding:14px 0 16px 8px}
+:where(#v-hanke) .mt{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:400;min-height:32px}
+:where(#v-hanke) .mt input{width:18px;height:18px;margin:0;accent-color:#111010}
+:where(#v-hanke) .addline{display:flex;gap:24px;padding:14px 0}
+:where(#v-hanke) .bf{background:transparent;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln)}
+:where(#v-hanke) .bf.chg{background:#ffffff;margin:0 -8px;padding:9px 8px}
+:where(#v-hanke) .ysum{background:var(--sf);border:0}
+:where(#v-hanke) .ysum-h{border-bottom:1px solid var(--ln)}
+:where(#v-hanke) .newt{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.g5m{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.g5m .ph{aspect-ratio:1/1;font-size:12px;padding:8px;border-radius:6px}
+.ol2{display:flex;flex-direction:column}
+.ol2>.oi{border-top:1px solid var(--ln);padding:16px 0}
+.ol2>.oi:first-child{border-top:0;padding-top:0}
+.oi .orow{border:0;padding:0;grid-template-columns:28px minmax(0,1fr) auto}
+.oi .ind{margin-left:40px}
+.oi.dis .orow{cursor:not-allowed}
+.oi.dis .ttl,.oi.dis .why{color:var(--mu)}
+details.dd{margin-top:8px}
+details.dd>summary{font-size:14px;font-weight:600;cursor:pointer;min-height:32px;display:flex;align-items:center;gap:6px;list-style:none}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:'▸';font-size:12px}
+details.dd[open]>summary::before{content:'▾'}
+.det{padding:8px 0 4px;display:flex;flex-direction:column;gap:14px}
+.det .lead2{font-size:15px;max-width:60ch}
+.rad{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:start;font-size:15px;font-weight:400;padding:8px 0;border-top:1px solid var(--ln);cursor:pointer}
+.rad:first-child{border-top:0}
+.rad input{width:18px;height:18px;margin:2px 0 0;accent-color:#111010}
+.rad .why{font-size:14px;color:var(--ink2)}
+.reason{display:inline-block;font-size:14px;font-weight:600;margin-top:6px}
+.dtab{width:100%;border-collapse:collapse;font-size:14px}
+.dtab th{text-align:right;font-size:13px;font-weight:600;color:var(--mu);padding:0 0 6px 12px}
+.dtab th:first-child{text-align:left;padding-left:0}
+.dtab td{padding:7px 0 7px 12px;border-top:1px solid var(--ln);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dtab td:first-child{text-align:left;padding-left:0;white-space:normal}
+.dtab tr.pr td{font-weight:650}
+.chk{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:start;font-size:14px;font-weight:400}
+.chk input{width:18px;height:18px;margin:2px 0 0;accent-color:#111010}
+.status{background:var(--sf);padding:14px 20px;font-size:15px;display:flex;flex-direction:column;gap:2px}
+.acts{flex-wrap:nowrap;gap:4px 16px}
+.next2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.next2>div{display:flex;flex-direction:column;gap:8px}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.seg .chip{justify-content:center}
+details.mx>summary{list-style:none}
+details.mx>summary::-webkit-details-marker{display:none}
+.more{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:0 16px;border:1.5px solid var(--ln2);border-radius:6px;background:transparent;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;box-sizing:border-box}
+.more:hover{background:var(--sf)}
+.more::before{content:'▾';font-size:13px}
+details.mx[open]>.more::before{content:'▴'}
+details.mx .op{display:none}
+details.mx[open] .op{display:inline}
+details.mx[open] .cl2{display:none}
+.mxb{margin-top:12px;display:flex;flex-direction:column;gap:12px}
+.hh{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.room2{margin-top:28px}
+.room2 h2{margin:0 0 4px}
+.big2{grid-template-columns:minmax(0,1fr) 96px}
+.big2 img{order:2;justify-self:end}
+.help{display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--ln);padding-top:20px}
+.help-p{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px;align-items:center}
+.help-p p{margin:0}
+.help-t{font-size:16px;font-weight:650;margin:0 0 2px}
+.ava{width:56px;height:56px;border-radius:50%;background:var(--bg);border:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mu);box-sizing:border-box}
+.help-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.help-b .btn2{margin-top:0;width:100%;padding:0 10px;white-space:nowrap}
+.roomadd{display:flex;align-items:center;gap:16px;padding:24px 0 8px;border-top:1px solid var(--ln)}
+.roomadd .btn2{margin-top:0}
+.side .pv{border:0;border-radius:6px}
+.it{display:grid;grid-template-columns:72px minmax(0,1fr) auto 130px;gap:20px;align-items:center;padding:18px 0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.it-img{width:72px;height:72px;object-fit:contain;border:1px solid var(--ln);border-radius:6px;background:var(--bg);display:block}
+.it-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.it-p{text-align:right;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.need{padding:24px 0;border-top:1px solid var(--ln)}
+.need:first-child{border-top:0;padding-top:0}
+.need-h{font-size:17px;font-weight:650;margin:0 0 12px}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.pc{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1.5px solid var(--ln2);border-radius:8px;background:var(--bg);font:inherit;color:var(--ink);text-align:left;cursor:pointer;box-sizing:border-box}
+.pc[aria-checked="true"]{border:2.5px solid var(--ink);padding:17px 19px;background:var(--sf)}
+.pc-t{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:650;font-size:16px}
+.pc-d{font-size:14px;line-height:1.45;color:var(--ink2)}
+.pc-p{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;margin-top:auto;padding-top:6px}
+.bdg{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:2px 8px;line-height:1.3}
+.pc-pic{display:block;width:100%;aspect-ratio:6/7;object-fit:cover;border-radius:6px;margin-bottom:6px}
+.pc.pic{display:grid;grid-template-columns:minmax(0,1fr) 96px;grid-template-rows:auto auto 1fr;column-gap:16px;row-gap:6px}
+.pc.pic .pc-pic{grid-column:2;grid-row:1 / span 3;width:96px;margin:0;align-self:start}
+.pc.pic .pc-t,.pc.pic .pc-d,.pc.pic .pc-p{grid-column:1}
+.pc.pic .pc-p{align-self:end}
+.routes{display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--ln);padding-top:14px}
+.routes h3{margin:0}
+.jr{display:flex;flex-direction:column;gap:6px}
+.jr .btn2{width:100%;margin-top:0}
+.pc-img{display:flex;width:100%;aspect-ratio:4/3;border-radius:6px;margin-bottom:6px;font-size:13px}
+.pc-sub{grid-column:2;font-size:14px;margin:0;display:flex;flex-direction:column;gap:4px}
+details.vp>summary{list-style:none;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
+details.vp>summary::-webkit-details-marker{display:none}
+details.vp[open]>summary{text-decoration:none}
+.oh{background:var(--sf);padding:20px 24px 24px;border-radius:8px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box}
+.mgrid>.oh{align-self:stretch}
+.oh-h{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:650;margin:0}
+.oh-h svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.oh-fig{background:var(--bg);border-radius:6px;display:flex;justify-content:center;padding:16px;margin:0}
+.oh-fig img{display:block;max-width:100%;max-height:300px;width:auto;height:auto;border-radius:4px}
+.oh-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+.oh-steps li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;font-size:14px;line-height:1.45;counter-increment:s}
+.oh-steps li::before{content:counter(s);width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.oh-txt{font-size:14px;line-height:1.5;margin:0;max-width:60ch}
+.oh-alt{border-top:1px solid var(--ln);padding-top:14px;font-size:14px;margin:0}
+.svc{display:flex;flex-direction:column;gap:6px;border:1.5px solid var(--ln2);border-radius:8px;padding:18px 20px;margin-top:4px}
+.svc-h{display:flex;align-items:center;gap:10px;margin:0;font-weight:650}
+.svc-i{width:26px;height:26px;flex:none;fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc .btn2{align-self:flex-start;margin-top:8px}
+.vgrid{grid-template-columns:minmax(0,1fr);gap:12px}
+.vgrid .cgrid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.v3d{position:static}
+:where(#v-hanke,#v-muokkaa) .now{display:block;font-size:13px;color:var(--mu);margin-top:2px}
+:where(#v-hanke,#v-muokkaa) .hh .lk{font-weight:600}
+:where(#v-hanke,#v-muokkaa) .rh{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:0 0 4px}
+:where(#v-hanke,#v-muokkaa) .rh h2{margin:0}
+:where(#v-hanke,#v-muokkaa) .rh .lk{font-size:14px;font-weight:600}
+:where(#v-hanke,#v-muokkaa) .tag{display:inline-block;font-size:12px;font-weight:650;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:2px}
+:where(#v-hanke,#v-muokkaa) .banner{display:flex;align-items:center;gap:16px;background:var(--sf);border-radius:8px;padding:14px 20px;margin:4px 0 8px}
+:where(#v-hanke,#v-muokkaa) .banner p{margin:0;flex:1}
+:where(#v-hanke,#v-muokkaa) .wsel{display:flex;flex-direction:column;gap:18px}
+:where(#v-hanke,#v-muokkaa) .wsel .rg{display:flex;flex-direction:column;gap:8px}
+:where(#v-hanke,#v-muokkaa) .wsel .rgh{display:flex;align-items:center;gap:12px}
+:where(#v-hanke,#v-muokkaa) .wsel .rgh p{margin:0;font-size:15px;font-weight:650;min-width:120px}
+:where(#v-hanke,#v-muokkaa) .chip.mini{min-height:36px;padding:0 12px;font-size:14px}
+:where(#v-hanke,#v-muokkaa) .split{display:flex;flex-direction:column;gap:6px;margin-top:4px;max-width:420px}
+:where(#v-hanke,#v-muokkaa) .chg dt{min-width:0}
+:where(#v-hanke,#v-muokkaa) .mu2{color:var(--mu)}
+:where(#v-hanke,#v-muokkaa) .undo{margin:10px 0 0}
+:where(#v-hanke,#v-muokkaa) .undo .lk{font-size:14px;font-weight:600}
+:where(#v-hanke,#v-muokkaa) .navb .btn{min-width:200px}
+:where(#v-hanke,#v-muokkaa) .need .cgrid{grid-template-columns:repeat(6,minmax(0,1fr))}
+:where(#v-hanke,#v-muokkaa) .it.itb{grid-template-columns:24px 72px minmax(0,1fr) auto 130px}
+:where(#v-hanke,#v-muokkaa) .ck-gap{display:block;width:22px}
+:where(#v-hanke,#v-muokkaa) .rh .ck{align-self:center}
+:where(#v-hanke,#v-muokkaa) .rh.rhb{align-items:center}
+:where(#v-hanke,#v-muokkaa) .selbar{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1.5px solid var(--ln2);margin-top:12px}
+:where(#v-hanke,#v-muokkaa) .selbar .grow{margin-left:auto;display:flex;align-items:center;gap:16px}
+:where(#v-hanke,#v-muokkaa) .sl{display:flex;flex-direction:column}
+:where(#v-hanke,#v-muokkaa) .sl-row{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--ln)}
+:where(#v-hanke,#v-muokkaa) .sl-row img{width:48px;height:48px;object-fit:contain;border:1px solid var(--ln);border-radius:4px;background:var(--bg);display:block}
+:where(#v-hanke,#v-muokkaa) .sl-row .sm{color:var(--mu)}
+:where(#v-hanke,#v-muokkaa) .lines{display:flex;flex-direction:column;gap:2px}
+:where(#v-hanke,#v-muokkaa) .lines p{margin:0}
+:where(#v-hanke,#v-muokkaa) .ws{display:flex;flex-direction:column;gap:20px}
+:where(#v-hanke,#v-muokkaa) .ws-top{display:flex;align-items:baseline;gap:16px}
+:where(#v-hanke,#v-muokkaa) .ws-room{display:flex;flex-direction:column;gap:10px}
+:where(#v-hanke,#v-muokkaa) .ws-h{display:flex;align-items:baseline;gap:16px}
+:where(#v-hanke,#v-muokkaa) .ws-h .b{font-size:15px}
+:where(#v-hanke,#v-muokkaa) .ws-h .lk,:where(#v-hanke,#v-muokkaa) .ws-top .lk{font-size:14px;font-weight:600}
+:where(#v-hanke,#v-muokkaa) .ws-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+:where(#v-hanke,#v-muokkaa) .wt{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px 10px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);font:inherit;color:var(--ink);cursor:pointer;box-sizing:border-box;text-align:center}
+:where(#v-hanke,#v-muokkaa) .wt img{width:64px;height:64px;object-fit:contain;display:block}
+:where(#v-hanke,#v-muokkaa) .wt-l{font-size:14px;font-weight:600;line-height:1.3}
+:where(#v-hanke,#v-muokkaa) .wt-s{font-size:12px;color:var(--mu);line-height:1.3}
+:where(#v-hanke,#v-muokkaa) .wt-ck{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--ink);display:none;align-items:center;justify-content:center}
+:where(#v-hanke,#v-muokkaa) .wt-ck svg{width:12px;height:12px;fill:none;stroke:var(--bg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+:where(#v-hanke,#v-muokkaa) .wt[aria-pressed="true"]{border:2.5px solid var(--ink);padding:11px 7px 9px;background:var(--sf)}
+:where(#v-hanke,#v-muokkaa) .wt[aria-pressed="true"] .wt-ck{display:flex}
+:where(#v-hanke,#v-muokkaa) .tl{display:flex;flex-direction:column}
+:where(#v-hanke,#v-muokkaa) .tl-all{display:flex;align-items:center;gap:12px;padding:0 0 12px;border-bottom:1.5px solid var(--ln2);font-weight:650}
+:where(#v-hanke,#v-muokkaa) .tl-room{display:flex;flex-direction:column}
+:where(#v-hanke,#v-muokkaa) .tl-h{display:flex;align-items:center;gap:12px;padding:16px 0 8px;font-weight:650}
+:where(#v-hanke,#v-muokkaa) .tl-row{display:grid;grid-template-columns:24px 48px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--ln);cursor:pointer}
+:where(#v-hanke,#v-muokkaa) .tl-row img{width:48px;height:48px;object-fit:contain;border:1px solid var(--ln);border-radius:4px;background:var(--bg);display:block}
+:where(#v-hanke,#v-muokkaa) .tl-row .nm{display:flex;flex-direction:column;gap:1px;min-width:0}
+:where(#v-hanke,#v-muokkaa) .tl-row .nm .sm{color:var(--mu)}
+:where(#v-hanke,#v-muokkaa) .tl-q{display:flex;align-items:center;gap:8px;font-size:14px;white-space:nowrap}
+:where(#v-hanke,#v-muokkaa) .tl-q .stepper button{width:32px;height:32px;font-size:16px}
+:where(#v-hanke,#v-muokkaa) .tl-q .stepper span{min-width:24px}
+:where(#v-hanke,#v-muokkaa) .ck{width:22px;height:22px;border:1.5px solid var(--ln2);border-radius:5px;background:var(--bg);display:inline-flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;padding:0;cursor:pointer}
+:where(#v-hanke,#v-muokkaa) .ck svg{width:14px;height:14px;fill:none;stroke:var(--bg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;display:none}
+:where(#v-hanke,#v-muokkaa) .ck[aria-checked="true"]{background:var(--ink);border-color:var(--ink)}
+:where(#v-hanke,#v-muokkaa) .ck[aria-checked="true"] svg{display:block}
+:where(#v-hanke,#v-muokkaa) .ck[aria-checked="mixed"]{background:var(--ink);border-color:var(--ink);position:relative}
+:where(#v-hanke,#v-muokkaa) .ck[aria-checked="mixed"]::after{content:"";width:10px;height:2.5px;background:var(--bg);border-radius:2px}
+:where(#v-hanke,#v-muokkaa) .tl-note{grid-column:3 / span 2;font-size:13px;color:var(--mu);margin:-4px 0 0}
+
+/* standalone: tilaluokat */
+.x-view[hidden],.x-view [hidden]{display:none !important}
+.x-view>.w{min-height:100vh}
+.big.big-ph{font-size:28px;white-space:normal}
+.sum dd[data-w]{white-space:normal;max-width:240px}
+.stepper button:disabled{opacity:.4;cursor:not-allowed}
+.sub2{margin-top:10px}
+.it-p.big-ph{white-space:normal;font-size:15px}
+.it+.it{border-top:0}
+.sr .num{text-align:right}
+.tot .v.big-ph{font-size:24px;white-space:normal}
+.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.btn[aria-disabled="true"]:hover{background:var(--ink);color:var(--bg)}
+.x-roompick{display:flex;flex-direction:column;gap:10px;padding:4px 0 24px}
+.x-toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:50;min-height:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:6px;font-size:15px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.18);max-width:calc(100vw - 32px);box-sizing:border-box}
+.x-toast:empty{opacity:0;pointer-events:none;padding:0;box-shadow:none}
+
+</style>
+</head>
+<body>
+<div id="v-rakenne" class="x-view" data-view="rakenne">
+<div class="w">
+<header class="top"><div class="c">
+  <a class="logo" href="Main.dc.html" aria-label="Kaski, etusivu">KASKI</a>
+  <nav class="nav" aria-label="Päävalikko"><a href="P1-Tuotesivu.dc.html">Ikkunat</a><a href="#ovet">Ovet</a><a href="E3-Hinta.dc.html">Hinnat</a><a href="#varaosat">Varaosat</a></nav>
+  <div class="hum"><p class="sm"><span class="b">[Nimi]</span>, alueesi asiantuntija</p><a class="btn2 bs" href="tel:+358000000000">Soita</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div>
+</div></header>
+<nav class="stp" aria-label="Vaiheet"><ol><li aria-current="step"><span class="k">1</span>Rakenne ja ulkonäkö</li><li><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
+<main class="c pg"><div class="row">
+  <div class="main" style="gap:0">
+    <div class="s8" style="margin-bottom:24px"><h1>Millainen ikkuna?</h1></div>
+    <section class="sec" aria-labelledby="s-huo">
+      <div class="lab"><h2 id="s-huo" class="t3">Huone</h2><p class="sm mu">Valitsemme huoneen mukaan sopivat lasit valmiiksi.</p></div>
+      <div class="s12"><div class="cl"><button type="button" class="chip" aria-pressed="false">Olohuone</button><button type="button" class="chip" aria-pressed="false">Makuuhuone</button><button type="button" class="chip" aria-pressed="true">Lastenhuone</button><button type="button" class="chip" aria-pressed="false">Keittiö</button><button type="button" class="chip" aria-pressed="false">Kylpyhuone</button><button type="button" class="chip" aria-pressed="false">Eteinen</button><button type="button" class="chip" aria-pressed="false">Muu</button></div><p class="sm"><span class="b">Lastenhuone:</span> valitsemme turvalasin valmiiksi. Voit muuttaa sen seuraavalla sivulla.</p></div>
+    </section>
+    <section class="sec" aria-labelledby="s-typ">
+      <div class="lab"><h2 id="s-typ" class="t3">Avattava vai kiinteä</h2></div>
+      <div class="g2" style="gap:12px"><button type="button" class="big2" aria-pressed="true"><img src="img/868468f2a9b011fc944185c49351f4ab.jpg" alt="Avattavan ikkunan leikkaus"><span class="s4"><span class="b">Avattava</span><span class="sm">Aukeaa sisäänpäin. Suomen yleisin ikkuna, sopii lähes kohteeseen kuin kohteeseen.</span></span></button><button type="button" class="big2" aria-pressed="false"><img src="img/3d8d1c17db1588a432c89dbf07b9acbc.jpg" alt="Kiinteän ikkunan leikkaus"><span class="s4"><span class="b">Kiinteä</span><span class="sm">Ei aukea. Isoille ikkunapinnoille, joita ei tarvitse avata.</span></span></button></div>
+    </section>
+    <section class="sec" aria-labelledby="s-jak">
+      <div class="lab"><h2 id="s-jak" class="t3">Jako</h2><p class="sm mu">Yksi osa on valittu, koska se on yleisin. Leveään ikkunaan sopii useampi osa, ja jokainen osa aukeaa erikseen. Kuvat sisältä päin.</p></div>
+      <div class="s12"><div class="g4m"><button type="button" class="mm4" aria-pressed="true" aria-label="Yksi osa"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi osaa rinnakkain, kapeampi oikealla"><img src="img/4fce98ccffe97c8692c580e4b7ee6b1d.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi osaa päällekkäin"><img src="img/643ec5a1dae475401ad0f1a993754fc5.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kolme osaa rinnakkain"><img src="img/880bfba35af3d66739c528cd9834943f.png" alt=""></button></div><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki 18 jakoa</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="g4m"><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi osaa rinnakkain, kapeampi vasemmalla"><img src="img/80da8164212aaac83dba8e87778cb61b.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi alhaalla, yksi leveä ylhäällä"><img src="img/cab9b338cc8ee489d34a1347f4641195.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Vasemmalla kaksi päällekkäin, oikealla korkea"><img src="img/589beaf1ad54fcdeeba4df038b78399c.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kolme päällekkäin"><img src="img/604255da04b96c5642b1ac55dd1214dd.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Alhaalla leveä, ylhäällä kaksi"><img src="img/8d1753585d577e5351c0c88cf1ce5c7e.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Vasemmalla korkea, oikealla kaksi päällekkäin"><img src="img/9673be6f6151fddc59ad417a46d6fce8.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kolme alhaalla, yksi leveä ylhäällä"><img src="img/28cd9add5408d49ba740aa80e7807c59.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Neljä osaa, kaksi kertaa kaksi"><img src="img/c21489d156d8841321ac61f7999a8f83.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Korkea, kaksi päällekkäin, korkea"><img src="img/7d72a74c2c49091602b6636bccf8a838.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Neljä päällekkäin"><img src="img/302fac63b8042385c83cd4b1d6de865e.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi päällekkäin, korkea, korkea"><img src="img/000ce3b695776eb48f8717de32a3f395.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Alhaalla leveä, ylhäällä kolme"><img src="img/ab9a2b51f24fc27bf4c068ab8253c981.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Korkea, korkea, kaksi päällekkäin"><img src="img/3d272cad1cec2d8dc8efa1af24cea00c.png" alt=""></button><button type="button" class="mm4" aria-pressed="false" aria-label="Kaksi leveää päällekkäin, ylhäällä kaksi"><img src="img/95c5460bdd44819bac4db844412c2488.png" alt=""></button></div></div></details></div>
+    </section>
+    <section class="qsec" aria-labelledby="s-kok">
+      <h2 id="s-kok" class="t3">Koko</h2>
+      <div class="mgrid">
+        <div class="s16">
+          <div class="seg" role="radiogroup" aria-label="Kuinka tarkasti tiedät koon"><button type="button" class="chip" aria-pressed="true">Suunnilleen</button><button type="button" class="chip" aria-pressed="false">Tiedän tarkat mitat</button></div>
+          <p id="koko-vihje" class="sm mu koko-vihje" style="margin-top:-8px">Sentin tarkkuus riittää hintaan.</p>
+          <div class="f"><label for="lev">Leveys, cm</label><input id="lev" class="in num" type="text" inputmode="numeric" value="120" aria-describedby="koko-vihje"></div>
+          <div class="f"><label for="kor">Korkeus, cm</label><input id="kor" class="in num" type="text" inputmode="numeric" value="140" aria-describedby="koko-vihje"></div>
+          <div class="svc"><p class="svc-h"><svg class="svc-i" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="11" width="26" height="10" rx="1.5"/><path d="M8 11v4M12 11v6M16 11v4M20 11v6M24 11v4"/></svg>Et halua mitata itse?</p><p class="sm">Asiantuntija mittaa kotonasi ja tekee tarjouksen asennuksineen.</p><a class="btn2 bs" href="M1-Mittauskaynti.dc.html">Varaa maksuton mittauskäynti</a></div>
+        </div>
+        <aside class="oh" aria-label="Ohje: näin mittaat">
+          <p class="oh-h"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5v.5"/></svg>Näin mittaat</p>
+          <figure class="oh-fig"><svg viewBox="0 0 280 210" width="280" height="210" role="img" aria-label="Ikkunan leveys ja korkeus mitataan karmin ulkoreunasta ulkoreunaan"><g stroke="#8a8f96" stroke-width="1" stroke-dasharray="3 3"><line x1="56" y1="22" x2="56" y2="40"/><line x1="216" y1="22" x2="216" y2="40"/><line x1="216" y1="40" x2="240" y2="40"/><line x1="216" y1="184" x2="240" y2="184"/></g><g stroke="#2b2f36" stroke-width="1.5"><line x1="56" y1="26" x2="216" y2="26"/><line x1="56" y1="20" x2="56" y2="32"/><line x1="216" y1="20" x2="216" y2="32"/><line x1="234" y1="40" x2="234" y2="184"/><line x1="228" y1="40" x2="240" y2="40"/><line x1="228" y1="184" x2="240" y2="184"/></g><rect x="56" y="40" width="160" height="144" fill="#fbfbfc" stroke="#2b2f36" stroke-width="3"/><rect x="68" y="52" width="136" height="120" fill="#e9edf0" stroke="#2b2f36" stroke-width="1.5"/><text x="136" y="16" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#2b2f36">Leveys</text><text x="256" y="112" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#2b2f36" transform="rotate(90 256 112)">Korkeus</text><text x="136" y="203" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5b616a">karmin ulkoreunasta ulkoreunaan</text></svg></figure>
+          <p class="oh-txt">Mittaa vanha ikkuna karmin ulkoreunasta ulkoreunaan, leveys ja korkeus. Tarkat mitat, avautumissuunta ja karmisyvyys kysytään vasta, kun tilaat.</p>
+        </aside>
+      </div>
+    </section>
+    <section class="sec" aria-labelledby="s-var" style="border-bottom:1px solid var(--ln)">
+      <div class="lab"><h2 id="s-var" class="t3">Väri</h2><p class="sm mu">Ikkuna on valkoinen, ellet valitse toisin. Väri tulee koko ikkunaan, sisälle ja ulos.</p></div>
+      <div class="vgrid">
+        <div class="s24">
+          <div class="s8"><p class="b">Ikkunan väri</p><div class="cgrid"><button type="button" class="ccard" aria-pressed="true"><span class="sq" style="background:#FFFFFF"></span><span><span class="b">RAL 9010</span><br>Valkoinen</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#474A51"></span><span><span class="b">RAL 7024</span><br>Grafiitinharmaa</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#3D2100"></span><span><span class="b">RR32</span><br>Tummanruskea</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#757474"></span><span><span class="b">RR23</span><br>Tummanharmaa</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#040404"></span><span><span class="b">RR33</span><br>Musta</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#A5B2B8"></span><span><span class="b">RR21</span><br>Vaaleanharmaa</span></button></div><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki värit</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="f"><label for="hae-vari">Hae värikoodilla tai nimellä</label><input id="hae-vari" class="in" type="text" placeholder="esim. RAL 7016"></div><div class="ph" role="img" aria-label="Paikka RAL-värikartalle ja Kaski Musta -väreille" style="height:120px;border-radius:6px">[RAL-värikartta ja Kaski Musta]</div></div></details></div>
+          <details class="mx"><summary class="more"><span class="cl2">Eri väri sisäpuolelle</span><span class="op">Sama väri sisälle ja ulos</span></summary><div class="mxb"><p class="sm">Sisäpuoli on puuta, joten sille voi valita eri värin ja pintakäsittelyn.</p><div class="s8"><p class="b">Sisäpuolen väri</p><div class="cgrid"><button type="button" class="ccard" aria-pressed="true"><span class="sq" style="background:#FFFFFF"></span><span><span class="b">RAL 9010</span><br>Valkoinen</span></button><div class="ph" role="img" aria-label="Paikka Kasken sisäpinnan perusväreille" style="border-radius:6px;font-size:13px;padding:8px">[Kasken perusvärit sisäpinnalle]</div></div></div><div class="s8"><p class="sm b">Pintakäsittely</p><div class="seg" role="radiogroup" aria-label="Sisäpinnan pintakäsittely"><button type="button" class="chip" aria-pressed="true">Maalattu</button><button type="button" class="chip" aria-pressed="false">Kuulto, puun syyt näkyvät</button></div></div></div></details>
+        </div>
+      </div>
+    </section>
+    <div class="navb" style="border-top:0"><a class="btn2" href="P1-Tuotesivu.dc.html">Takaisin</a><a class="btn" href="#ominaisuudet">Seuraava: ominaisuudet</a></div>
+  </div>
+  <aside class="side pn" aria-labelledby="ih">
+    <div class="pv"><div class="pvw"><span class="dw num">noin 120 cm</span><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Esikatselu: avattava ikkuna, yksi osa, noin 120 × 140 cm" style="width:150px;height:175px;object-fit:fill"><span class="dh num">noin 140 cm</span></div><p class="sm mu">Kuvattu sisältä</p></div>
+    <h2 id="ih" class="t3">Lastenhuone, ikkuna 1</h2>
+    <div class="opt2" aria-live="polite"><p class="big">1 018,74 €</p><p class="sm">Hinta sis. alv. Lisäksi rahti <span class="num">[90 €]</span>, ei asennusta. Tarkentuu, kun annat tarkat mitat.</p></div>
+    <dl class="sum"><dt>Ikkuna</dt><dd>Avattava, 1 osa</dd><dt>Koko</dt><dd>noin 120 × 140 cm</dd><dt>Väri</dt><dd>Valkoinen</dd><dt>Lasit</dt><dd>Turvalasi, lastenhuoneen mukaan</dd></dl>
+    <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Epävarma valinnoista?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
+  </aside>
+</div></main>
+</div>
+</div>
+<div id="v-ominaisuudet" class="x-view" data-view="ominaisuudet" hidden>
+<div class="w">
+<header class="top"><div class="c">
+  <a class="logo" href="Main.dc.html" aria-label="Kaski, etusivu">KASKI</a>
+  <nav class="nav" aria-label="Päävalikko"><a href="P1-Tuotesivu.dc.html">Ikkunat</a><a href="#ovet">Ovet</a><a href="E3-Hinta.dc.html">Hinnat</a><a href="#varaosat">Varaosat</a></nav>
+  <div class="hum"><p class="sm"><span class="b">[Nimi]</span>, alueesi asiantuntija</p><a class="btn2 bs" href="tel:+358000000000">Soita</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div>
+</div></header>
+<nav class="stp" aria-label="Vaiheet"><ol><li class="done"><a href="#rakenne"><span class="k">1</span>Rakenne ja ulkonäkö</a></li><li aria-current="step"><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
+<main class="c pg"><div class="row">
+  <div class="main" style="gap:0">
+    <div class="s8" style="margin-bottom:24px"><h1>Haluatko muuttaa jotain?</h1><p class="mu">Perus on valittu, ellet valitse toisin. Huoneen mukaan suosittelemme lisää.</p></div>
+    <section class="sec" aria-labelledby="s-las" style="border-bottom:1px solid var(--ln)">
+      <div class="lab"><h2 id="s-las" class="t3">Lasit</h2><p class="sm mu">Hinta tähän ikkunaan muiden valintojesi kanssa.</p></div>
+      <div><div class="need" role="radiogroup" aria-labelledby="n-lampo"><h3 class="need-h" id="n-lampo">Lämpö</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Perus</span><span class="pc-d">3 lasia. Lämmöneristys U 0,97.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Lämpimämpi</span><span class="pc-d">4 lasia, pienempi lämmityslasku. U 0,80.</span><span class="pc-p">+144,02 €</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-turva"><h3 class="need-h" id="n-turva">Turvallisuus</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">Tavallinen lasi.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Turvallisempi<span class="bdg">Suositeltu</span></span><span class="pc-d">Turvalasi ei rikkoutuessaan putoa teräviksi sirpaleiksi.</span><span class="pc-p">+81,76 €</span></div><div class="pc-sub"><span>Suositeltu lastenhuoneeseen. Turvalasi on sisäpuolella.</span><details class="vp"><summary>Vaihda puolta</summary><div role="radiogroup" aria-label="Kumpaan lasiin turvalasi tulee"><label class="rad"><input type="radio" name="tl" checked><span><span class="b">Sisäpuoli</span><br><span class="why">Suojaa huoneessa olevia, esimerkiksi lapsia.</span></span><span class="num">Sisältyy</span></label><label class="rad"><input type="radio" name="tl"><span><span class="b">Ulkopuoli</span><br><span class="why">[Kasken kuvaus]</span></span><span class="num">[+0 €]</span></label><label class="rad"><input type="radio" name="tl"><span><span class="b">Molemmat</span><br><span class="why">Sisä- ja ulkopuoli.</span></span><span class="num">[+80 €]</span></label></div></details></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-nako"><h3 class="need-h" id="n-nako">Näkösuoja</h3><div class="pair"><div class="pc pic" role="radio" tabindex="0" aria-checked="true"><img class="pc-pic" src="img/65914f806ebf50f41b3d75dc994c553e.jpg" alt="Ikkuna kirkkaalla lasilla: ulkona näkyvät koivut ja naapuritalo"><span class="pc-t">Kirkas lasi</span><span class="pc-d">Näet läpi.</span><span class="pc-p">Sisältyy</span></div><div class="pc pic" role="radio" tabindex="0" aria-checked="false"><img class="pc-pic" src="img/7312ad606556a2e0274b99378b6326b6.jpg" alt="Sama ikkuna huurretulla lasilla: ulos ei näe, vain valo tulee läpi"><span class="pc-t">Näkösuoja</span><span class="pc-d">Lasista ei näe läpi. Kylpyhuoneeseen ja kadun puolelle.</span><span class="pc-p">[+40 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-aurinko"><h3 class="need-h" id="n-aurinko">Aurinko</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Perus</span><span class="pc-d">Auringon lämpö pääsee sisään.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Vähemmän auringon lämpöä</span><span class="pc-d">Huone lämpenee kesällä vähemmän. Etelään ja länteen.</span><span class="pc-p">[+60 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-aani"><h3 class="need-h" id="n-aani">Ääni</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Perus</span><span class="pc-d">Tavallinen ääneneristys.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Hiljaisempi</span><span class="pc-d">Vaimentaa liikenteen ääniä. Vilkkaan tien tai radan varrelle.</span><span class="pc-p">[+120 €]</span></div></div></div></div>
+      <p class="sm mu" style="margin-top:20px">Kaikissa ikkunoissa ulkolasi ei huurru viileinä aamuina. Kasken vakio, sisältyy hintaan.</p>
+    </section>
+    <div class="navb" style="border-top:0"><a class="btn2" href="#rakenne">Takaisin</a><a class="btn" href="#lisavarusteet">Seuraava: lisävarusteet</a></div>
+  </div>
+  <aside class="side pn" aria-labelledby="ih-ominaisuudet">
+    <div class="pv"><div class="pvw"><span class="dw num">noin 120 cm</span><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Esikatselu: avattava ikkuna, yksi osa, noin 120 × 140 cm" style="width:150px;height:175px;object-fit:fill"><span class="dh num">noin 140 cm</span></div><p class="sm mu">Kuvattu sisältä</p></div>
+    <h2 id="ih-ominaisuudet" class="t3">Lastenhuone, ikkuna 1</h2>
+    <div class="opt2" aria-live="polite"><p class="big">1 018,74 €</p><p class="sm">Hinta sis. alv. Lisäksi rahti <span class="num">[90 €]</span>, ei asennusta. Tarkentuu, kun annat tarkat mitat.</p></div>
+    <dl class="sum"><dt>Ikkuna</dt><dd>Avattava, 1 osa</dd><dt>Koko</dt><dd>noin 120 × 140 cm</dd><dt>Väri</dt><dd>Valkoinen</dd><dt>Lasit</dt><dd>Turvalasi sisäpuolella</dd></dl>
+    <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Epävarma valinnoista?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
+  </aside>
+</div></main>
+</div>
+</div>
+<div id="v-lisavarusteet" class="x-view" data-view="lisavarusteet" hidden>
+<div class="w">
+<header class="top"><div class="c">
+  <a class="logo" href="Main.dc.html" aria-label="Kaski, etusivu">KASKI</a>
+  <nav class="nav" aria-label="Päävalikko"><a href="P1-Tuotesivu.dc.html">Ikkunat</a><a href="#ovet">Ovet</a><a href="E3-Hinta.dc.html">Hinnat</a><a href="#varaosat">Varaosat</a></nav>
+  <div class="hum"><p class="sm"><span class="b">[Nimi]</span>, alueesi asiantuntija</p><a class="btn2 bs" href="tel:+358000000000">Soita</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div>
+</div></header>
+<nav class="stp" aria-label="Vaiheet"><ol><li class="done"><a href="#rakenne"><span class="k">1</span>Rakenne ja ulkonäkö</a></li><li class="done"><a href="#ominaisuudet"><span class="k">2</span>Ominaisuudet</a></li><li aria-current="step"><span class="k">3</span>Lisävarusteet</li></ol></nav>
+<main class="c pg"><div class="row">
+  <div class="main" style="gap:0">
+    <div class="s8" style="margin-bottom:24px"><h1>Lisätäänkö jotain?</h1><p class="mu">Valitse, jos tarvitset. Hinta tähän ikkunaan.</p></div>
+    <div style="border-bottom:1px solid var(--ln)"><section class="sec" aria-labelledby="g-ilma"><div class="lab"><h2 id="g-ilma" class="t3">Raitis ilma</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Korvausilmaventtiili</span><br><span class="why">Tuo raitista ilmaa ikkunan kautta. Tarpeen, jos talossa ei ole tuloilmaa tuovaa ilmanvaihtokonetta. Valittaessa: venttiilin malli, esimerkiksi äänieristetty.</span></span><span class="sm num" style="padding-top:2px">+116,80 €</span></label></div><div class="oi dis"><label class="orow"><input type="checkbox" disabled><span><span class="ttl">Tuuletusikkuna</span><br><span class="why">Avaat ikkunan tuuletukseen yhdellä painikkeella, ja aukaisunrajoitin estää sitä aukeamasta liikaa. Hyvä valinta lapsiperheeseen.<br><span class="b">Ei saatavilla näin leveään yhden osan ikkunaan.</span> Kahden osan jaossa tuuletusikkuna tulee kapeampaan osaan. <a class="lk" href="#rakenne">Vaihda jakoa</a> [Kasken leveysraja]</span></span><span class="sm num" style="padding-top:2px">Ei saatavilla</span></label></div></div></section><section class="sec" aria-labelledby="g-varj"><div class="lab"><h2 id="g-varj" class="t3">Varjostus</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Sälekaihdin</span><br><span class="why">Pimentää ja suojaa auringolta. Valittaessa: pintaan asennettava tai ikkunapuitteiden väliin, myös pimentävänä.</span></span><span class="sm num" style="padding-top:2px">[+180 €]</span></label></div></div></section><section class="sec" aria-labelledby="g-pesu"><div class="lab"><h2 id="g-pesu" class="t3">Pesu ja ulkonäkö</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Kiinteä pesutuki</span><br><span class="why">Pitää avatun ikkunan paikallaan pesun ajan. Suositellaan yli 150 cm leveisiin.</span></span><span class="sm num" style="padding-top:2px">+95,17 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ristikko</span><br><span class="why">Jakaa lasin ruutuihin ja muuttaa talon ilmettä. Valittaessa: ristikon tyyppi ja malli.</span></span><span class="sm num" style="padding-top:2px">+96,13 €</span></label></div></div></section><section class="sec" aria-labelledby="g-itse"><div class="lab"><h2 id="g-itse" class="t3">Jos asennat itse</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Karmiporaus</span><br><span class="why">Valmiit ruuvinreiät karmissa nopeuttavat asennusta. Valittaessa voit lisätä peitetulpat, +12,80 €.</span></span><span class="sm num" style="padding-top:2px">+10,23 €</span></label></div></div></section></div>
+    <div class="navb" style="border-top:0"><a class="btn2" href="#ominaisuudet">Takaisin</a><a class="btn" href="#hanke">Lisää hankkeeseen</a></div>
+  </div>
+  <aside class="side pn" aria-labelledby="ih-lisavarusteet">
+    <div class="pv"><div class="pvw"><span class="dw num">noin 120 cm</span><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Esikatselu: avattava ikkuna, yksi osa, noin 120 × 140 cm" style="width:150px;height:175px;object-fit:fill"><span class="dh num">noin 140 cm</span></div><p class="sm mu">Kuvattu sisältä</p></div>
+    <h2 id="ih-lisavarusteet" class="t3">Lastenhuone, ikkuna 1</h2>
+    <div class="opt2" aria-live="polite"><p class="big">1 018,74 €</p><p class="sm">Hinta sis. alv. Lisäksi rahti <span class="num">[90 €]</span>, ei asennusta. Tarkentuu, kun annat tarkat mitat.</p></div>
+    <dl class="sum"><dt>Ikkuna</dt><dd>Avattava, 1 osa</dd><dt>Koko</dt><dd>noin 120 × 140 cm</dd><dt>Väri</dt><dd>Valkoinen</dd><dt>Lasit</dt><dd>Turvalasi sisäpuolella</dd><dt>Lisävarusteet</dt><dd>Ei</dd></dl>
+    <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Epävarma valinnoista?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
+  </aside>
+</div></main>
+</div>
+</div>
+<div id="v-hanke" class="x-view" data-view="hanke" hidden>
+<div class="w">
+<header class="top"><div class="c">
+  <a class="logo" href="Main.dc.html" aria-label="Kaski, etusivu">KASKI</a>
+  <nav class="nav" aria-label="Päävalikko"><a href="P1-Tuotesivu.dc.html">Ikkunat</a><a href="#ovet">Ovet</a><a href="E3-Hinta.dc.html">Hinnat</a><a href="#varaosat">Varaosat</a></nav>
+  <div class="hum"><p class="sm"><span class="b">[Nimi]</span>, alueesi asiantuntija</p><a class="btn2 bs" href="tel:+358000000000">Soita</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div>
+</div></header>
+<main class="c" style="padding-top:40px;padding-bottom:96px">
+  <div class="lay">
+    <section class="plan" aria-labelledby="hn">
+      <div class="hh"><h1 id="hn">Hanke</h1><a class="lk" href="#hanke">Muokkaa useaa ikkunaa kerralla</a></div>
+<div class="banner" role="status"><p class="sm"><span class="b">Muutit 4 ikkunaa:</span> lämpimämpi, +402,02 €.</p><a class="btn2 bs" href="#hanke">Peru muutos</a></div>
+<div class="selbar" hidden><button type="button" class="ck" role="checkbox" aria-checked="mixed" aria-label="Valitse kaikki ikkunat"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button><span class="sm b">Valitse kaikki ikkunat</span><span class="grow"><span class="sm b">3 ikkunaa valittu</span><a class="lk sm" href="#hanke">Peruuta</a><a class="btn bs" href="#muokkaa">Muokkaa valittuja</a></span></div>
+      <section class="room2" aria-labelledby="r1">
+        <div class="rh rhb"><h2 id="rb0" class="t3">Olohuone</h2></div>
+        <div class="it">
+          <img class="it-img" src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Avattava ikkuna, yksi osa">
+          <div class="it-txt"><p class="b">Avattava ikkuna, 1 osa<span class="tag">Muutettu: lämpimämpi</span></p><p class="sm mu">noin 120 × 140 cm, turvalasi, valkoinen</p>
+            <div class="acts" style="margin-top:4px"><a class="act" href="#rakenne"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Muokkaa</a><a class="act" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>Kopioi</a><a class="act" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista</a></div></div>
+          <span class="stepper" aria-label="Määrä"><button type="button" aria-label="Vähennä">−</button><span>1</span><button type="button" aria-label="Lisää samanlainen">+</button></span>
+          <span class="it-p num">1 018,74 €</span>
+        </div>
+        <div class="addline" style="align-items:center;padding:20px 0;gap:16px"><a class="btn bs" href="#rakenne">+ Lisää ikkuna</a><span class="sm mu">Alkaa tämän ikkunan kopiona.</span><a class="add" href="#ovet" style="margin-left:auto">+ Lisää ovi</a></div>
+      </section>
+      <div class="roomadd"><a class="btn2 bs" href="#lisaa-huone">+ Lisää huone</a></div>
+    </section>
+    <aside class="ysum" aria-labelledby="yh">
+      <h2 id="yh" class="ysum-h">Yhteenveto</h2>
+      <div class="ysum-b">
+        <div class="sr"><span>Ikkunat, 1 kpl</span><span class="num">1 018,74 €</span></div>
+        <div class="tot"><span class="sm b">Yhteensä</span><span class="v num">1 018,74 €</span><span class="sm">Sis. alv. Lisäksi rahti <span class="num">[90 €]</span>, ei asennusta.</span></div>
+        <div class="routes" role="group" aria-labelledby="mj">
+          <h3 id="mj" class="sm b">Miten jatketaan?</h3>
+          <div class="jr"><a class="btn2" href="M1-Mittauskaynti.dc.html">Kaski mittaa ja asentaa</a><p class="xs">Asiantuntija mittaa kotonasi ja tekee tarjouksen asennuksineen.</p></div>
+          <div class="jr"><a class="btn2" href="K3-Tilaus.dc.html">Tilaa itse</a><p class="xs">Tarkat mitat kysytään kaikista ikkunoista kerralla.</p></div>
+        </div>
+        <p class="xs" style="border-top:1px solid var(--ln);padding-top:12px">Hanke on tallessa ilman tiliä. <a class="lk" href="#">Kopioi linkki</a> ja jaa se esimerkiksi puolisolle.</p>
+        <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Kysyttävää?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
+      </div>
+    </aside>
+  </div>
+</main>
+</div>
+</div>
+<div id="v-muokkaa" class="x-view" data-view="muokkaa" hidden>
+<div class="w">
+<header class="top"><div class="c">
+  <a class="logo" href="Main.dc.html" aria-label="Kaski, etusivu">KASKI</a>
+  <nav class="nav" aria-label="Päävalikko"><a href="P1-Tuotesivu.dc.html">Ikkunat</a><a href="#ovet">Ovet</a><a href="E3-Hinta.dc.html">Hinnat</a><a href="#varaosat">Varaosat</a></nav>
+  <div class="hum"><p class="sm"><span class="b">[Nimi]</span>, alueesi asiantuntija</p><a class="btn2 bs" href="tel:+358000000000">Soita</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div>
+</div></header>
+<main class="c pg"><div class="row">
+  <div class="main" style="gap:0">
+    <div class="s8" style="margin-bottom:24px"><h1>Muokkaa valittuja ikkunoita</h1><p class="mu">Mitat, jako ja huone pysyvät. Muuttuu vain se, minkä valitset, ja vasta kun painat Muuta.</p></div>
+    <section class="sec" aria-labelledby="s-val">
+      <div class="lab"><h2 id="s-val" class="t3">Valitut ikkunat, 3 kpl</h2><p class="sm mu"><a class="lk" href="#hanke">Muuta valintaa hankkeessa</a></p></div>
+      <div class="sl"><div class="sl-row"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span><span class="b">Olohuone</span><br><span class="sm">noin 120 × 140 cm, valkoinen, 2 kpl</span></span></div><div class="sl-row"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span><span class="b">Makuuhuone</span><br><span class="sm">noin 120 × 140 cm, valkoinen</span></span></div></div>
+    </section>
+    <section class="sec" aria-labelledby="s-mit" style="border-bottom:1px solid var(--ln)">
+      <div class="lab"><h2 id="s-mit" class="t3">Mitä muutetaan?</h2><p class="sm mu">Kortissa näkyy, mitä valituissa ikkunoissa on nyt, ja muutoksen hinta niille.</p></div>
+      <div><div class="need" role="radiogroup" aria-labelledby="n-lampo-muokkaa"><h3 class="need-h" id="n-lampo-muokkaa">Lämpö</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">3 lasia. Lämmöneristys U 0,97.<span class="now">Nyt 4 ikkunassa</span></span><span class="pc-p">[−80 €]</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Lämpimämpi</span><span class="pc-d">4 lasia, pienempi lämmityslasku. U 0,80.<span class="now">Nyt 1 ikkunassa</span></span><span class="pc-p">+402,02 €</span></div></div><p class="undo"><a class="lk" href="#">Älä muuta lämpöä</a></p></div><div class="need"><h3 class="need-h" id="n-vari">Väri</h3><p class="sm mu" style="margin:-6px 0 12px">Nyt valkoinen kaikissa. Väri tulee koko ikkunaan, sisälle ja ulos.</p><div class="s8"><div class="cgrid"><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#FFFFFF"></span><span><span class="b">RAL 9010</span><br>Valkoinen</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#474A51"></span><span><span class="b">RAL 7024</span><br>Grafiitinharmaa</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#3D2100"></span><span><span class="b">RR32</span><br>Tummanruskea</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#757474"></span><span><span class="b">RR23</span><br>Tummanharmaa</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#040404"></span><span><span class="b">RR33</span><br>Musta</span></button><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#A5B2B8"></span><span><span class="b">RR21</span><br>Vaaleanharmaa</span></button></div><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki värit</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="f"><label for="hae-vari-muokkaa">Hae värikoodilla tai nimellä</label><input id="hae-vari-muokkaa" class="in" type="text" placeholder="esim. RAL 7016"></div><div class="ph" role="img" aria-label="Paikka RAL-värikartalle ja Kaski Musta -väreille" style="height:120px;border-radius:6px">[RAL-värikartta ja Kaski Musta]</div></div></details><details class="mx"><summary class="more"><span class="cl2">Eri väri sisäpuolelle</span><span class="op">Sama väri sisälle ja ulos</span></summary><div class="mxb"><p class="sm">Sisäpuoli on puuta, joten sille voi valita eri värin ja pintakäsittelyn.</p><div class="cgrid"><button type="button" class="ccard" aria-pressed="false"><span class="sq" style="background:#FFFFFF"></span><span><span class="b">RAL 9010</span><br>Valkoinen</span></button></div></div></details></div></div><div class="need" role="radiogroup" aria-labelledby="n-salek"><h3 class="need-h" id="n-salek">Sälekaihdin</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei sälekaihdinta</span><span class="pc-d">Ikkuna ilman kaihdinta.<span class="now">Nyt 2 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Sälekaihdin</span><span class="pc-d">Suojaa auringolta ja säätää valoa.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+440 €]</span></div><div class="pc-sub"><details class="vp" open><summary>Kaihtimen tyyppi</summary><div role="radiogroup" aria-label="Kaihtimen tyyppi"><label class="rad"><input type="radio" name="sk"><span><span class="b">Tavallinen</span><br><span class="why">Säätää valoa.</span></span><span class="num">[+360 €]</span></label><label class="rad"><input type="radio" name="sk" checked><span><span class="b">Pimentävä</span><br><span class="why">Pimentää huoneen, esimerkiksi makuuhuoneeseen.</span></span><span class="num">[+440 €]</span></label></div></details></div></div><p class="undo"><a class="lk" href="#">Älä muuta kaihtimia</a></p></div><div class="need" role="radiogroup" aria-labelledby="n-nako-muokkaa"><h3 class="need-h" id="n-nako-muokkaa">Näkösuoja</h3><div class="pair"><div class="pc pic" role="radio" tabindex="0" aria-checked="false"><img class="pc-pic" src="img/65914f806ebf50f41b3d75dc994c553e.jpg" alt="Ikkuna kirkkaalla lasilla: ulkona näkyvät koivut ja naapuritalo"><span class="pc-t">Kirkas lasi</span><span class="pc-d">Näet läpi.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc pic" role="radio" tabindex="0" aria-checked="false"><img class="pc-pic" src="img/7312ad606556a2e0274b99378b6326b6.jpg" alt="Sama ikkuna huurretulla lasilla: ulos ei näe, vain valo tulee läpi"><span class="pc-t">Näkösuoja</span><span class="pc-d">Lasista ei näe läpi. Kylpyhuoneeseen ja kadun puolelle.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+200 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-aani-muokkaa"><h3 class="need-h" id="n-aani-muokkaa">Ääni</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">Tavallinen ääneneristys.<span class="now">Nyt 2 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Hiljaisempi</span><span class="pc-d">Vaimentaa liikenteen ääniä. Vilkkaan tien tai radan varrelle.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+240 €]</span></div></div><p class="undo"><a class="lk" href="#">Älä muuta ääneneristystä</a></p></div><div style="margin-top:20px"><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki 12 ominaisuutta</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="need" role="radiogroup" aria-labelledby="n-turva-muokkaa"><h3 class="need-h" id="n-turva-muokkaa">Turvallisuus</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">Tavallinen lasi.<span class="now">Nyt 4 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Turvallisempi</span><span class="pc-d">Turvalasi ei rikkoutuessaan putoa teräviksi sirpaleiksi.<span class="now">Nyt 1 ikkunassa</span></span><span class="pc-p">+345,12 €</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-aurinko-muokkaa"><h3 class="need-h" id="n-aurinko-muokkaa">Aurinko</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">Auringon lämpö pääsee sisään.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Vähemmän auringon lämpöä</span><span class="pc-d">Huone lämpenee kesällä vähemmän. Etelään ja länteen.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+300 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-korv"><h3 class="need-h" id="n-korv">Korvausilmaventtiili</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei venttiiliä</span><span class="pc-d">Raitis ilma tulee ilmanvaihdosta.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Korvausilmaventtiili</span><span class="pc-d">Tuo raitista ilmaa ikkunan kautta.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+575 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-tuul"><h3 class="need-h" id="n-tuul">Tuuletusikkuna</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei tuuletusikkunaa</span><span class="pc-d">Ikkuna avataan tavalliseen tapaan.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Tuuletusikkuna</span><span class="pc-d">Avaat ikkunan tuuletukseen yhdellä painikkeella, ja aukaisunrajoitin estää sitä aukeamasta liikaa.<span class="now"><span class="b">Sopii 1 ikkunaan 5:stä [Kasken leveysraja].</span></span></span><span class="pc-p">[+150 €]</span></div><div class="pc-sub"><span><span class="b">Ei sovi 4 ikkunaan:</span> Olohuone noin 120 × 140 cm (2 kpl), Makuuhuone ja Lastenhuone. Yhden osan ikkuna on liian leveä tuuletusikkunaksi [Kasken leveysraja]. Kahden osan jaossa tuuletusikkuna tulee kapeampaan osaan, ja jaon voi vaihtaa ikkunan omasta Muokkaa-painikkeesta hankkeessa.</span></div></div><p class="undo"><a class="lk" href="#">Älä lisää tuuletusikkunaa</a></p></div><div class="need" role="radiogroup" aria-labelledby="n-pesu"><h3 class="need-h" id="n-pesu">Kiinteä pesutuki</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei pesutukea</span><span class="pc-d">Ikkuna pestään ilman tukea.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Kiinteä pesutuki</span><span class="pc-d">Pitää avatun ikkunan paikallaan pesun ajan.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+475 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-rist"><h3 class="need-h" id="n-rist">Ristikko</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei ristikkoa</span><span class="pc-d">Yhtenäinen lasi.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ristikko</span><span class="pc-d">Jakaa lasin ruutuihin ja muuttaa talon ilmettä.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+475 €]</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-pora"><h3 class="need-h" id="n-pora">Karmiporaus</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Ei porausta</span><span class="pc-d">Asentaja poraa reiät paikan päällä.<span class="now">Nyt 5 ikkunassa</span></span><span class="pc-p">Ei muutosta</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Karmiporaus</span><span class="pc-d">Valmiit ruuvinreiät karmissa nopeuttavat asennusta.<span class="now">Ei vielä yhdessäkään</span></span><span class="pc-p">[+50 €]</span></div></div></div></div></details></div></div>
+    </section>
+    <div class="navb" style="border-top:0"><a class="btn2" href="#hanke">Takaisin muuttamatta</a><a class="btn" href="#hanke">Muuta 4 ikkunaa</a></div>
+  </div>
+  <aside class="side pn" aria-labelledby="ih-muokkaa">
+    <h2 id="ih-muokkaa" class="t3">Muutos</h2>
+    <div class="opt2" aria-live="polite"><p class="big">+402,02 €</p>
+      <div class="lines"><p class="sm">Ikkunat 4 671,64 € → 5 073,66 €</p><p class="sm">Hanke yhteensä 7 313,00 € → 7 715,02 €</p></div></div>
+    <dl class="sum chg"><dt>Olohuone, noin 120 × 140 cm, 2 kpl</dt><dd>+172,00 €</dd><dt>Makuuhuone, noin 120 × 140 cm</dt><dd>+86,00 €</dd><dt>Lastenhuone, noin 120 × 140 cm, turvalasi</dt><dd>+144,02 €</dd></dl>
+    <p class="sm mu2">Olohuone, noin 100 × 120 cm on jo lämpimämpi.</p>
+    <p class="sm"><span class="b">Hanke ei muutu</span> ennen kuin painat Muuta 4 ikkunaa.</p>
+    <p class="sm mu2">Hinta lasketaan jokaiselle ikkunalle sen omilla valinnoilla, siksi sama muutos maksaa eri ikkunoissa eri verran. Sis. alv.</p>
+    <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Epävarma valinnoista?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
+  </aside>
+</div></main>
+</div>
+</div>
+<div class="w x-toast" role="status" aria-live="polite"></div>
+<script>
+
+(function () {
+'use strict';
+var CFG = {"views": [{"key": "rakenne", "title": "Ikkuna 1: Rakenne ja ulkonäkö"}, {"key": "ominaisuudet", "title": "Ikkuna 2: Ominaisuudet"}, {"key": "lisavarusteet", "title": "Ikkuna 3: Lisävarusteet"}, {"key": "hanke", "title": "Hanke"}, {"key": "muokkaa", "title": "Muokkaa valittuja ikkunoita"}], "lookup": [[93698, 102298], [101874, 116276]], "prices": {"120x140": [[93698, 102298], [101874, 116276]], "100x120": [[null, 84196], [null, 94180]]}, "phText": "[Kasken hinta]", "hintMm": "Millin tarkkuudella, karmin ulkoreunasta ulkoreunaan.", "notes": {"turva": "valitsemme turvalasin valmiiksi. Voit muuttaa sen seuraavalla sivulla.", "nako": "valitsemme näkösuojalasin valmiiksi. Voit muuttaa sen seuraavalla sivulla.", "none": "emme valitse erikoislaseja valmiiksi. Voit valita niitä seuraavalla sivulla."}, "side": [["sisä", "sisäpuolella"], ["ulko", "ulkopuolella"], ["molem", "molemmin puolin"]], "sumKeys": [["ikkuna", "sumType"], ["koko", "sumSize"], ["väri", "sumColor"], ["lasi", "sumGlass"], ["lisä", "sumAdd"]], "toast": "Tämä vaihe ei ole mukana prototyypissä.", "pickLabel": "Valitse huone", "glassNone": "Perus", "glassStd": "Vakiolasit", "example": [{"room": "Olohuone", "w": 120, "h": 140, "turva": 0, "lampo": 0, "qty": 2}, {"room": "Olohuone", "w": 100, "h": 120, "turva": 0, "lampo": 1, "qty": 1}, {"room": "Makuuhuone", "w": 120, "h": 140, "turva": 0, "lampo": 0, "qty": 1}, {"room": "Lastenhuone", "w": 120, "h": 140, "turva": 1, "lampo": 0, "qty": 1}], "exampleRoute": "esimerkki", "undo": {"n-vari": "Älä muuta väriä", "n-nako": "Älä muuta näkösuojaa", "n-turva": "Älä muuta turvallisuutta", "n-aurinko": "Älä muuta aurinkosuojaa", "n-korv": "Älä muuta venttiilejä", "n-pesu": "Älä muuta pesutukia", "n-rist": "Älä muuta ristikoita", "n-pora": "Älä muuta karmiporausta"}, "nowSome": "Nyt {n} ikkunassa", "nowNone": "Ei vielä yhdessäkään", "noChange": "Ei muutosta", "noChanges": "Ei muutoksia vielä", "already": " on jo ", "colMixed": "Nyt eri värejä.", "colOne": "Nyt {c}.", "noneSelected": "Ei valittuja ikkunoita.", "selEmpty": "Valitse ikkunat, joita muokkaat kerralla.", "fixedNote": "Kiinteä ikkuna ei aukea.", "tileNone": "perus", "salekDark": "220 €", "massPrices": {"Tuuletusikkuna": "150 €"}, "selNone": "Poista valinnat", "selAll": "Valitse kaikki", "tuulNote": "{n} ikkunaa jää ennalleen, koska tuuletusikkuna ei sovi niihin."};
+var D = document;
+var MINUS = '−';
+
+/* ---------- apurit ---------- */
+function $(s, el) { return (el || D).querySelector(s); }
+function $$(s, el) { return Array.prototype.slice.call((el || D).querySelectorAll(s)); }
+function txt(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
+function eur(c) {
+  c = Math.round(c);
+  var e = Math.floor(c / 100), s = String(c % 100);
+  if (s.length < 2) s = '0' + s;
+  return String(e).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ',' + s + ' €';
+}
+/* Paikkahinnat lasketaan mukaan yhteen lukuun, joka on silloin hakasulkeissa (click_i: phc, priceTxt). */
+function phc(list) { return list.reduce(function (s, a) { var n = num(String(a).replace('€', '')); return s + (n === null ? 0 : Math.round(n * 100)); }, 0); }
+function priceTxt(ex, ph) { return ph.length ? '[' + eur(ex + phc(ph)) + ']' : eur(ex); }
+function cap(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+function num(x) { var n = parseFloat(String(x).replace(/\s/g, '').replace(',', '.')); return isNaN(n) ? null : n; }
+function conv(x, f) { var n = num(x); return n === null ? x : String(Math.round(n * f)); }
+function copy(o) { return JSON.parse(JSON.stringify(o)); }
+function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+function parsePrice(t) {
+  t = String(t || '').replace(/\s+/g, ' ').trim();
+  var m = /^\[\s*\+?\s*(.+?)\s*\]$/.exec(t);
+  if (m) return { kind: 'ph', amt: m[1] };
+  m = /^\+?\s*(\d[\d\s]*),(\d{2})\s*€$/.exec(t);
+  if (m) return { kind: 'exact', val: parseInt(m[1].replace(/\D/g, ''), 10) * 100 + parseInt(m[2], 10) };
+  if (t.toLowerCase().indexOf('sisältyy') >= 0) return { kind: 'incl' };
+  return { kind: 'na' };
+}
+function phNum(a) { var m = /^\+?\s*(\d+(?:[.,]\d+)?)\s*€$/.exec(String(a).trim()); return m ? parseFloat(m[1].replace(',', '.')) : null; }
+function phFmt(v) { return String(Math.round(v * 100) / 100).replace('.', ',') + ' €'; }
+function phMul(a, q) { var v = phNum(a); return (v === null || q === 1) ? a : phFmt(v * q); }
+function ikkunaa(n) { return n === 1 ? '1 ikkuna' : n + ' ikkunaa'; }
+function elat(n) {
+  var t = n % 100, d = n % 10;
+  if (t >= 11 && t <= 19) return 'sta';
+  if (d === 0) return t === 0 ? 'sta' : 'stä';
+  return (d === 2 || d === 3 || d === 6 || d === 8) ? 'sta' : 'stä';
+}
+function pressedIdx(list, attr) {
+  for (var i = 0; i < list.length; i++) if (list[i].getAttribute(attr || 'aria-pressed') === 'true') return i;
+  return 0;
+}
+function setPressed(list, cur, attr) {
+  list.forEach(function (b, i) { b.setAttribute(attr || 'aria-pressed', i === cur ? 'true' : 'false'); });
+}
+function remove(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+function presetOf(name) {
+  var n = name.toLowerCase();
+  if (n.indexOf('lasten') >= 0) return 'turva';
+  if (n.indexOf('kylpy') >= 0) return 'nako';
+  return 'none';
+}
+function genitive(name) {
+  var n = name.toLowerCase();
+  if (/huone$/.test(n)) return n + 'en';
+  if (/nen$/.test(n)) return n.slice(0, -3) + 'sen';
+  if (/[öoaäiuye]$/.test(n)) return n + 'n';
+  return n;
+}
+var NUMW = { 'yksi': '1', 'kaksi': '2', 'kolme': '3', 'neljä': '4', 'viisi': '5', 'kuusi': '6' };
+function partsText(label) {
+  var t = label.trim(), m = /^(\S+)(\s+osaa?)(?=\s|,|$)(.*)$/i.exec(t);
+  if (m && NUMW[m[1].toLowerCase()]) return NUMW[m[1].toLowerCase()] + m[2] + m[3];
+  return t.charAt(0).toLowerCase() + t.slice(1);
+}
+
+/* ---------- nakymat ---------- */
+var KEYS = CFG.views.map(function (v) { return v.key; });
+var VIEW = {};
+CFG.views.forEach(function (v) { VIEW[v.key] = D.getElementById('v-' + v.key); });
+var v1 = VIEW[KEYS[0]], v2 = VIEW[KEYS[1]], v3 = VIEW[KEYS[2]], v4 = VIEW[KEYS[3]];
+var v5 = KEYS[4] ? VIEW[KEYS[4]] : null;
+var K1 = KEYS[0], K4 = KEYS[3], K5 = KEYS[4] || null;
+var CONFIG_KEYS = KEYS.slice(0, 3);
+var current = null;
+
+/* ---------- I1: rakenne ja ulkonako ---------- */
+function inMx(el) { return !!el.closest('details.mx'); }
+var roomBtns = $$('button.chip', v1).filter(function (b) { return !b.closest('.seg'); });
+var rooms = roomBtns.map(function (b) { var n = txt(b); return { name: n, preset: presetOf(n), gen: genitive(n) }; });
+var typeBtns = $$('button.big2', v1);
+var types = typeBtns.map(function (b) { var s = $('span.b', b); return s ? txt(s) : txt(b).slice(0, 24); });
+var jakoBtns = $$('button.mm4', v1);
+var jakos = jakoBtns.map(function (b) {
+  var lab = b.getAttribute('aria-label') || '', im = $('img', b);
+  return { name: lab, parts: partsText(lab), src: im ? im.getAttribute('src') : '' };
+});
+var jakoDet = jakoBtns.length ? (function () { var d = null; jakoBtns.forEach(function (b) { d = d || b.closest('details.mx'); }); return d; })() : null;
+var cgrids = $$('.cgrid', v1);
+var colBtns = cgrids.map(function (g) { return $$('button.ccard', g); });
+function colorName(b) {
+  var sp = Array.prototype.filter.call(b.children, function (c) { return !c.classList.contains('sq'); })[0];
+  if (!sp) return txt(b);
+  var c = sp.cloneNode(true);
+  $$('.b', c).forEach(remove);
+  return txt(c);
+}
+var colors = colBtns.map(function (l) { return l.map(colorName); });
+var innerDet = cgrids[1] ? cgrids[1].closest('details.mx') : null;
+var finBtns = $$('.seg button.chip', v1).filter(inMx);
+var fins = finBtns.map(txt);
+var sizeBtns = $$('.seg button.chip', v1).filter(function (b) { return !inMx(b); });
+var exactIdx = sizeBtns.length - 1;
+var sizeIns = $$('input.in', v1).filter(function (i) { return i.getAttribute('inputmode') === 'numeric' && !inMx(i); });
+var unitLabels = sizeIns.map(function (inp) {
+  var l = inp.id ? $('label[for="' + inp.id + '"]', v1) : null;
+  return l && /\b(cm|mm)\b/.test(l.textContent) ? { el: l, tpl: l.textContent.replace(/\b(cm|mm)\b/, '{u}') } : null;
+});
+var vihje = $('p.koko-vihje', v1), vihje0 = vihje ? vihje.textContent : '';
+var roomNote = roomBtns.length ? roomBtns[0].closest('.cl').nextElementSibling : null;
+if (roomNote && roomNote.tagName !== 'P') roomNote = null;
+
+var room0 = pressedIdx(roomBtns), type0 = pressedIdx(typeBtns), jako0 = pressedIdx(jakoBtns);
+var refType = type0;
+var col0 = colBtns.map(function (l) { return pressedIdx(l); });
+var fin0 = pressedIdx(finBtns);
+var exact0 = sizeBtns.length > 1 && pressedIdx(sizeBtns) === exactIdx;
+var w0 = sizeIns[0] ? sizeIns[0].value : '120', h0 = sizeIns[1] ? sizeIns[1].value : '140';
+var wRef = num(w0) || 120, hRef = num(h0) || 140;
+if (exact0) { wRef = wRef / 10; hRef = hRef / 10; }
+
+var notes = {};
+Object.keys(CFG.notes).forEach(function (k) { if (k !== 'none') notes[k] = CFG.notes[k]; });
+if (roomNote && rooms[room0]) {
+  var nc = roomNote.cloneNode(true), nb = $('span.b', nc);
+  if (nb) remove(nb);
+  var nt = txt(nc);
+  if (nt) notes[rooms[room0].preset] = nt;
+}
+
+/* ---------- I2: ominaisuudet ---------- */
+var SIDE_RE = new RegExp('(' + CFG.side.map(function (p) { return p[1]; }).join('|') + ')');
+var needs = $$('div.need', v2).map(function (row) {
+  var cards = $$('.pc', row);
+  var info = cards.map(function (c) {
+    var t = $('.pc-t', c), tc = t ? t.cloneNode(true) : null;
+    if (tc) $$('.bdg', tc).forEach(remove);
+    var p = $('.pc-p', c), pt = txt(p), o = parsePrice(pt);
+    o.title = txt(tc); o.text = pt; o.pEl = p;
+    return o;
+  });
+  var better = info[info.length - 1] || { title: '', text: '', kind: 'na' };
+  var r = { el: row, id: row.getAttribute('aria-labelledby') || '', cards: cards, info: info, n: cards.length,
+            title: better.title, text: better.text, kind: better.kind, amt: better.amt, val: better.val,
+            sel0: pressedIdx(cards, 'aria-checked'), radios: [], radioEls: [], rad0: 0, sub: $('.pc-sub', row) };
+  if (r.sub) {
+    $$('label.rad', r.sub).forEach(function (l, j) {
+      var b = $('span.b', l), nm = $$('span.num', l), inp = $('input[type=radio]', l);
+      var o = parsePrice(nm.length ? txt(nm[nm.length - 1]) : '');
+      o.label = txt(b);
+      r.radios.push(o);
+      r.radioEls.push(inp);
+      if (inp && inp.checked) r.rad0 = j;
+    });
+    var sp = null;
+    Array.prototype.forEach.call(r.sub.children, function (c) { if (!sp && c.tagName === 'SPAN') sp = c; });
+    if (sp) {
+      var ss = txt(sp).split(/(?<=\.)\s+/), si = -1;
+      ss.forEach(function (x, k) { if (si < 0 && SIDE_RE.test(x)) si = k; });
+      if (si >= 0) {
+        r.subSpan = sp;
+        r.sideTpl = ss[si].replace(SIDE_RE, '{side}');
+        r.recText = ss.filter(function (_, k) { return k !== si; }).join(' ');
+      }
+    }
+  }
+  r.priced = r.radios.some(function (x) { return x.kind === 'ph' || x.kind === 'exact'; });
+  return r;
+});
+function role(word, delta) {
+  var k = -1;
+  needs.forEach(function (r, i) { if (k < 0 && r.id.toLowerCase().indexOf(word) >= 0) k = i; });
+  if (k < 0) needs.forEach(function (r, i) { if (k < 0 && r.title.toLowerCase().indexOf(word) >= 0) k = i; });
+  if (k < 0 && delta != null) needs.forEach(function (r, i) { if (k < 0 && r.val === delta) k = i; });
+  return k;
+}
+var L = CFG.lookup;
+var iT = role('turva', L[1][0] - L[0][0]);
+var iH = role('lamp', L[1][1] - L[1][0]);
+if (iH < 0) iH = role('lämp', L[1][1] - L[1][0]);
+var iN = role('nako', null);
+if (iN < 0) iN = role('näkö', null);
+[iT, iH].forEach(function (k) { if (k >= 0) needs[k].kind = 'lookup'; });
+if (iT >= 0) {
+  needs[iT].side = needs[iT].radios.map(function (x) {
+    var lw = x.label.toLowerCase(), hit = null;
+    CFG.side.forEach(function (p) { if (!hit && lw.indexOf(p[0]) === 0) hit = p[1]; });
+    return hit || lw;
+  });
+}
+var badge = $('.pc .bdg', v2);
+if (badge) remove(badge);
+
+/* ---------- I3: lisavarusteet ---------- */
+var adds = $$('div.oi', v3).map(function (row) {
+  var lab = $('label.orow', row), cb = lab ? $('input[type=checkbox]', lab) : null;
+  var nums = lab ? $$('span.num', lab) : [];
+  var o = parsePrice(nums.length ? txt(nums[nums.length - 1]) : '');
+  o.el = row; o.cb = cb; o.dis = !cb || cb.disabled; o.chk0 = !!(cb && cb.checked && !o.dis);
+  o.title = txt($('span.ttl', row));
+  o.reason = $('.reason', row);
+  o.dd = $('details.dd', row);
+  if (o.dis && CFG.massPrices[o.title]) o.massAmt = CFG.massPrices[o.title];
+  var why = txt($('span.why', row));
+  var pm = o.dis ? null : /(peitetulp\w*)\W{0,6}\+?\s*(\d[\d\s]*,\d{2})\s*€/i.exec(why);
+  if (pm && lab) {
+    var wrap = D.createElement('div'); wrap.className = 'ind sub2';
+    var l2 = D.createElement('label'); l2.className = 'chk';
+    var in2 = D.createElement('input'); in2.type = 'checkbox';
+    var s1 = D.createElement('span'); s1.textContent = cap(pm[1].toLowerCase());
+    var s2 = D.createElement('span'); s2.className = 'num'; s2.textContent = '+' + pm[2] + ' €';
+    l2.appendChild(in2); l2.appendChild(s1); l2.appendChild(s2); wrap.appendChild(l2);
+    lab.parentNode.insertBefore(wrap, lab.nextSibling);
+    o.sub = { label: s1.textContent, kind: 'exact', val: parsePrice('+' + pm[2] + ' €').val, el: wrap, cb: in2 };
+  }
+  return o;
+});
+
+/* ---------- muokkaa kerralla: rakenne (#muokkaa) ---------- */
+var M = null, salekJ = -1, darkLabel = '';
+var AMT_RE = /\[?\d[\d\s]*,\d{2}\s?€\]?/g;
+if (v5) {
+  M = { ws: $('.ws', v5), notes: [] };
+  if (M.ws) {
+    M.top = $('.ws-top', M.ws);
+    M.topCount = M.top ? $('span', M.top) : null;
+    M.topCountTpl = M.topCount ? txt(M.topCount).replace(/\d+\s*\/\s*\d+/, '{a} / {b}') : '{a} / {b}';
+    M.topLink = M.top ? $('a.lk', M.top) : null;
+    if (M.topLink) M.topLink.setAttribute('role', 'button');
+    var rl0 = $('.ws-h a.lk', M.ws);
+    M.roomLinkTpl = rl0 ? rl0.cloneNode(true) : null;
+    var t0 = $('button.wt', M.ws);
+    M.tileTpl = t0 ? t0.cloneNode(true) : null;
+    var r0 = $('.ws-room', M.ws);
+    M.roomTpl = r0 ? r0.cloneNode(true) : null;
+    if (M.roomTpl) { $$('button.wt', M.roomTpl).forEach(remove); $$('.ws-h a.lk', M.roomTpl).forEach(remove); }
+    $$('.ws-room', M.ws).forEach(remove);
+  }
+  M.sl = $('.sl', v5);
+  if (M.sl) {
+    var sl0 = $('.sl-row', M.sl);
+    M.slTpl = sl0 ? sl0.cloneNode(true) : null;
+    $$('.sl-row', M.sl).forEach(remove);
+    var slSec = M.sl.closest('section');
+    M.slH = slSec ? $('h2', slSec) : null;
+    M.slHTpl = M.slH ? txt(M.slH).replace(/\d+/, '{n}') : 'Valitut ikkunat, {n} kpl';
+  }
+  M.undoTpl = $('p.undo', v5);
+  $$('details.mx', v5).forEach(function (d) { if (!M.more && $('.need', d)) M.more = d; });
+  var sfx = new RegExp('-' + K5 + '$');
+  M.needs = $$('div.need', v5).map(function (el) {
+    var h = $('h3.need-h', el), nid = h ? h.id.replace(sfx, '') : '';
+    var o = { el: el, nid: nid, title: txt(h), cards: $$('.pc', el), undo: $('p.undo', el), sub: $('.pc-sub', el), feat: null };
+    o.info = o.cards.map(function (c) {
+      var t = $('.pc-t', c), tc = t ? t.cloneNode(true) : null;
+      if (tc) $$('.bdg', tc).forEach(remove);
+      return { title: txt(tc), now: $('.now', c), p: $('.pc-p', c) };
+    });
+    o.last = o.cards.length - 1;
+    if (o.cards.length) {
+      needs.forEach(function (r, i) { if (!o.feat && r.id === nid) o.feat = { kind: 'sel', i: i }; });
+      var bt = o.info[o.last].title;
+      if (!o.feat) adds.forEach(function (r, j) { if (!o.feat && r.title === bt) o.feat = { kind: 'chk', j: j }; });
+      if (o.feat && o.feat.kind === 'chk') o.restricted = !!adds[o.feat.j].dis;
+      if (o.restricted && o.info[o.last].now) {
+        var ft = txt(o.info[o.last].now);
+        if (/\d/.test(ft)) o.fitTpl = ft.replace(/\d+/, '{a}').replace(/\d+:st[aä]/, '{b}');
+      }
+    } else {
+      var gs = $$('.cgrid', el);
+      if (gs.length) {
+        o.feat = { kind: 'color' };
+        o.colBtns = gs.map(function (g) { return $$('button.ccard', g); });
+        o.colNames = o.colBtns.map(function (l) { return l.map(colorName); });
+        o.nowP = $('p.mu', el);
+        if (o.nowP) {
+          var t = txt(o.nowP), k = t.indexOf('. ');
+          var first = k >= 0 ? t.slice(0, k + 1) : t;
+          o.nowRest = k >= 0 ? t.slice(k + 2) : '';
+          var c0 = colors[0] && colors[0][col0[0]] ? colors[0][col0[0]].toLowerCase() : '';
+          o.colAllTpl = c0 && first.indexOf(c0) >= 0 ? first.replace(c0, '{c}') : 'Nyt {c} kaikissa.';
+        }
+      }
+    }
+    if (o.sub) {
+      o.radioEls = $$('input[type=radio]', o.sub);
+      if (o.radioEls.length) {
+        o.radioLabs = $$('label.rad', o.sub).map(function (l) { return txt($('span.b', l)); });
+        o.radioNums = $$('label.rad', o.sub).map(function (l) { var ns = $$('span.num', l); return ns[ns.length - 1] || null; });
+      } else {
+        var sp = $('span', o.sub), bEl = sp ? $('span.b', sp) : null;
+        if (sp && bEl) {
+          o.nfSpan = sp;
+          o.nfB = txt(bEl).replace(/\d+/, '{n}');
+          var after = txt(sp).slice(txt(bEl).length).trim(), k2 = after.indexOf('. ');
+          o.nfRest = k2 >= 0 ? after.slice(k2 + 2) : '';
+        }
+      }
+    }
+    return o;
+  });
+  M.needs.forEach(function (o) {
+    if (o.radioEls && o.radioEls.length && o.feat && o.feat.kind === 'chk') {
+      salekJ = o.feat.j; darkLabel = (o.radioLabs[1] || '').toLowerCase(); M.salek = o;
+    }
+    if (o.restricted) M.tuul = o;
+    if (!o.undo && CFG.undo[o.nid]) {
+      var u = M.undoTpl ? M.undoTpl.cloneNode(true) : null;
+      if (!u) { u = D.createElement('p'); u.className = 'undo'; var a0 = D.createElement('a'); a0.className = 'lk'; a0.href = '#'; u.appendChild(a0); }
+      var a = $('a', u);
+      if (a) a.textContent = CFG.undo[o.nid];
+      o.el.appendChild(u);
+      o.undo = u;
+    }
+    if (o.undo) { o.undo.hidden = true; var ua = $('a', o.undo); if (ua) ua.setAttribute('role', 'button'); }
+  });
+  var a5 = $('aside.side', v5);
+  if (a5) {
+    M.big = $('p.big', a5);
+    M.lines = $$('.lines p', a5).map(function (p) { return { el: p, tpl: txt(p) }; });
+    M.dl = $('dl.sum', a5);
+    $$('p.sm', a5).forEach(function (p) { if (!M.anchor && $('span.b', p) && !p.closest('.help')) M.anchor = p; });
+    if (M.anchor) {
+      Array.prototype.forEach.call(M.anchor.childNodes, function (nd) { if (!M.anchorNode && nd.nodeType === 3 && /\d/.test(nd.data)) M.anchorNode = nd; });
+      if (M.anchorNode) M.anchorTpl = M.anchorNode.data.replace(/\d+ ikkunaa?/, '{n}');
+      var prev = [];
+      for (var e = M.anchor.previousElementSibling; e; e = e.previousElementSibling) {
+        if (e.tagName === 'P' && e.classList.contains('mu2')) prev.push(e); else break;
+      }
+      M.noteTpl = prev.length ? prev[prev.length - 1].cloneNode(true) : null;
+      prev.forEach(remove);
+      if (!M.noteTpl) { M.noteTpl = D.createElement('p'); M.noteTpl.className = 'sm mu2'; }
+    }
+  }
+  M.navBtn = $('.navb a.btn', v5);
+  M.navTpl = M.navBtn ? txt(M.navBtn).replace(/\d+ ikkunaa?/, '{n}') : 'Muuta {n}';
+  if (M.navBtn) M.navBtn.setAttribute('role', 'button');
+}
+
+/* ---------- sivupalkit (I1-I3) ---------- */
+function wrapApprox(p) {
+  if (!p) return null;
+  var w = D.createTreeWalker(p, NodeFilter.SHOW_TEXT), n;
+  while ((n = w.nextNode())) {
+    var i = n.data.search(/\s*tarkentuu/i);
+    if (i >= 0) {
+      var tail = n.splitText(i), sp = D.createElement('span');
+      sp.className = 'x-approx';
+      tail.parentNode.insertBefore(sp, tail);
+      sp.appendChild(tail);
+      return sp;
+    }
+  }
+  return null;
+}
+var PV = { scale: 0, maxW: 240, maxH: 260 };
+function sideOf(view) {
+  var a = $('aside.side', view);
+  if (!a) return null;
+  var s = { dw: $('.pvw .dw', a), dh: $('.pvw .dh', a), img: $('.pvw img', a), h2: $('h2', a), big: $('p.big', a),
+            approx: wrapApprox($('.opt2 p.sm', a)), dd: {} };
+  $$('dl.sum dt', a).forEach(function (dt) {
+    var dd = dt.nextElementSibling, lab = txt(dt).toLowerCase();
+    CFG.sumKeys.forEach(function (p) {
+      if (dd && dd.tagName === 'DD' && lab.indexOf(p[0]) === 0 && !s.dd[p[1]]) {
+        s.dd[p[1]] = dd;
+        if (p[1] !== 'sumSize') dd.setAttribute('data-w', '');
+      }
+    });
+  });
+  s.addNone = s.dd.sumAdd ? txt(s.dd.sumAdd) : 'Ei';
+  s.type0Text = s.dd.sumType ? txt(s.dd.sumType) : '';
+  var ht = txt(s.h2), rn = rooms[room0] ? rooms[room0].name : '';
+  var rest = rn && ht.indexOf(rn) === 0 ? ht.slice(rn.length) : ', ikkuna 1';
+  s.h2Tpl = /\d+\s*$/.test(rest) ? rest.replace(/\d+\s*$/, '{n}') : rest;
+  if (s.img && !PV.scale) {
+    var pw = parseFloat(s.img.style.width);
+    if (pw > 0) PV.scale = pw / wRef;
+  }
+  return s;
+}
+var sides = [v1, v2, v3].map(sideOf);
+var type0Text = sides[0] && sides[0].type0Text;
+var addNone = sides[2] ? sides[2].addNone : 'Ei';
+
+/* ---------- I4: hanke ---------- */
+var plan = $('section.plan', v4);
+var secTpl = $('section.room2', v4);
+var rowTpl = secTpl ? $('.it', secTpl) : null;
+var roomadd = $('.roomadd', v4);
+var srSpans = $$('.ysum .sr > span', v4);
+var srTpl = srSpans[0] ? txt(srSpans[0]).replace(/\d+/, '{n}') : 'Ikkunat, {n} kpl';
+var totV = $('.ysum .tot .v', v4);
+var hhLink = $('.hh a.lk', v4);
+/* Malli B: valintatila. SM = null tai { riviId: true } */
+var SM = null;
+var selbar = $('.selbar', v4), selAll = selbar ? $('button.ck', selbar) : null;
+var ckTpl = selAll ? selAll.cloneNode(true) : null;
+var selGrow = selbar ? $('.grow', selbar) : null;
+var selCountEl = selGrow ? $('span', selGrow) : null;
+var selCountTpl = selCountEl ? txt(selCountEl).replace(/\d+ ikkunaa?/, '{n}') : '{n} valittu';
+var selCancel = selGrow ? $('a.lk', selGrow) : null, selGo = selGrow ? $('a.btn', selGrow) : null;
+var selEmpty = null;
+if (selbar && selAll) {
+  selAll.setAttribute('data-fk', 'ck:all');
+  [selCancel, selGo].forEach(function (a) { if (a) a.setAttribute('role', 'button'); });
+  selEmpty = D.createElement('span'); selEmpty.className = 'sm mu'; selEmpty.textContent = CFG.selEmpty;
+  if (selGrow) selGrow.insertBefore(selEmpty, selGrow.firstChild);
+}
+var banner = $('.banner', v4), bannerP = banner ? $('p', banner) : null;
+var bannerTpl = bannerP && $('span.b', bannerP) ? txt($('span.b', bannerP)).replace(/\d+ ikkunaa?/, '{n}') : 'Muutit {n}:';
+if (banner) { banner.hidden = true; var pb0 = $('a', banner); if (pb0) pb0.setAttribute('role', 'button'); }
+var tagTpl = null, tagText = 'Muutettu: {t}';
+var nameTpl = '{type} ikkuna, {parts}', altTpl = '{type} ikkuna, {jako}';
+var actRoles = [];
+if (rowTpl) {
+  var tg = $('.tag', rowTpl);
+  if (tg) { tagText = txt(tg).replace(/:\s.*$/, ': {t}'); tagTpl = tg; remove(tg); }
+  var n0 = txt($('.it-txt p.b', rowTpl)), im0 = $('img', rowTpl), a0 = im0 ? im0.getAttribute('alt') || '' : '';
+  var tt0 = types[type0] || '', j0 = jakos[jako0] || { name: '', parts: '' };
+  if (tt0 && n0.indexOf(tt0) >= 0 && n0.indexOf(j0.parts) >= 0) nameTpl = n0.replace(tt0, '{type}').replace(j0.parts, '{parts}');
+  if (tt0 && a0.indexOf(tt0) >= 0 && a0.indexOf(j0.name.toLowerCase()) >= 0) altTpl = a0.replace(tt0, '{type}').replace(j0.name.toLowerCase(), '{jako}');
+  var rest2 = ['copy', 'del'];
+  $$('.acts a', rowTpl).forEach(function (a) {
+    var h = a.getAttribute('href') || '';
+    actRoles.push(h === '#' + K1 ? 'edit' : (rest2.shift() || 'none'));
+  });
+  remove(secTpl);
+}
+var hanke = [], seq = 0, editing = null, target = null, lastRow = null, committed = false, lastMass = null;
+
+/* ---------- tila ---------- */
+var draft = {
+  room: room0, type: type0, jako: jako0, col: col0.slice(), fin: fin0, inDiff: innerDet ? innerDet.open : false,
+  exact: exact0, w: w0, h: h0,
+  sel: needs.map(function (r) { return r.sel0; }), rad: needs.map(function (r) { return r.rad0; }),
+  chk: adds.map(function (r) { return r.chk0; }), sub: adds.map(function () { return false; }),
+  open: adds.map(function (r) { return !!(r.dd && r.dd.open); }), salekType: 0
+};
+var draft0 = copy(draft);
+function applyPreset(c) {
+  var p = rooms[c.room] ? rooms[c.room].preset : 'none';
+  if (iT >= 0) c.sel[iT] = p === 'turva' ? needs[iT].n - 1 : 0;
+  if (iN >= 0) c.sel[iN] = p === 'nako' ? needs[iN].n - 1 : 0;
+}
+
+/* ---------- hinta ---------- */
+/* Pohjahinta koon, turvalasin ja lammon mukaan (CFG.prices). Puuttuva = [Kasken hinta]. */
+function baseOf(c, sel) {
+  sel = sel || c.sel;
+  var t = sel[iT] ? 1 : 0, l = sel[iH] ? 1 : 0, k = c.exact ? 10 : 1, w = num(c.w), h = num(c.h), key = null;
+  if (c.type === refType && c.jako === jako0 && w !== null && h !== null) key = (w / k) + 'x' + (h / k);
+  var tab = key ? CFG.prices[key] : null, v = tab && tab[t] ? tab[t][l] : null;
+  return { val: v == null ? null : v, key: (key || ['?', c.type, c.jako, c.w, c.h, c.exact ? 1 : 0].join('/')) + '|' + t + l };
+}
+function isKnown(c) { return baseOf(c).val !== null; }
+function priceOf(c, sel) {
+  sel = sel || c.sel;
+  var b = baseOf(c, sel), ex = 0, ph = [];
+  needs.forEach(function (r, i) {
+    if (!sel[i]) return;
+    var pr = r.priced ? r.radios[c.rad[i]] : (r.kind === 'lookup' ? null : r);
+    if (pr && pr.kind === 'ph') ph.push(pr.amt);
+    else if (pr && pr.kind === 'exact') ex += pr.val;
+  });
+  adds.forEach(function (r, i) {
+    if (!c.chk[i]) return;
+    if (r.dis) { if (r.massAmt) ph.push(r.massAmt); return; }
+    if (i === salekJ && c.salekType === 1 && CFG.salekDark) ph.push(CFG.salekDark);
+    else if (r.kind === 'ph') ph.push(r.amt);
+    else if (r.kind === 'exact') ex += r.val;
+    if (r.sub && c.sub[i]) { if (r.sub.kind === 'ph') ph.push(r.sub.amt); else ex += r.sub.val; }
+  });
+  return { known: b.val !== null, ex: (b.val || 0) + ex, extra: ex, ph: ph, key: b.key };
+}
+function needDelta(c, i) {
+  var r = needs[i], a = c.sel.slice(), b = c.sel.slice();
+  a[i] = r.n - 1; b[i] = 0;
+  var w = priceOf(c, a), wo = priceOf(c, b);
+  if (r.kind === 'lookup' && (!w.known || !wo.known)) return CFG.phText;
+  var d = w.ex - wo.ex, ph = w.ph.slice();
+  wo.ph.forEach(function (x) { var k = ph.indexOf(x); if (k >= 0) ph.splice(k, 1); });
+  if (ph.length && !d) return '[+' + Math.round(phc(ph) / 100) + ' €]';
+  if (ph.length) return '[+' + eur(d + phc(ph)) + ']';
+  if (d) return '+' + eur(d);
+  return null;
+}
+function putPrice(el, P) {
+  if (!el) return;
+  if (!P.known) { el.textContent = CFG.phText; el.classList.add('big-ph'); return; }
+  el.classList.remove('big-ph');
+  el.textContent = priceTxt(P.ex, P.ph);
+}
+function fmtT(T) { return T.known ? priceTxt(T.ex, T.ph) : CFG.phText; }
+/* Muutoksen hinta yhdelle ikkunalle: uusi miinus vanha. Sama pohjahinta kumoutuu, vaikka se puuttuisi. */
+var D0 = { known: true, ex: 0, ph: 0, phAny: false };
+function deltaOf(a, b) {
+  var pa = priceOf(a), pb = priceOf(b), sameBase = pa.key === pb.key;
+  var add = pb.ph.slice(), rem = [];
+  pa.ph.forEach(function (x) { var k = add.indexOf(x); if (k >= 0) add.splice(k, 1); else rem.push(x); });
+  return { known: sameBase || (pa.known && pb.known), ex: sameBase ? pb.extra - pa.extra : pb.ex - pa.ex,
+           ph: phc(add) - phc(rem), phAny: add.length + rem.length > 0 };
+}
+function dMul(d, q) { return { known: d.known, ex: d.ex * q, ph: d.ph * q, phAny: d.phAny }; }
+function dAdd(a, b) { return { known: a.known && b.known, ex: a.ex + b.ex, ph: a.ph + b.ph, phAny: a.phAny || b.phAny }; }
+function sgnEur(c) { return (c < 0 ? MINUS : '+') + eur(Math.abs(c)); }
+function fmtD(d) {
+  if (!d.known) return CFG.phText;
+  if (d.phAny && !d.ex) return '[' + (d.ph < 0 ? MINUS : '+') + Math.round(Math.abs(d.ph) / 100) + ' €]';
+  if (d.phAny) return '[' + sgnEur(d.ex + d.ph) + ']';
+  if (d.ex) return sgnEur(d.ex);
+  return null;
+}
+
+/* ---------- tekstit ---------- */
+function sizeText(c) { return c.exact ? c.w + ' × ' + c.h + ' mm' : 'noin ' + c.w + ' × ' + c.h + ' cm'; }
+function dimText(c, v) { return c.exact ? v + ' mm' : 'noin ' + v + ' cm'; }
+function typeText(c) {
+  if (c.type === type0 && c.jako === jako0 && type0Text) return type0Text;
+  return (types[c.type] || '') + ', ' + (jakos[c.jako] ? jakos[c.jako].parts : '');
+}
+function colorText(c) {
+  var outer = colors[0] ? colors[0][c.col[0]] : '';
+  if (!c.inDiff || !colors[1]) return outer;
+  var fin = (fins.length && c.fin !== fin0) ? ', ' + fins[c.fin].split(',')[0].toLowerCase() : '';
+  return outer + ', sisältä ' + colors[1][c.col[1]].toLowerCase() + fin;
+}
+/* short: hankkeen rivi ja laatta, turvalasi ensin kuten gen_m.py:ssa */
+function glassParts(c, short) {
+  var parts = [], order = needs.map(function (_, i) { return i; });
+  if (short && iT >= 0) order = [iT].concat(order.filter(function (i) { return i !== iT; }));
+  order.forEach(function (i) {
+    var r = needs[i];
+    if (!c.sel[i]) return;
+    if (r.side) parts.push(short && c.rad[i] === r.rad0 ? 'turvalasi' : 'turvalasi ' + r.side[c.rad[i]]);
+    else parts.push(r.title.toLowerCase());
+  });
+  return parts;
+}
+function matchesPreset(c) {
+  var p = rooms[c.room] ? rooms[c.room].preset : 'none', ok = true;
+  needs.forEach(function (r, i) {
+    var want = ((i === iT && p === 'turva') || (i === iN && p === 'nako')) ? r.n - 1 : 0;
+    if (c.sel[i] !== want) ok = false;
+  });
+  if (iT >= 0 && c.sel[iT] && c.rad[iT] !== needs[iT].rad0) ok = false;
+  return ok;
+}
+function glassText(c, mode) {
+  if (mode === 'i1' && matchesPreset(c)) {
+    var rm = rooms[c.room] || { preset: 'none', gen: '' };
+    if (rm.preset === 'turva') return 'Turvalasi, ' + rm.gen + ' mukaan';
+    if (rm.preset === 'nako') return 'Näkösuoja, ' + rm.gen + ' mukaan';
+    return CFG.glassStd;
+  }
+  var p = glassParts(c, false);
+  return p.length ? cap(p.join(', ')) : CFG.glassNone;
+}
+function salekText(c) { return (c.salekType === 1 && darkLabel) ? ', ' + darkLabel : ''; }
+function addText(c) {
+  var parts = [];
+  adds.forEach(function (r, i) {
+    if (!c.chk[i] || (r.dis && !r.massAmt)) return;
+    parts.push(r.title.toLowerCase() + (i === salekJ ? salekText(c) : ''));
+    if (r.sub && c.sub[i]) parts.push(r.sub.label.toLowerCase());
+  });
+  return parts.length ? cap(parts.join(', ')) : addNone;
+}
+function rowName(c) {
+  return nameTpl.replace('{type}', types[c.type] || '').replace('{parts}', jakos[c.jako] ? jakos[c.jako].parts : '');
+}
+function rowAlt(c) {
+  return altTpl.replace('{type}', types[c.type] || '').replace('{jako}', jakos[c.jako] ? jakos[c.jako].name.toLowerCase() : '');
+}
+function rowInfo(c) {
+  var out = [sizeText(c)].concat(glassParts(c, true), [colorText(c).toLowerCase()]);
+  if (salekJ >= 0 && c.chk[salekJ]) out.push(adds[salekJ].title.toLowerCase() + salekText(c));
+  return out.join(', ');
+}
+function tileInfo(c) { var g = glassParts(c, true); return g.length ? g.join(', ') : CFG.tileNone; }
+
+/* ---------- hankkeen rakenne ---------- */
+function findSec(id) { for (var i = 0; i < hanke.length; i++) if (hanke[i].id === id) return hanke[i]; return null; }
+function findRow(id) {
+  for (var i = 0; i < hanke.length; i++) {
+    for (var k = 0; k < hanke[i].rows.length; k++) if (hanke[i].rows[k].id === id) return { sec: hanke[i], row: hanke[i].rows[k], idx: k };
+  }
+  return null;
+}
+function firstSecOf(room) { for (var i = 0; i < hanke.length; i++) if (hanke[i].room === room) return hanke[i]; return null; }
+function secName(s) {
+  var name = rooms[s.room] ? rooms[s.room].name : '', k = 0;
+  for (var i = 0; i < hanke.length && hanke[i] !== s; i++) if (hanke[i].room === s.room) k++;
+  return k ? name + ' ' + (k + 1) : name;
+}
+function secFor(room, prefer) {
+  var s = prefer ? findSec(prefer) : null;
+  if (s && s.room === room) return s;
+  s = firstSecOf(room);
+  if (s) return s;
+  s = { id: 's' + (++seq), room: room, rows: [] };
+  hanke.push(s);
+  return s;
+}
+function allRows() { var out = []; hanke.forEach(function (s) { s.rows.forEach(function (r) { out.push(r); }); }); return out; }
+function hankeTotal(list) {
+  var ex = 0, ph = [], unknown = false;
+  list.forEach(function (x) {
+    if (!(x.qty > 0)) return;
+    var P = priceOf(x.cfg);
+    if (!P.known) { unknown = true; return; }
+    ex += P.ex * x.qty;
+    P.ph.forEach(function (a) { ph.push(phMul(a, x.qty)); });
+  });
+  return unknown ? { known: false } : { known: true, ex: ex, ph: ph };
+}
+function draftSec() {
+  var s = target ? findSec(target) : null;
+  if (!s || s.room !== draft.room) s = firstSecOf(draft.room);
+  return s;
+}
+function sideTitle(s) {
+  var no = 1, name = rooms[draft.room] ? rooms[draft.room].name : '';
+  var loc = editing ? findRow(editing) : null;
+  if (loc && loc.sec.room === draft.room) { no = loc.idx + 1; name = secName(loc.sec); }
+  else { var sec = draftSec(); if (sec) { no = sec.rows.length + 1; name = secName(sec); } }
+  return name + s.h2Tpl.replace('{n}', String(no));
+}
+function commit() {
+  var c = copy(draft), loc = editing ? findRow(editing) : null;
+  committed = true; lastMass = null;
+  if (loc) {
+    loc.row.cfg = c;
+    if (loc.sec.room !== c.room) {
+      loc.sec.rows.splice(loc.idx, 1);
+      var ns = secFor(c.room, null);
+      ns.rows.push(loc.row);
+      target = ns.id;
+    }
+    lastRow = loc.row.id;
+    return;
+  }
+  var sec = secFor(c.room, target), row = { id: 'w' + (++seq), cfg: c, qty: 1 };
+  sec.rows.push(row);
+  editing = row.id; target = sec.id; lastRow = row.id;
+}
+function startAdd(secId) {
+  var sec = findSec(secId), src = null;
+  if (sec && sec.rows.length) src = sec.rows[sec.rows.length - 1];
+  if (!src && lastRow) { var lr = findRow(lastRow); if (lr) src = lr.row; }
+  var c = src ? copy(src.cfg) : copy(draft);
+  if (sec && c.room !== sec.room) { c.room = sec.room; applyPreset(c); }
+  draft = c; editing = null; target = sec ? sec.id : null;
+  go(K1);
+}
+function startEdit(rowId) {
+  var loc = findRow(rowId);
+  if (!loc) return;
+  draft = copy(loc.row.cfg); editing = rowId; target = loc.sec.id;
+  go(K1);
+}
+/* Esimerkkihanke gen_m.py:sta (#esimerkki) */
+function loadExample() {
+  hanke = [];
+  CFG.example.forEach(function (x) {
+    var ri = -1;
+    rooms.forEach(function (r, i) { if (ri < 0 && r.name === x.room) ri = i; });
+    if (ri < 0) ri = 0;
+    var c = copy(draft0);
+    c.room = ri; c.w = String(x.w); c.h = String(x.h); c.exact = false; c.type = refType; c.jako = jako0;
+    c.sel = needs.map(function () { return 0; });
+    if (iH >= 0) c.sel[iH] = x.lampo ? needs[iH].n - 1 : 0;
+    if (iT >= 0) c.sel[iT] = x.turva ? needs[iT].n - 1 : 0;
+    c.chk = adds.map(function () { return false; }); c.sub = adds.map(function () { return false; });
+    c.open = adds.map(function () { return false; }); c.salekType = 0; c.inDiff = false;
+    var s = firstSecOf(ri);
+    if (!s) { s = { id: 's' + (++seq), room: ri, rows: [] }; hanke.push(s); }
+    var row = { id: 'w' + (++seq), cfg: c, qty: x.qty };
+    s.rows.push(row);
+    lastRow = row.id;
+  });
+  committed = true; editing = null; target = null; lastMass = null;
+}
+
+/* ---------- muokkaa kerralla: tila ja muutos ---------- */
+var E = null, editFresh = false;
+function initEdit(tg) {
+  /* tg: 'all' tai hankkeen valinta { riviId: true } */
+  E = { target: tg, sel: {}, ch: {}, salekType: 0, colOuter: null, colInner: null };
+  var pick = (tg && typeof tg === 'object') ? tg : null;
+  hanke.forEach(function (s) {
+    s.rows.forEach(function (r) {
+      if (pick && !pick[r.id]) return;
+      E.sel[r.id] = []; for (var k = 0; k < r.qty; k++) E.sel[r.id].push(true);
+    });
+  });
+  if (v5) $$('details.mx', v5).forEach(function (d) { d.open = false; });
+}
+function openEdit(tg) { initEdit(tg); editFresh = true; go(K5); }
+function selCount(r) { var a = E.sel[r.id] || [], n = 0; for (var k = 0; k < r.qty; k++) if (a[k]) n++; return n; }
+function selWins() {
+  var out = [];
+  hanke.forEach(function (s) { s.rows.forEach(function (r) { var q = selCount(r); if (q) out.push({ s: s, row: r, q: q }); }); });
+  return out;
+}
+function fitsVent(c) { return c.type === refType && !!jakos[c.jako] && !/^1(\s|$)/.test(jakos[c.jako].parts); }
+function applyNeed(c, o, k, st) {
+  var f = o.feat;
+  if (!f) return;
+  if (f.kind === 'color') {
+    if (E.colOuter != null) { c.col[0] = E.colOuter; if (E.colInner == null) c.inDiff = false; }
+    if (E.colInner != null) { c.inDiff = true; c.col[1] = E.colInner; }
+    return;
+  }
+  if (f.kind === 'sel') { c.sel[f.i] = k; return; }
+  var on = k === o.last;
+  if (on && o.restricted && !fitsVent(c)) return;
+  c.chk[f.j] = on;
+  if (o.radioEls && o.radioEls.length) c.salekType = on ? st : 0;
+}
+function chosen(o) { return o.feat && o.feat.kind === 'color' ? (E.colOuter != null || E.colInner != null) : E.ch[o.nid] != null; }
+function applyAll(cfg, skip) {
+  var c = copy(cfg);
+  M.needs.forEach(function (o) { if (o.nid !== skip && chosen(o)) applyNeed(c, o, E.ch[o.nid], E.salekType); });
+  return c;
+}
+function choiceLabel(o) {
+  if (o.feat.kind === 'color') {
+    var t = E.colOuter != null ? colors[0][E.colOuter].toLowerCase() : '';
+    if (E.colInner != null) t += (t ? ', ' : '') + 'sisältä ' + colors[1][E.colInner].toLowerCase();
+    return t;
+  }
+  var k = E.ch[o.nid], ti = o.info[k] ? o.info[k].title : '', lab = ti.toLowerCase();
+  if (lab === 'perus') lab = o.title.toLowerCase() + ' perus';
+  if (o === M.salek && k === o.last && E.salekType === 1 && darkLabel) lab += ', ' + darkLabel;
+  return lab;
+}
+function changeLabels(old, nc) {
+  var out = [];
+  M.needs.forEach(function (o) {
+    if (!chosen(o)) return;
+    var one = copy(old);
+    applyNeed(one, o, E.ch[o.nid], E.salekType);
+    if (!same(one, old)) out.push(choiceLabel(o));
+  });
+  return out;
+}
+function alreadyLabels(cfg) {
+  var out = [];
+  M.needs.forEach(function (o) {
+    if (!chosen(o)) return;
+    if (o.restricted && E.ch[o.nid] === o.last && !fitsVent(cfg)) return;
+    var one = copy(cfg);
+    applyNeed(one, o, E.ch[o.nid], E.salekType);
+    if (same(one, cfg)) out.push(choiceLabel(o));
+  });
+  return out;
+}
+function wname(s, r, q) { return secName(s) + ', ' + sizeText(r.cfg) + (q > 1 ? ', ' + q + ' kpl' : ''); }
+function applyEdit() {
+  var snap = copy(hanke), n = 0, dT = D0, labs = [];
+  hanke.forEach(function (s) { s.rows.forEach(function (r) { delete r.tag; }); });
+  hanke.forEach(function (s) {
+    s.rows.slice().forEach(function (r) {
+      var q = selCount(r);
+      if (!q) return;
+      var nc = applyAll(r.cfg);
+      if (same(nc, r.cfg)) return;
+      var rl = changeLabels(r.cfg, nc);
+      rl.forEach(function (l) { if (labs.indexOf(l) < 0) labs.push(l); });
+      dT = dAdd(dT, dMul(deltaOf(r.cfg, nc), q)); n += q;
+      if (q < r.qty) {
+        r.qty -= q;
+        s.rows.splice(s.rows.indexOf(r) + 1, 0, { id: 'w' + (++seq), cfg: nc, qty: q, tag: rl.join(', ') });
+      } else { r.cfg = nc; r.tag = rl.join(', '); }
+    });
+  });
+  if (!n) { hanke = snap; return false; }
+  lastMass = { n: n, text: labs.join(', '), d: fmtD(dT) || '+' + eur(0), snap: snap };
+  return true;
+}
+function undoMass() {
+  if (!lastMass) return;
+  hanke = copy(lastMass.snap);
+  hanke.forEach(function (s) { s.rows.forEach(function (r) { delete r.tag; }); });
+  lastMass = null;
+  if (editing && !findRow(editing)) editing = null;
+  if (lastRow && !findRow(lastRow)) lastRow = null;
+}
+
+/* ---------- piirto ---------- */
+function renderSide(s, mode) {
+  if (!s) return;
+  var c = draft;
+  if (s.dw) s.dw.textContent = dimText(c, c.w);
+  if (s.dh) s.dh.textContent = dimText(c, c.h);
+  if (s.img && jakos[c.jako]) {
+    s.img.setAttribute('src', jakos[c.jako].src);
+    s.img.setAttribute('alt', 'Esikatselu: ' + (types[c.type] || '').toLowerCase() + ' ikkuna, ' + jakos[c.jako].name.toLowerCase() + ', ' + sizeText(c));
+    var k = c.exact ? 10 : 1, w = num(c.w), h = num(c.h);
+    if (PV.scale && w > 0 && h > 0) {
+      var pw = w / k * PV.scale, ph = h / k * PV.scale, f = Math.min(1, PV.maxW / pw, PV.maxH / ph);
+      s.img.style.width = Math.max(24, Math.round(pw * f)) + 'px';
+      s.img.style.height = Math.max(24, Math.round(ph * f)) + 'px';
+    }
+  }
+  if (s.h2) s.h2.textContent = sideTitle(s);
+  putPrice(s.big, priceOf(c));
+  if (s.approx) s.approx.hidden = !!c.exact;
+  if (s.dd.sumType) s.dd.sumType.textContent = typeText(c);
+  if (s.dd.sumSize) s.dd.sumSize.textContent = sizeText(c);
+  if (s.dd.sumColor) s.dd.sumColor.textContent = colorText(c);
+  if (s.dd.sumGlass) s.dd.sumGlass.textContent = glassText(c, mode);
+  if (s.dd.sumAdd) s.dd.sumAdd.textContent = addText(c);
+}
+function renderI1() {
+  var c = draft;
+  setPressed(roomBtns, c.room); setPressed(typeBtns, c.type); setPressed(jakoBtns, c.jako);
+  colBtns.forEach(function (l, gi) { setPressed(l, c.col[gi]); });
+  setPressed(finBtns, c.fin);
+  sizeBtns.forEach(function (b, k) { b.setAttribute('aria-pressed', (k === exactIdx) === !!c.exact ? 'true' : 'false'); });
+  var u = c.exact ? 'mm' : 'cm';
+  unitLabels.forEach(function (l) { if (l) l.el.textContent = l.tpl.replace('{u}', u); });
+  if (sizeIns[0] && sizeIns[0].value !== c.w) sizeIns[0].value = c.w;
+  if (sizeIns[1] && sizeIns[1].value !== c.h) sizeIns[1].value = c.h;
+  if (vihje) vihje.textContent = c.exact ? CFG.hintMm : vihje0;
+  if (innerDet && innerDet.open !== !!c.inDiff) innerDet.open = !!c.inDiff;
+  if (roomNote) {
+    var rm = rooms[c.room], nt = rm ? notes[rm.preset] : null;
+    if (nt) {
+      roomNote.textContent = '';
+      var b = D.createElement('span'); b.className = 'b'; b.textContent = rm.name + ':';
+      roomNote.appendChild(b);
+      roomNote.appendChild(D.createTextNode(' ' + nt));
+      roomNote.hidden = false;
+    } else {
+      roomNote.hidden = true;
+    }
+  }
+  renderSide(sides[0], 'i1');
+}
+function renderI2() {
+  var c = draft, pre = rooms[c.room] ? rooms[c.room].preset : 'none';
+  var rec = pre === 'turva' ? iT : (pre === 'nako' ? iN : -1);
+  needs.forEach(function (r, i) {
+    setPressed(r.cards, c.sel[i], 'aria-checked');
+    r.info.forEach(function (inf, k) {
+      if (k >= 1 && inf.pEl && (inf.kind === 'exact' || inf.kind === 'ph')) inf.pEl.textContent = needDelta(c, i) || inf.text;
+    });
+    if (r.sub) {
+      r.sub.hidden = c.sel[i] !== r.n - 1;
+      r.radioEls.forEach(function (inp, j) { if (inp) inp.checked = c.rad[i] === j; });
+      if (r.subSpan) {
+        var side = r.side ? r.side[c.rad[i]] : '';
+        r.subSpan.textContent = (i === rec && r.recText ? r.recText + ' ' : '') + r.sideTpl.replace('{side}', side);
+      }
+    }
+    $$('.bdg', r.el).forEach(remove);
+    if (badge && i === rec && r.n) {
+      var t = $('.pc-t', r.cards[r.n - 1]);
+      if (t) t.appendChild(badge.cloneNode(true));
+    }
+  });
+  renderSide(sides[1], 'i2');
+}
+function renderI3() {
+  var c = draft;
+  adds.forEach(function (r, i) {
+    if (r.cb && !r.dis) r.cb.checked = !!c.chk[i];
+    if (r.reason && !r.dis) r.reason.hidden = !c.chk[i];
+    if (r.dd && !r.dis && r.dd.open !== !!c.open[i]) r.dd.open = !!c.open[i];
+    if (r.sub) { r.sub.el.hidden = !c.chk[i]; r.sub.cb.checked = !!c.sub[i]; }
+  });
+  renderSide(sides[2], 'i3');
+}
+function rowEl(row) {
+  var el = rowTpl.cloneNode(true), c = row.cfg;
+  el.setAttribute('data-row', row.id);
+  var im = $('img', el);
+  if (im && jakos[c.jako]) { im.setAttribute('src', jakos[c.jako].src); im.setAttribute('alt', rowAlt(c)); }
+  var nm = $('.it-txt p.b', el), inf = $('.it-txt p.sm', el);
+  if (nm) {
+    nm.textContent = rowName(c);
+    if (row.tag && tagTpl) { var t = tagTpl.cloneNode(true); t.textContent = tagText.replace('{t}', row.tag); nm.appendChild(t); }
+  }
+  if (inf) inf.textContent = rowInfo(c);
+  $$('.acts a', el).forEach(function (a, k) { a.setAttribute('data-fk', row.id + ':' + (actRoles[k] || 'none')); a.setAttribute('role', 'button'); });
+  var st = $('.stepper', el), bs = st ? $$('button', st) : [];
+  if (bs.length >= 2) {
+    bs[0].setAttribute('data-fk', row.id + ':dec');
+    bs[1].setAttribute('data-fk', row.id + ':inc');
+    bs[0].disabled = row.qty <= 1;
+    bs[1].disabled = row.qty >= 99;
+    var q = null;
+    Array.prototype.forEach.call(st.children, function (x) { if (!q && x.tagName === 'SPAN') q = x; });
+    if (q) { q.textContent = String(row.qty); q.setAttribute('aria-live', 'polite'); }
+  }
+  var P = priceOf(c), pEl = $('.it-p', el);
+  putPrice(pEl, { known: P.known, ex: P.ex * row.qty, ph: P.ph.map(function (a) { return phMul(a, row.qty); }) });
+  return el;
+}
+var pendingFocus = null;
+function focusKey(root) {
+  var ae = D.activeElement, fk = pendingFocus || (ae && root.contains(ae) ? ae.getAttribute('data-fk') : null);
+  pendingFocus = null;
+  return fk;
+}
+function restoreFocus(root, fk) {
+  if (!fk) return;
+  var f = root.querySelector('[data-fk="' + fk + '"]');
+  if (f && !f.disabled && !f.hidden) f.focus();
+}
+function renderHanke() {
+  if (!plan || !secTpl || !rowTpl) return;
+  var fk = focusKey(v4), totalQ = 0;
+  $$('section.room2[data-sec]', plan).forEach(remove);
+  hanke.forEach(function (s) {
+    var sec = secTpl.cloneNode(true);
+    $$('.it', sec).forEach(remove);
+    sec.setAttribute('data-sec', s.id);
+    var h = $('h2', sec);
+    if (h) { h.id = 'x-r' + s.id; h.textContent = secName(s); sec.setAttribute('aria-labelledby', h.id); }
+    var rh = $('.rh', sec);
+    if (SM && ckTpl && rh) {
+      var on = s.rows.filter(function (r) { return SM[r.id]; }).length, rc = ckTpl.cloneNode(true);
+      rc.setAttribute('aria-checked', on && on === s.rows.length ? 'true' : (on ? 'mixed' : 'false'));
+      rc.setAttribute('aria-label', 'Valitse koko ' + secName(s).toLowerCase());
+      rc.setAttribute('data-ck', 'sec:' + s.id); rc.setAttribute('data-fk', 'ck:sec:' + s.id);
+      rc.disabled = !s.rows.length;
+      rh.insertBefore(rc, rh.firstChild);
+    }
+    var add = $('.addline', sec);
+    s.rows.forEach(function (row) {
+      totalQ += row.qty;
+      var re = rowEl(row);
+      if (SM && ckTpl) {
+        var c2 = ckTpl.cloneNode(true);
+        re.classList.add('itb');
+        c2.setAttribute('aria-checked', SM[row.id] ? 'true' : 'false');
+        c2.setAttribute('aria-label', 'Valitse ' + wname(s, row, row.qty));
+        c2.setAttribute('data-ck', 'row:' + row.id); c2.setAttribute('data-fk', 'ck:row:' + row.id);
+        re.insertBefore(c2, re.firstChild);
+      }
+      sec.insertBefore(re, add);
+    });
+    if (add) {
+      var ab = $('a.btn', add);
+      if (ab) { ab.setAttribute('data-fk', s.id + ':add'); ab.setAttribute('role', 'button'); }
+      var hint = $('span.sm', add);
+      if (hint) hint.hidden = !s.rows.length;
+    }
+    plan.insertBefore(sec, roomadd);
+  });
+  if (hhLink) hhLink.hidden = totalQ < 2 || !!SM;
+  if (selbar) {
+    selbar.hidden = !SM;
+    if (SM) {
+      var nsel = 0;
+      allRows().forEach(function (r) { if (SM[r.id]) nsel += r.qty; });
+      selAll.setAttribute('aria-checked', nsel && nsel === totalQ ? 'true' : (nsel ? 'mixed' : 'false'));
+      if (selCountEl) { selCountEl.textContent = selCountTpl.replace('{n}', ikkunaa(nsel)); selCountEl.hidden = !nsel; }
+      if (selGo) selGo.hidden = !nsel;
+      if (selEmpty) selEmpty.hidden = !!nsel;
+    }
+  }
+  if (banner) {
+    banner.hidden = !lastMass;
+    if (lastMass && bannerP) {
+      bannerP.textContent = '';
+      var b = D.createElement('span'); b.className = 'b';
+      b.textContent = bannerTpl.replace('{n}', lastMass.n === 1 ? '1 ikkunan' : lastMass.n + ' ikkunaa');
+      bannerP.appendChild(b);
+      bannerP.appendChild(D.createTextNode(' ' + lastMass.text + ', ' + lastMass.d + '.'));
+    }
+  }
+  /* Yhteissumma: oikeat hinnat ja paikkahinnat yhteen. Jos yhdenkin rivin hinta
+     puuttuu kokonaan, summaa ei voi laskea, ja se on [Kasken hinta]. */
+  var T = hankeTotal(allRows());
+  if (srSpans[0]) srSpans[0].textContent = srTpl.replace('{n}', String(totalQ));
+  if (srSpans.length > 1) putPrice(srSpans[srSpans.length - 1], T);
+  putPrice(totV, T);
+  restoreFocus(plan, fk);
+}
+function renderSelected() {
+  if (!M.sl || !M.slTpl) return;
+  $$('.sl-row', M.sl).forEach(remove);
+  var n = 0;
+  selWins().forEach(function (w) {
+    var el = M.slTpl.cloneNode(true), im = $('img', el), b = $('.b', el), sm = $('.sm', el);
+    if (im && jakos[w.row.cfg.jako]) im.setAttribute('src', jakos[w.row.cfg.jako].src);
+    if (b) b.textContent = secName(w.s);
+    if (sm) sm.textContent = rowInfo(w.row.cfg) + (w.q > 1 ? ', ' + w.q + ' kpl' : '');
+    M.sl.appendChild(el);
+    n += w.q;
+  });
+  if (M.slH) M.slH.textContent = M.slHTpl.replace('{n}', n);
+}
+function fillNoFit(o, bad) {
+  var n = 0, fixed = false, onePart = false, names = [];
+  bad.forEach(function (w) {
+    n += w.q;
+    if (w.row.cfg.type !== refType) fixed = true; else onePart = true;
+    names.push(secName(w.s) + (w.s.rows.length > 1 ? ' ' + sizeText(w.row.cfg) : '') + (w.q > 1 ? ' (' + w.q + ' kpl)' : ''));
+  });
+  var list = names.length > 1 ? names.slice(0, -1).join(', ') + ' ja ' + names[names.length - 1] : (names[0] || '');
+  o.nfSpan.textContent = '';
+  var b = D.createElement('span'); b.className = 'b'; b.textContent = o.nfB.replace('{n}', n);
+  o.nfSpan.appendChild(b);
+  o.nfSpan.appendChild(D.createTextNode(' ' + list + '. ' + (fixed ? CFG.fixedNote + (onePart ? ' ' : '') : '') + (onePart ? o.nfRest : '')));
+}
+function cardDelta(W, o, k, st) {
+  var d = D0;
+  W.forEach(function (w) {
+    var base = applyAll(w.row.cfg, o.nid), nw = copy(base);
+    applyNeed(nw, o, k, st);
+    d = dAdd(d, dMul(deltaOf(base, nw), w.q));
+  });
+  return d;
+}
+function stateOf(c, o) { return o.feat.kind === 'sel' ? (c.sel[o.feat.i] || 0) : (c.chk[o.feat.j] ? o.last : 0); }
+function renderEdit() {
+  if (!M || !E) return;
+  var fk = focusKey(v5);
+  renderSelected();
+  var W = selWins(), n = 0;
+  W.forEach(function (w) { n += w.q; });
+  M.needs.forEach(function (o) {
+    if (!o.feat) return;
+    if (o.feat.kind === 'color') {
+      o.colBtns.forEach(function (list, gi) {
+        var cur = gi === 0 ? E.colOuter : E.colInner;
+        list.forEach(function (b, i) { b.setAttribute('aria-pressed', cur != null && colors[gi] && colors[gi][cur] === o.colNames[gi][i] ? 'true' : 'false'); });
+      });
+      if (o.nowP) {
+        var cs = [];
+        W.forEach(function (w) { var t = colorText(w.row.cfg).toLowerCase(); if (cs.indexOf(t) < 0) cs.push(t); });
+        var first = !n ? CFG.noneSelected : (cs.length > 1 ? CFG.colMixed : (n > 1 ? o.colAllTpl : CFG.colOne).replace('{c}', cs[0]));
+        o.nowP.textContent = first + (o.nowRest ? ' ' + o.nowRest : '');
+      }
+      if (o.undo) o.undo.hidden = !chosen(o);
+      return;
+    }
+    var ch = E.ch[o.nid], fitN = 0;
+    if (o.restricted) W.forEach(function (w) { if (fitsVent(w.row.cfg)) fitN += w.q; });
+    o.cards.forEach(function (card, k) {
+      card.setAttribute('aria-checked', ch === k ? 'true' : 'false');
+      var inf = o.info[k], cnt = 0;
+      W.forEach(function (w) { if (stateOf(w.row.cfg, o) === k) cnt += w.q; });
+      if (inf.now) {
+        if (o.restricted && k === o.last && n && fitN < n && o.fitTpl) {
+          inf.now.textContent = '';
+          var b = D.createElement('span'); b.className = 'b';
+          b.textContent = o.fitTpl.replace('{a}', fitN).replace('{b}', n + ':' + elat(n));
+          inf.now.appendChild(b);
+        } else inf.now.textContent = cnt ? CFG.nowSome.replace('{n}', cnt) : CFG.nowNone;
+      }
+      if (inf.p) inf.p.textContent = fmtD(cardDelta(W, o, k, E.salekType)) || CFG.noChange;
+    });
+    if (o.undo) o.undo.hidden = ch == null;
+    if (o.sub) {
+      if (o.radioEls && o.radioEls.length) {
+        o.sub.hidden = ch !== o.last;
+        o.radioEls.forEach(function (inp, j) { inp.checked = E.salekType === j; });
+        (o.radioNums || []).forEach(function (el, j) { if (el) el.textContent = fmtD(cardDelta(W, o, o.last, j)) || CFG.noChange; });
+      } else if (o.nfSpan) {
+        var bad = W.filter(function (w) { return !fitsVent(w.row.cfg); });
+        o.sub.hidden = !(ch === o.last && bad.length);
+        if (!o.sub.hidden) fillNoFit(o, bad);
+      }
+    }
+  });
+  /* Sivupalkki */
+  var rows = [], nCh = 0, dT = D0, after = [];
+  hanke.forEach(function (s) {
+    s.rows.forEach(function (r) {
+      var q = selCount(r), nc = q ? applyAll(r.cfg) : null;
+      if (!q || same(nc, r.cfg)) { after.push(r); return; }
+      var d = dMul(deltaOf(r.cfg, nc), q);
+      rows.push({ s: s, r: r, q: q, d: d }); nCh += q; dT = dAdd(dT, d);
+      if (r.qty - q > 0) after.push({ cfg: r.cfg, qty: r.qty - q });
+      after.push({ cfg: nc, qty: q });
+    });
+  });
+  if (M.big) {
+    if (nCh) { M.big.classList.remove('big-ph'); M.big.textContent = fmtD(dT) || '+' + eur(0); }
+    else { M.big.classList.add('big-ph'); M.big.textContent = CFG.noChanges; }
+  }
+  var X = fmtT(hankeTotal(allRows())), Y = fmtT(hankeTotal(after));
+  (M.lines || []).forEach(function (l) {
+    var k = 0;
+    l.el.textContent = l.tpl.replace(AMT_RE, function () { return k++ ? Y : X; });
+    l.el.hidden = !nCh;
+  });
+  if (M.dl) {
+    M.dl.textContent = '';
+    rows.forEach(function (x) {
+      var dt = D.createElement('dt'), dd = D.createElement('dd');
+      dt.textContent = wname(x.s, x.r, x.q) + (iT >= 0 && x.r.cfg.sel[iT] ? ', turvalasi' : '');
+      dd.textContent = fmtD(x.d) || '+' + eur(0);
+      M.dl.appendChild(dt); M.dl.appendChild(dd);
+    });
+    M.dl.hidden = !rows.length;
+  }
+  M.notes.forEach(remove);
+  M.notes = [];
+  function note(t) {
+    if (!M.anchor || !M.noteTpl) return;
+    var p = M.noteTpl.cloneNode(true); p.textContent = t;
+    M.anchor.parentNode.insertBefore(p, M.anchor); M.notes.push(p);
+  }
+  W.forEach(function (w) { var ls = alreadyLabels(w.row.cfg); if (ls.length) note(wname(w.s, w.row, w.q) + CFG.already + ls.join(' ja ') + '.'); });
+  if (M.tuul && E.ch[M.tuul.nid] === M.tuul.last) {
+    var nb = 0;
+    W.forEach(function (w) { if (!fitsVent(w.row.cfg)) nb += w.q; });
+    if (nb) {
+      var tn = CFG.tuulNote.replace('{n}', nb);
+      if (nb === 1) tn = tn.replace(/ikkunaa/, 'ikkuna').replace(/niihin/, 'siihen');
+      note(tn);
+    }
+  }
+  if (M.anchor) { M.anchor.hidden = !nCh; if (M.anchorNode && M.anchorTpl) M.anchorNode.data = M.anchorTpl.replace('{n}', ikkunaa(nCh)); }
+  if (M.navBtn) {
+    M.navBtn.textContent = M.navTpl.replace('{n}', ikkunaa(nCh));
+    if (nCh) M.navBtn.removeAttribute('aria-disabled'); else M.navBtn.setAttribute('aria-disabled', 'true');
+  }
+  restoreFocus(v5, fk);
+}
+function render() {
+  renderI1(); renderI2(); renderI3();
+  if (current === K4) renderHanke();
+  if (current === K5) renderEdit();
+}
+
+/* ---------- ilmoitus ---------- */
+var toastEl = $('.x-toast'), toastT = null;
+function toast(msg) {
+  if (!toastEl) return;
+  clearTimeout(toastT);
+  toastEl.textContent = '';
+  setTimeout(function () { toastEl.textContent = msg || CFG.toast; }, 30);
+  toastT = setTimeout(function () { toastEl.textContent = ''; }, 3200);
+}
+
+/* ---------- reititys ---------- */
+var userNav = false, scrollTarget = null;
+function routeOf(h) { var k = String(h || '').replace(/^#/, ''); return VIEW[k] ? k : null; }
+function go(key, el) {
+  userNav = true; scrollTarget = el || null;
+  if (location.hash === '#' + key) show(key); else location.hash = key;
+}
+function show(key) {
+  if (!key) { key = K1; history.replaceState(null, '', '#' + key); }
+  if ((key === K4 || key === K5) && !committed) commit();
+  if (key === K5 && !allRows().length) { key = K4; history.replaceState(null, '', '#' + K4); }
+  if (key === K5) { if (!editFresh || !E) initEdit(E ? E.target : 'all'); editFresh = false; }
+  current = key;
+  KEYS.forEach(function (k) { VIEW[k].hidden = k !== key; });
+  CFG.views.forEach(function (v) { if (v.key === key) D.title = v.title; });
+  if (key === K1 && jakoDet && jakoBtns[draft.jako] && jakoDet.contains(jakoBtns[draft.jako])) jakoDet.open = true;
+  render();
+  if (scrollTarget) { scrollTarget.scrollIntoView({ block: 'start' }); }
+  else window.scrollTo(0, 0);
+  if (userNav) {
+    var h1 = $('h1', VIEW[key]);
+    if (h1) { if (!h1.hasAttribute('tabindex')) h1.setAttribute('tabindex', '-1'); h1.focus({ preventScroll: true }); }
+  }
+  userNav = false; scrollTarget = null;
+}
+function route() {
+  if (location.hash === '#' + CFG.exampleRoute && CFG.example.length) {
+    loadExample();
+    history.replaceState(null, '', '#' + K4);
+    show(K4);
+    return;
+  }
+  var k = routeOf(location.hash);
+  if (k || !current) show(k);
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- tapahtumat ---------- */
+v1.addEventListener('click', function (e) {
+  var b = e.target.closest('button');
+  if (!b || !v1.contains(b)) return;
+  var c = draft, i, hit = true;
+  if ((i = roomBtns.indexOf(b)) >= 0) { if (c.room !== i) { c.room = i; applyPreset(c); } }
+  else if ((i = typeBtns.indexOf(b)) >= 0) c.type = i;
+  else if ((i = jakoBtns.indexOf(b)) >= 0) c.jako = i;
+  else if ((i = finBtns.indexOf(b)) >= 0) c.fin = i;
+  else if ((i = sizeBtns.indexOf(b)) >= 0) {
+    var ex = i === exactIdx;
+    if (!!c.exact !== ex) { var f = ex ? 10 : 0.1; c.exact = ex; c.w = conv(c.w, f); c.h = conv(c.h, f); }
+  } else {
+    hit = false;
+    colBtns.forEach(function (l, gi) { var k = l.indexOf(b); if (k >= 0) { c.col[gi] = k; hit = true; } });
+  }
+  if (hit) render();
+});
+sizeIns.forEach(function (inp, k) {
+  inp.addEventListener('input', function () { draft[k ? 'h' : 'w'] = inp.value; render(); });
+});
+if (innerDet) innerDet.addEventListener('toggle', function () {
+  if (!!draft.inDiff !== innerDet.open) { draft.inDiff = innerDet.open; render(); }
+});
+
+/* Kortit: Enter ja valilyonti valitsevat, nuolet siirtavat valintaa parin sisalla */
+function cardKeys(e, locate, pickFn, cardsOf) {
+  var card = e.target.classList && e.target.classList.contains('pc') ? e.target : null;
+  if (!card) return;
+  var loc = locate(card), key = e.key;
+  if (!loc) return;
+  if (key === 'Enter' || key === ' ' || key === 'Spacebar') { e.preventDefault(); pickFn(loc[0], loc[1]); return; }
+  var d = (key === 'ArrowRight' || key === 'ArrowDown') ? 1 : ((key === 'ArrowLeft' || key === 'ArrowUp') ? -1 : 0);
+  if (d) {
+    e.preventDefault();
+    var cs = cardsOf(loc[0]), k = (loc[1] + d + cs.length) % cs.length;
+    pickFn(loc[0], k);
+    cs[k].focus();
+  }
+}
+function cardLoc(card) {
+  for (var i = 0; i < needs.length; i++) { var k = needs[i].cards.indexOf(card); if (k >= 0) return [i, k]; }
+  return null;
+}
+function pick(i, k) { if (draft.sel[i] !== k) { draft.sel[i] = k; render(); } }
+v2.addEventListener('click', function (e) {
+  var card = e.target.closest('.pc');
+  if (!card) return;
+  var loc = cardLoc(card);
+  if (loc) pick(loc[0], loc[1]);
+});
+v2.addEventListener('keydown', function (e) { cardKeys(e, cardLoc, pick, function (i) { return needs[i].cards; }); });
+v2.addEventListener('change', function (e) {
+  needs.forEach(function (r, i) {
+    var j = r.radioEls.indexOf(e.target);
+    if (j >= 0 && e.target.checked) { draft.rad[i] = j; render(); }
+  });
+});
+
+v3.addEventListener('change', function (e) {
+  var t = e.target;
+  adds.forEach(function (r, i) {
+    if (t === r.cb && !r.dis) { draft.chk[i] = t.checked; if (r.dd) draft.open[i] = t.checked; render(); }
+    else if (r.sub && t === r.sub.cb) { draft.sub[i] = t.checked; render(); }
+  });
+});
+v3.addEventListener('toggle', function (e) {
+  adds.forEach(function (r, i) {
+    if (r.dd && e.target === r.dd && !!draft.open[i] !== r.dd.open) { draft.open[i] = r.dd.open; render(); }
+  });
+}, true);
+
+/* Huonevalinta hankkeessa: samat sirut kuin I1:ssa */
+var picker = null, pickLink = roomadd ? $('a', roomadd) : null;
+if (roomadd && roomBtns.length) {
+  picker = D.createElement('div');
+  picker.className = 'x-roompick';
+  picker.id = 'x-roompick';
+  picker.hidden = true;
+  var ph = D.createElement('p'); ph.className = 'sm b'; ph.id = 'x-roompick-h'; ph.textContent = CFG.pickLabel;
+  var cl = D.createElement('div'); cl.className = 'cl'; cl.setAttribute('role', 'group'); cl.setAttribute('aria-labelledby', ph.id);
+  roomBtns.forEach(function (b, i) {
+    var x = b.cloneNode(true);
+    x.removeAttribute('aria-pressed');
+    x.setAttribute('data-room', String(i));
+    cl.appendChild(x);
+  });
+  picker.appendChild(ph); picker.appendChild(cl);
+  roomadd.parentNode.insertBefore(picker, roomadd.nextSibling);
+  if (pickLink) { pickLink.setAttribute('role', 'button'); pickLink.setAttribute('aria-expanded', 'false'); pickLink.setAttribute('aria-controls', picker.id); }
+}
+function setPicker(open) {
+  if (!picker) return;
+  picker.hidden = !open;
+  if (pickLink) pickLink.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open) { var f = $('button', picker); if (f) f.focus(); }
+}
+function toggleSel(key) {
+  var rows = [];
+  if (key === 'all') rows = allRows();
+  else if (key.indexOf('sec:') === 0) { var s = findSec(key.slice(4)); rows = s ? s.rows : []; }
+  else { var l = findRow(key.slice(4)); rows = l ? [l.row] : []; }
+  var full = rows.length && rows.every(function (r) { return SM[r.id]; });
+  rows.forEach(function (r) { if (full) delete SM[r.id]; else SM[r.id] = true; });
+}
+v4.addEventListener('click', function (e) {
+  if (SM && selAll && e.target.closest && e.target.closest('.selbar > span.b')) { selAll.click(); return; }
+  var el = e.target.closest('a,button');
+  if (!el || !v4.contains(el)) return;
+  var rowE = el.closest('.it[data-row]'), secE = el.closest('section.room2[data-sec]');
+  if (el === hhLink) { e.preventDefault(); SM = {}; renderHanke(); if (selAll) selAll.focus(); return; }
+  var ck = el.getAttribute('data-ck');
+  if (SM && (el === selAll || ck)) {
+    e.preventDefault();
+    toggleSel(el === selAll ? 'all' : ck);
+    pendingFocus = el.getAttribute('data-fk');
+    renderHanke();
+    return;
+  }
+  if (el === selCancel) { e.preventDefault(); SM = null; renderHanke(); if (hhLink && !hhLink.hidden) hhLink.focus(); return; }
+  if (el === selGo) { e.preventDefault(); openEdit(copy(SM)); return; }
+  if (banner && banner.contains(el)) {
+    e.preventDefault(); undoMass(); renderHanke();
+    var fb = (hhLink && !hhLink.hidden) ? hhLink : $('h1', v4);
+    if (fb) { if (fb.tagName === 'H1') fb.setAttribute('tabindex', '-1'); fb.focus(); }
+    return;
+  }
+  if (rowE) {
+    var loc = findRow(rowE.getAttribute('data-row'));
+    if (!loc) return;
+    var fk = el.getAttribute('data-fk') || '', act = fk.slice(fk.indexOf(':') + 1);
+    if (act === 'dec' || act === 'inc') {
+      e.preventDefault();
+      loc.row.qty = Math.max(1, Math.min(99, loc.row.qty + (act === 'inc' ? 1 : -1)));
+      lastMass = null;
+      renderHanke();
+    } else if (act === 'edit') {
+      e.preventDefault(); SM = null; startEdit(loc.row.id);
+    } else if (act === 'copy') {
+      e.preventDefault();
+      loc.sec.rows.splice(loc.idx + 1, 0, { id: 'w' + (++seq), cfg: copy(loc.row.cfg), qty: loc.row.qty });
+      lastMass = null;
+      renderHanke();
+    } else if (act === 'del') {
+      e.preventDefault();
+      loc.sec.rows.splice(loc.idx, 1);
+      if (editing === loc.row.id) editing = null;
+      if (lastRow === loc.row.id) lastRow = null;
+      lastMass = null;
+      pendingFocus = loc.sec.id + ':add';
+      renderHanke();
+    }
+    return;
+  }
+  if (secE && el.closest('.addline') && el.classList.contains('btn')) { e.preventDefault(); SM = null; startAdd(secE.getAttribute('data-sec')); return; }
+  if (el === pickLink) { e.preventDefault(); setPicker(picker && picker.hidden); return; }
+  if (picker && picker.contains(el) && el.hasAttribute('data-room')) {
+    e.preventDefault();
+    var s = { id: 's' + (++seq), room: parseInt(el.getAttribute('data-room'), 10), rows: [] };
+    hanke.push(s);
+    lastMass = null;
+    setPicker(false);
+    pendingFocus = s.id + ':add';
+    renderHanke();
+  }
+});
+
+/* Muokkaa kerralla */
+function needOf(el) { var nd = el.closest('.need'); for (var i = 0; M && i < M.needs.length; i++) if (M.needs[i].el === nd) return M.needs[i]; return null; }
+function editCardLoc(card) {
+  var o = needOf(card), k = o ? o.cards.indexOf(card) : -1;
+  return k >= 0 ? [o, k] : null;
+}
+function editPick(o, k) { if (E.ch[o.nid] !== k) { E.ch[o.nid] = k; renderEdit(); } }
+if (v5 && M) {
+  v5.addEventListener('click', function (e) {
+    if (!E) return;
+    var t = e.target, el;
+    if ((el = t.closest('.pc'))) { var loc = editCardLoc(el); if (loc) editPick(loc[0], loc[1]); return; }
+    if ((el = t.closest('button.ccard'))) {
+      var o = needOf(el);
+      if (!o || !o.colBtns) return;
+      o.colBtns.forEach(function (list, gi) {
+        var i = list.indexOf(el);
+        if (i < 0 || !colors[gi]) return;
+        var idx = colors[gi].indexOf(o.colNames[gi][i]);
+        if (idx < 0) return;
+        if (gi === 0) E.colOuter = idx; else E.colInner = idx;
+      });
+      renderEdit();
+      return;
+    }
+    if ((el = t.closest('p.undo a'))) {
+      e.preventDefault();
+      var on = needOf(el);
+      if (on) {
+        if (on.feat && on.feat.kind === 'color') { E.colOuter = null; E.colInner = null; }
+        else { delete E.ch[on.nid]; if (on === M.salek) E.salekType = 0; }
+        var fc = on.cards[0] || $('button', on.el);
+        if (fc) pendingFocus = null, fc.focus();
+      }
+      renderEdit();
+      return;
+    }
+    if ((el = t.closest('a')) && el === M.navBtn) {
+      e.preventDefault();
+      if (el.getAttribute('aria-disabled') === 'true') return;
+      if (applyEdit()) { SM = null; go(K4); }
+      return;
+    }
+    /* Takaisin muuttamatta ja Muuta valintaa hankkeessa: hankkeeseen, valinta tallessa */
+    if (el && el.getAttribute('href') === '#' + K4) {
+      e.preventDefault();
+      SM = {};
+      Object.keys(E.sel).forEach(function (id) { if (E.sel[id].some(Boolean)) SM[id] = true; });
+      go(K4);
+    }
+  });
+  v5.addEventListener('keydown', function (e) {
+    if (E) cardKeys(e, editCardLoc, editPick, function (o) { return o.cards; });
+  });
+  v5.addEventListener('change', function (e) {
+    if (E && M.salek && M.salek.radioEls) {
+      var j = M.salek.radioEls.indexOf(e.target);
+      if (j >= 0 && e.target.checked) { E.salekType = j; renderEdit(); }
+    }
+  });
+}
+
+/* Kaikki muut linkit: proton nakymat tai ilmoitus */
+D.addEventListener('click', function (e) {
+  if (e.defaultPrevented || e.button > 0) return;
+  var a = e.target.closest ? e.target.closest('a[href]') : null;
+  if (!a) return;
+  e.preventDefault();
+  var href = a.getAttribute('href') || '', key = routeOf(href);
+  if (!key || href.charAt(0) !== '#') { toast(); return; }
+  if (key === K4 && CONFIG_KEYS.indexOf(current) >= 0) commit();
+  if (key === K5) { openEdit('all'); return; }
+  var tgt = null;
+  if (key === K1 && a.closest('.oi') && jakoBtns.length) tgt = jakoBtns[0].closest('section') || null;
+  go(key, tgt);
+});
+
+route();
+window.__proto = { state: function () { return { draft: copy(draft), hanke: copy(hanke), editing: editing, target: target, edit: E ? copy(E) : null, select: SM ? copy(SM) : null, lastMass: lastMass ? { n: lastMass.n, text: lastMass.text, d: lastMass.d } : null }; } };
+})();
+
+</script>
+</body>
+</html>
