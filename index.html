@@ -626,6 +626,32 @@ details.vp[open]>summary{text-decoration:none}
 .x-toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:50;min-height:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:6px;font-size:15px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.18);max-width:calc(100vw - 32px);box-sizing:border-box}
 .x-toast:empty{opacity:0;pointer-events:none;padding:0;box-shadow:none}
 
+/* ammattilaisen ovipolku */
+body:not(.x-apro) .x-pro { display:none !important }
+.x-apro .x-cons, .x-amass .x-tun { display:none !important }
+.x-pcol { display:flex;flex-direction:column;gap:16px;min-width:0 }
+.x-chips { display:flex;flex-wrap:wrap;gap:8px }
+.x-two { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px }
+.x-f1 { display:flex;flex-direction:column;gap:6px;min-width:0 }
+.x-lab { font-size:14px;font-weight:650 }
+.x-sel, .x-in { min-height:44px;padding:0 12px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);color:inherit;font:inherit;font-size:15px;box-sizing:border-box;width:100%;max-width:520px }
+.x-in { max-width:200px }
+.x-apsw { padding:8px 0 16px }
+.x-sw { display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:transparent;color:inherit;font:inherit;font-size:15px;font-weight:650;cursor:pointer }
+.x-tr { width:44px;height:26px;border-radius:13px;background:var(--ln2);position:relative;flex:none;transition:background .2s }
+.x-tr::after { content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--bg);transition:transform .2s cubic-bezier(.22,1,.36,1) }
+.x-sw[aria-checked="true"] .x-tr { background:var(--ink) }
+.x-sw[aria-checked="true"] .x-tr::after { transform:translateX(18px) }
+.x-sw:disabled { opacity:.5;cursor:default }
+.x-mban { margin:0 0 16px;padding:12px 16px;background:var(--sf);border:1.5px solid var(--ink);border-radius:6px;font-size:15px }
+.x-dsec { margin-top:40px }
+.x-dsec h2 { margin:0 0 12px }
+.x-dtbl td { vertical-align:middle }
+.x-dq { width:64px;min-height:40px;padding:0 8px;border:1.5px solid var(--ln2);border-radius:6px;font:inherit;box-sizing:border-box }
+.x-dia { white-space:nowrap }
+.x-dia a { margin-right:10px;font-size:14px }
+.x-dact { display:flex;flex-wrap:wrap;gap:12px;padding:16px 0 }
+
 /* mobiili */
 .x-mbar { display:none }
 /* hankkeen lisäysrivi: ikkuna ja ovi tasavertaisina */
@@ -915,7 +941,7 @@ details.vp[open]>summary{text-decoration:none}
 </div></header>
 <nav class="stp" aria-label="Vaiheet"><ol><li aria-current="step"><span class="k">1</span>Rakenne ja ulkonäkö</li><li><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
-  <div class="main" style="gap:0">
+  <div class="main" style="gap:0"><div class="x-apsw"><button type="button" class="x-sw" role="switch" aria-checked="false"><span class="x-tr" aria-hidden="true"></span>Näytä kaikki Kasken valinnat</button><p class="sm mu">Päällä näet myös tunnuksen, millimitat, helapaketit ja lasit. Ovi menee ammattilaisen hankkeeseen.</p></div><p class="x-mban" role="status" hidden></p>
     <div class="s8" style="margin-bottom:24px"><h1>Millainen ovi?</h1></div>
     <section class="sec" aria-labelledby="s-typ-ovi">
       <div class="lab"><h2 id="s-typ-ovi" class="t3">Ulko-ovi vai parvekeovi</h2></div>
@@ -954,7 +980,7 @@ details.vp[open]>summary{text-decoration:none}
         </div>
       </div>
     </section>
-    <div class="navb" style="border-top:0"><a class="btn2" href="#ovet">Takaisin</a><a class="btn" href="#ovi-ominaisuudet">Seuraava: ominaisuudet</a></div>
+    <section class="sec x-pro x-tun"><div><h2 class="t3">Tunnus ja mitat</h2><p class="sm mu">Karmin ulkomitat. Leveys millimetreinä, korkeus moduulimittana.</p></div><div class="x-pcol"><label class="x-f1"><span class="x-lab">Tunnus</span><input class="x-in" data-pro="tunnus" placeholder="UO1" autocomplete="off"></label><label class="x-f1"><span class="x-lab">Leveys, mm</span><select class="x-sel" data-pro="leveys"><option value="890">890</option><option value="1000">1000</option><option value="1010">1010</option><option value="1020">1020</option><option value="1030">1030</option><option value="1040">1040</option><option value="1050">1050</option><option value="1060">1060</option><option value="1070">1070</option><option value="1080">1080</option><option value="1090" selected>1090</option><option value="1100">1100</option><option value="1110">1110</option><option value="1120">1120</option><option value="1130">1130</option><option value="1140">1140</option><option value="1150">1150</option><option value="1160">1160</option><option value="1170">1170</option><option value="1180">1180</option><option value="1190">1190</option></select></label><label class="x-f1"><span class="x-lab">Korkeus</span><select class="x-sel" data-pro="korkeus"><option value="M21" selected>M21 (2100 mm)</option><option value="M22">M22 (2200 mm)</option><option value="M23">M23 (2300 mm)</option><option value="M24">M24 (2400 mm)</option></select></label></div></section><section class="sec x-pro "><div><h2 class="t3">Kätisyys</h2><p class="sm mu">Saranoiden puoli. [Kasken ohje kätisyyden katsomissuunnasta]</p></div><div class="x-pcol"><div class="x-chips"><button type="button" class="xk chip" aria-pressed="true">Vasen</button><button type="button" class="xk chip" aria-pressed="false">Oikea</button></div></div></section><section class="sec x-pro "><div><h2 class="t3">Karmisyvyys</h2><p class="sm mu">Valitse seinän mukaan.</p></div><div class="x-pcol"><div class="x-chips"><button type="button" class="xm chip" aria-pressed="true">115 mm</button><button type="button" class="xm chip" aria-pressed="false">130 mm</button><button type="button" class="xm chip" aria-pressed="false">170 mm</button><button type="button" class="xm chip" aria-pressed="false">210 mm</button></div></div></section><div class="navb" style="border-top:0"><a class="btn2" href="#ovet">Takaisin</a><a class="btn" href="#ovi-ominaisuudet">Seuraava: ominaisuudet</a></div>
   </div>
   <aside class="side pn" aria-labelledby="ih-ovi">
     <div class="pv"><div class="pvw"><span class="dw num">890 mm</span><img src="img/9fc54c3aa3e7d67a288a6512faf7413d.jpg" alt="Esikatselu: Kaski Classic UOL1, 890 × 2090 mm" style="width:90px;height:200px;object-fit:contain"><span class="dh num">2090 mm</span></div><p class="sm mu">Kuvattu ulkoa</p></div>
@@ -976,7 +1002,7 @@ details.vp[open]>summary{text-decoration:none}
 </div></header>
 <nav class="stp" aria-label="Vaiheet"><ol><li class="done"><a href="#ovi"><span class="k">1</span>Rakenne ja ulkonäkö</a></li><li aria-current="step"><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
-  <div class="main" style="gap:0">
+  <div class="main" style="gap:0"><p class="x-mban" role="status" hidden></p>
     <div class="s8" style="margin-bottom:24px"><h1>Haluatko muuttaa jotain?</h1><p class="mu">Perus on valittu, ellet valitse toisin. Ulko-oveen suosittelemme lämpimämpää rakennetta.</p></div>
     <section class="sec" aria-labelledby="s-rak">
       <div class="lab"><h2 id="s-rak" class="t3">Lämpö ja lukitus</h2><p class="sm mu">Hinta tähän oveen muiden valintojesi kanssa.</p></div>
@@ -986,7 +1012,7 @@ details.vp[open]>summary{text-decoration:none}
       <div class="lab"><h2 id="s-las-ovi-ominaisuudet" class="t3">Lasi</h2></div>
       <div><div class="need" role="radiogroup" aria-labelledby="n-lt"><h3 class="need-h" id="n-lt">Turvallisuus</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Perus</span><span class="pc-d">Tavallinen lasi.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Turvallisempi</span><span class="pc-d">Karkaistu lasi ei rikkoudu teräviksi sirpaleiksi.</span><span class="pc-p">+89,96 €</span></div></div></div><div class="need" role="radiogroup" aria-labelledby="n-nako-ovi-ominaisuudet"><h3 class="need-h" id="n-nako-ovi-ominaisuudet">Näkösuoja</h3><div class="pair"><div class="pc pic" role="radio" tabindex="0" aria-checked="true"><img class="pc-pic" src="img/2b7aae1ef6ff5f23514270da8c84c00d.jpg" alt="Oven ikkuna kuvioidulla lasilla: pihaa ei näe, vain valo tulee läpi"><span class="pc-t">Näkösuoja</span><span class="pc-d">Kuvioitu lasi: valo pääsee läpi, mutta sisään ei näe. Kasken oletus.</span><span class="pc-p">Sisältyy</span></div><div class="pc pic" role="radio" tabindex="0" aria-checked="false"><img class="pc-pic" src="img/ff608318f4503960d5987df64e31b983.jpg" alt="Sama oven ikkuna kirkkaalla lasilla: ulkona näkyvät koivut ja piharakennus"><span class="pc-t">Kirkas lasi</span><span class="pc-d">Näet ulos, ja ulkoa näkee sisään.</span><span class="pc-p">Sisältyy</span></div><div class="pc-sub l"><details class="vp"><summary>Vaihda kuviota</summary><div role="radiogroup" aria-label="Lasin kuvio"><label class="rad"><input type="radio" name="kv" checked><span><span class="b">Kuvioitu</span><br><span class="why">Elävä pinta, Kasken oletus.</span></span><span class="num">Sisältyy</span></label><label class="rad"><input type="radio" name="kv"><span><span class="b">Himmeä</span><br><span class="why">Tasaisen himmeä pinta.</span></span><span class="num">+39,98 €</span></label></div></details></div></div></div></div>
     </section>
-    <div class="navb" style="border-top:0"><a class="btn2" href="#ovi">Takaisin</a><a class="btn" href="#ovi-lisavarusteet">Seuraava: lisävarusteet</a></div>
+    <section class="sec x-pro "><div><h2 class="t3">Lukitus helapakettina</h2><p class="sm mu">Paketti sisältää lukkopesän, painikkeen ja värin.</p></div><div class="x-pcol"><label class="x-f1"><span class="x-lab">Helapaketti</span><select class="x-sel" data-pro="hela"><option value="Helapaketti 1 Classic-avaimella varustettu lukkopesä ja peruspainike, väri kromi" selected>Helapaketti 1 Classic-avaimella varustettu lukkopesä ja peruspainike, väri kromi</option><option value="Helapaketti 2 Easy-avaimella varustettu lukkopesä ja Hoppe Amsterdam painike, väri harjattu kromi">Helapaketti 2 Easy-avaimella varustettu lukkopesä ja Hoppe Amsterdam painike, väri harjattu kromi</option><option value="Helapaketti 7: Abloy CY001 HCR Easy, Nuppiväännin A167/F4/007 HCR  RST-pitkävedin (Ei suositella lapsiperhekäyttöön)">Helapaketti 7: Abloy CY001 HCR Easy, Nuppiväännin A167/F4/007 HCR  RST-pitkävedin (Ei suositella lapsiperhekäyttöön)</option><option value="Helapaketti 9 Easy-avaimella varustettu lukkopesä ja peruspainike, väri kromi">Helapaketti 9 Easy-avaimella varustettu lukkopesä ja peruspainike, väri kromi</option><option value="Helapaketti 14 Easy-avaimella varustettu lukkopesä ja Hoppe New York painike, väri harjattu kromi">Helapaketti 14 Easy-avaimella varustettu lukkopesä ja Hoppe New York painike, väri harjattu kromi</option><option value="Helapaketti 20 Dorma-avaimella varustettu lukkopesä ja Hoppe New York painike, väri harjattu kromi">Helapaketti 20 Dorma-avaimella varustettu lukkopesä ja Hoppe New York painike, väri harjattu kromi</option><option value="Helapaketti 21 Dorma-avaimella varustettu lukkopesä ja Hoppe Amsterdam painike, väri harjattu kromi">Helapaketti 21 Dorma-avaimella varustettu lukkopesä ja Hoppe Amsterdam painike, väri harjattu kromi</option><option value="Helapaketti Musta 2: Easy-avainpesä ja Hoppe Stockholm painike">Helapaketti Musta 2: Easy-avainpesä ja Hoppe Stockholm painike</option><option value="Helapaketti Musta 1: Classic-avainpesä ja Hoppe Stockholm painike">Helapaketti Musta 1: Classic-avainpesä ja Hoppe Stockholm painike</option><option value="Helapaketti 10A Ei avainpesää, vääntönuppi + peitekilpi ja Hoppe New York painike, väri harjattu kromi">Helapaketti 10A Ei avainpesää, vääntönuppi + peitekilpi ja Hoppe New York painike, väri harjattu kromi</option><option value="Helapaketti 10B Ei avainpesää, vääntönuppi + peitekilpi ja peruspainike, väri kromi">Helapaketti 10B Ei avainpesää, vääntönuppi + peitekilpi ja peruspainike, väri kromi</option><option value="Helapaketti 11 Ei avainpesää, vääntönuppi + peitekilpi ja Hoppe Amsterdam painike, väri harjattu kromi">Helapaketti 11 Ei avainpesää, vääntönuppi + peitekilpi ja Hoppe Amsterdam painike, väri harjattu kromi</option><option value="HP64 Musta: taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri musta">HP64 Musta: taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri musta</option><option value="HP64/40 F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini">HP64/40 F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini</option><option value="HP65 Classic-avainpesä, F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini">HP65 Classic-avainpesä, F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini</option><option value="HP65 Easy-avainpesä, F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini">HP65 Easy-avainpesä, F1 taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri harjattu alumiini</option><option value="HP65 ilman avainpesää, F1 taivutettu Hoppe painike, vääntönuppi, avainpesämahdollisuus. Väri harjattu alumiini">HP65 ilman avainpesää, F1 taivutettu Hoppe painike, vääntönuppi, avainpesämahdollisuus. Väri harjattu alumiini</option><option value="HP66 taivutettu peruspainike, vääntönuppi ja peitekilpi. Väri kromi">HP66 taivutettu peruspainike, vääntönuppi ja peitekilpi. Väri kromi</option><option value="HP67 Classic-avaimella varustettu lukkopesä, taivutettu peruspainike, vääntönuppi. Väri Kromi">HP67 Classic-avaimella varustettu lukkopesä, taivutettu peruspainike, vääntönuppi. Väri Kromi</option><option value="HP67 Easy-avaimella varustettu lukkopesä, taivutettu peruspainike, vääntönuppi. Väri Kromi">HP67 Easy-avaimella varustettu lukkopesä, taivutettu peruspainike, vääntönuppi. Väri Kromi</option><option value="Easy-avainpesä + vääntönuppi HCR">Easy-avainpesä + vääntönuppi HCR</option><option value="Classic-avainpesä + vääntönuppi CR, peruspainike kromi">Classic-avainpesä + vääntönuppi CR, peruspainike kromi</option><option value="Classic-avainpesä + vääntönuppi CR">Classic-avainpesä + vääntönuppi CR</option><option value="Classic-avainpesä + vääntönuppi HCR, painike Hoppe Amsterdam">Classic-avainpesä + vääntönuppi HCR, painike Hoppe Amsterdam</option><option value="Classic-avainpesä + vääntönuppi HCR, painike Hoppe New York">Classic-avainpesä + vääntönuppi HCR, painike Hoppe New York</option><option value="Assa 8659K">Assa 8659K</option><option value="Easy-avainpesä + vääntönuppi, painike Forum 4/007 messinki, harjattu">Easy-avainpesä + vääntönuppi, painike Forum 4/007 messinki, harjattu</option><option value="Classic-avainpesä + vääntönuppi, painike Forum 4/007 messinki, harjattu">Classic-avainpesä + vääntönuppi, painike Forum 4/007 messinki, harjattu</option><option value="Abloy CH003 Vääntönuppi+peitekilpi musta ja Hoppe Stockholm painike musta">Abloy CH003 Vääntönuppi+peitekilpi musta ja Hoppe Stockholm painike musta</option><option value="HP65 Easy-avainpesä, taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri musta">HP65 Easy-avainpesä, taivutettu Hoppe painike, vääntönuppi ja peitekilpi. Väri musta</option></select></label></div></section><section class="sec x-pro "><div><h2 class="t3">Lasit</h2><p class="sm mu">Lasin kuvio sekä sisä- ja ulkolasi erikseen.</p></div><div class="x-pcol"><div class="x-chips"><button type="button" class="xl chip" aria-pressed="true">Crepi</button><button type="button" class="xl chip" aria-pressed="false">Satiini</button><button type="button" class="xl chip" aria-pressed="false">Kirkas</button><button type="button" class="xl chip" aria-pressed="false">Cotswold</button><button type="button" class="xl chip" aria-pressed="false">URA8R</button><button type="button" class="xl chip" aria-pressed="false">Laako</button><button type="button" class="xl chip" aria-pressed="false">Raitalasi</button></div><div class="x-two"><label class="x-f1"><span class="x-lab">Sisälasi</span><select class="x-sel" data-pro="sisalasi"><option value="4 mm" selected>4 mm</option><option value="6 mm">6 mm</option><option value="4 mm karkaistu">4 mm karkaistu</option><option value="6 mm karkaistu">6 mm karkaistu</option><option value="8.8 laminoitu">8.8 laminoitu</option></select></label><label class="x-f1"><span class="x-lab">Ulkolasi</span><select class="x-sel" data-pro="ulkolasi"><option value="4 mm" selected>4 mm</option><option value="6 mm">6 mm</option><option value="4 mm karkaistu">4 mm karkaistu</option><option value="6 mm karkaistu">6 mm karkaistu</option><option value="8.8 laminoitu">8.8 laminoitu</option><option value="9.5 laminoitu">9.5 laminoitu</option></select></label></div></div></section><div class="navb" style="border-top:0"><a class="btn2" href="#ovi">Takaisin</a><a class="btn" href="#ovi-lisavarusteet">Seuraava: lisävarusteet</a></div>
   </div>
   <aside class="side pn" aria-labelledby="ih-ovi-ominaisuudet">
     <div class="pv"><div class="pvw"><span class="dw num">890 mm</span><img src="img/9fc54c3aa3e7d67a288a6512faf7413d.jpg" alt="Esikatselu: Kaski Classic UOL1, 890 × 2090 mm" style="width:90px;height:200px;object-fit:contain"><span class="dh num">2090 mm</span></div><p class="sm mu">Kuvattu ulkoa</p></div>
@@ -1008,10 +1034,10 @@ details.vp[open]>summary{text-decoration:none}
 </div></header>
 <nav class="stp" aria-label="Vaiheet"><ol><li class="done"><a href="#ovi"><span class="k">1</span>Rakenne ja ulkonäkö</a></li><li class="done"><a href="#ovi-ominaisuudet"><span class="k">2</span>Ominaisuudet</a></li><li aria-current="step"><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
-  <div class="main" style="gap:0">
+  <div class="main" style="gap:0"><p class="x-mban" role="status" hidden></p>
     <div class="s8" style="margin-bottom:24px"><h1>Lisätäänkö jotain?</h1><p class="mu">Valitse, jos tarvitset. Hinta tähän oveen.</p></div>
     <div style="border-bottom:1px solid var(--ln)"><section class="sec" aria-labelledby="g-posti"><div class="lab"><h2 id="g-posti" class="t3">Posti ja vieraat</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Kirjeluukku</span><br><span class="why">Posti tulee suoraan sisään. Kun postilaatikkoa ei ole pihalla.</span></span><span class="sm num" style="padding-top:2px">+120 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ovisilmä</span><br><span class="why">Näet, kuka oven takana on, avaamatta ovea.</span></span><span class="sm num" style="padding-top:2px">+40 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ovikello</span><br><span class="why">Soittokello oven viereen.</span></span><span class="sm num" style="padding-top:2px">+60 €</span></label></div></div></section><section class="sec" aria-labelledby="g-kaytto"><div class="lab"><h2 id="g-kaytto" class="t3">Käyttö ja suojaus</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Tuulisalpa</span><br><span class="why">Pitää avatun oven paikallaan, ettei tuuli paiskaa sitä.</span></span><span class="sm num" style="padding-top:2px">+50 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ovijarru</span><br><span class="why">Sulkee oven hallitusti, ettei se paukahda kiinni.</span></span><span class="sm num" style="padding-top:2px">+150 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Potkulevy</span><br><span class="why">Metallilevy oven alaosaan suojaa kolhuilta ja kengiltä. Valittaessa: teräs tai alumiini ja korkeus.</span></span><span class="sm num" style="padding-top:2px">+90 €</span></label></div></div></section><section class="sec" aria-labelledby="g-ulko"><div class="lab"><h2 id="g-ulko" class="t3">Ulkonäkö</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ristikko</span><br><span class="why">Ruudut lasiin malleihin, joissa niitä ei ole valmiina. Valittaessa: ristikon malli.</span></span><span class="sm num" style="padding-top:2px">+100 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Sileä ulkopinta</span><br><span class="why">Uritettu pinta on vakio. Sileä pinta antaa pelkistetymmän ilmeen.</span></span><span class="sm num" style="padding-top:2px">+80 €</span></label></div></div></section><section class="sec" aria-labelledby="g-ilma-ovi-lisavarusteet"><div class="lab"><h2 id="g-ilma-ovi-lisavarusteet" class="t3">Raitis ilma</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Lautasventtiili</span><br><span class="why">Tuo raitista ilmaa oven kautta. Valittaessa: oven ylä- tai alaosaan.</span></span><span class="sm num" style="padding-top:2px">+60 €</span></label></div></div></section><section class="sec" aria-labelledby="g-itse-ovi-lisavarusteet"><div class="lab"><h2 id="g-itse-ovi-lisavarusteet" class="t3">Jos asennat itse</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Karmiporaus</span><br><span class="why">Valmiit ruuvinreiät karmissa nopeuttavat asennusta.</span></span><span class="sm num" style="padding-top:2px">+10 €</span></label></div></div></section></div>
-    <div class="navb" style="border-top:0"><a class="btn2" href="#ovi-ominaisuudet">Takaisin</a><a class="btn" href="#hanke">Lisää hankkeeseen</a></div>
+    <section class="sec x-pro "><div><h2 class="t3">Kaikki varusteet</h2><p class="sm mu">Kasken koko varustevalikoima tälle ovelle.</p></div><div class="x-pcol"><div class="x-two"><label class="x-f1"><span class="x-lab">Ovisilmä</span><select class="x-sel" data-pro="ovisilma"><option value="Ei" selected>Ei</option><option value="Chromi">Chromi</option><option value="Pedret 14(EI30-oville)">Pedret 14(EI30-oville)</option><option value="Yale DDV500">Yale DDV500</option><option value="Koneistus Yale DDV500:lle">Koneistus Yale DDV500:lle</option><option value="Ovisilmä 4014">Ovisilmä 4014</option></select></label><label class="x-f1"><span class="x-lab">Ovikello</span><select class="x-sel" data-pro="ovikello"><option value="Ei" selected>Ei</option><option value="Primo 64L">Primo 64L</option><option value="Abloy DF64A">Abloy DF64A</option></select></label><label class="x-f1"><span class="x-lab">Sisäpuolen potkulevy</span><select class="x-sel" data-pro="potkulevy"><option value="Ei" selected>Ei</option><option value="RST Harjattu">RST Harjattu</option><option value="Alumiini Stucco">Alumiini Stucco</option><option value="Anodisoitu alumiini">Anodisoitu alumiini</option><option value="Kupari">Kupari</option><option value="Alumiini Stucco säleiköllä">Alumiini Stucco säleiköllä</option><option value="RST harjattu venttiiliporauksella">RST harjattu venttiiliporauksella</option><option value="Alumiini Stucco venttiiliporauksella">Alumiini Stucco venttiiliporauksella</option><option value="RST harjattu säleiköllä">RST harjattu säleiköllä</option><option value="Maalattu musta">Maalattu musta</option></select></label><label class="x-f1"><span class="x-lab">Korvausilmaventtiili</span><select class="x-sel" data-pro="venttiili"><option value="Ei" selected>Ei</option><option value="Biobe VS-40">Biobe VS-40</option><option value="Biobe VS-40 dB">Biobe VS-40 dB</option><option value="Biobe VS-60">Biobe VS-60</option><option value="Biobe VS-30">Biobe VS-30</option><option value="OneWay raitisilmaventtiili">OneWay raitisilmaventtiili</option><option value="Biobe DUO30 dB">Biobe DUO30 dB</option></select></label><label class="x-f1"><span class="x-lab">Ovikaihdin</span><select class="x-sel" data-pro="kaihdin"><option value="Ei" selected>Ei</option><option value="Pinta-asennus perusväri">Pinta-asennus perusväri</option><option value="Pinta-asennus">Pinta-asennus</option><option value="Vekki, Classic">Vekki, Classic</option><option value="Vekki, pimentävä">Vekki, pimentävä</option><option value="pinta-asennus perusväri akryylitangolla">pinta-asennus perusväri akryylitangolla</option><option value="pinta-asennus akryylitangolla">pinta-asennus akryylitangolla</option><option value="Lukon heloituksessa huomioidaan kaihdinmahdollisuus (koroke, ei kaihdinta)">Lukon heloituksessa huomioidaan kaihdinmahdollisuus (koroke, ei kaihdinta)</option></select></label><label class="x-f1"><span class="x-lab">Karmireikä</span><select class="x-sel" data-pro="karmireika"><option value="Ei" selected>Ei</option><option value="Poraus 14/6">Poraus 14/6</option><option value="Tuplarei&#x27;itys">Tuplarei&#x27;itys</option></select></label></div></div></section><div class="navb" style="border-top:0"><a class="btn2" href="#ovi-ominaisuudet">Takaisin</a><a class="btn" href="#hanke">Lisää hankkeeseen</a></div>
   </div>
   <aside class="side pn" aria-labelledby="ih-ovi-lisavarusteet">
     <div class="pv"><div class="pvw"><span class="dw num">890 mm</span><img src="img/9fc54c3aa3e7d67a288a6512faf7413d.jpg" alt="Esikatselu: Kaski Classic UOL1, 890 × 2090 mm" style="width:90px;height:200px;object-fit:contain"><span class="dh num">2090 mm</span></div><p class="sm mu">Kuvattu ulkoa</p></div>
@@ -1171,8 +1197,7 @@ details.vp[open]>summary{text-decoration:none}
       <div class="hh"><h1 id="hn-ap-hanke">Hanke</h1><div class="seg" role="radiogroup" aria-label="Hankkeen näkymä"><button type="button" class="chip mini" aria-pressed="false">Huoneittain</button><button type="button" class="chip mini" aria-pressed="true">Taulukkona</button></div></div>
       <div class="selbar"><button type="button" class="ck" role="checkbox" aria-checked="mixed" aria-label="Valitse kaikki ikkunat"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button><span class="sm b">Valitse kaikki ikkunat</span><span class="grow"><span class="sm b">8 ikkunaa valittu</span><a class="lk sm" href="#">Peruuta</a><a class="btn2 bs" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>Kopioi valitut</a><a class="btn bs" href="#ap-muokkaa">Muokkaa valittuja</a></span></div>
       <table class="tbl"><thead><tr><th><span class="ck-gap" aria-hidden="true"></span></th><th>Tunnus</th><th>Huone</th><th>Ikkuna</th><th>Leveys × korkeus, mm</th><th>Kätisyys</th><th>Valinnat</th><th>kpl</th><th class="r">Yhteensä</th><th><span class="vh">Toiminnot</span></th></tr></thead><tbody><tr class="on"><td><button type="button" class="ck" role="checkbox" aria-checked="true" aria-label="Valitse I1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button></td><td><input class="cell" value="I1" aria-label="Tunnus, rivi 1"></td><td><input class="cell" value="Olohuone" aria-label="Huone, I1" style="min-width:112px"></td><td><span class="ik"><img src="img/4fce98ccffe97c8692c580e4b7ee6b1d.png" alt=""><span class="nmw">Avattava, 2 osaa</span></span></td><td><span class="wh"><input class="cell n" value="1500" aria-label="Leveys, I1"><span aria-hidden="true">×</span><input class="cell n" value="1400" aria-label="Korkeus, I1"></span></td><td><span class="cell dd" role="button" tabindex="0" aria-label="Kätisyys, I1">Vasen, oikea</span></td><td class="val">Karmi 170, U 0,80<br>Turvalasi, ulkoa RR23<br>Venttiili, karmiporaus</td><td><input class="cell n" value="2" aria-label="Määrä, I1" style="width:48px"></td><td class="r"><span class="pr">3 180 €</span><span class="pk">1 590 € / kpl</span></td><td><span class="ia"><a href="#ap-ikkuna" aria-label="Muokkaa I1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a><a href="#" aria-label="Kopioi I1" title="Kopioi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></a><a href="#" aria-label="Poista I1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></a></span></td></tr><tr class="on"><td><button type="button" class="ck" role="checkbox" aria-checked="true" aria-label="Valitse I2"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button></td><td><input class="cell" value="I2" aria-label="Tunnus, rivi 2"></td><td><input class="cell" value="Makuuhuoneet" aria-label="Huone, I2" style="min-width:112px"></td><td><span class="ik"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span class="nmw">Avattava, 1 osa</span></span></td><td><span class="wh"><input class="cell n" value="1000" aria-label="Leveys, I2"><span aria-hidden="true">×</span><input class="cell n" value="1200" aria-label="Korkeus, I2"></span></td><td><span class="cell dd" role="button" tabindex="0" aria-label="Kätisyys, I2">Vasen</span></td><td class="val">Karmi 170, U 0,80<br>Turvalasi, ulkoa RR23<br>Venttiili, karmiporaus</td><td><input class="cell n" value="4" aria-label="Määrä, I2" style="width:48px"></td><td class="r"><span class="pr">4 520 €</span><span class="pk">1 130 € / kpl</span></td><td><span class="ia"><a href="#ap-ikkuna" aria-label="Muokkaa I2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a><a href="#" aria-label="Kopioi I2" title="Kopioi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></a><a href="#" aria-label="Poista I2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></a></span></td></tr><tr class="on"><td><button type="button" class="ck" role="checkbox" aria-checked="true" aria-label="Valitse I3"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button></td><td><input class="cell" value="I3" aria-label="Tunnus, rivi 3"></td><td><input class="cell" value="Olohuone" aria-label="Huone, I3" style="min-width:112px"></td><td><span class="ik"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span class="nmw">Kiinteä, 1 osa</span></span></td><td><span class="wh"><input class="cell n" value="1000" aria-label="Leveys, I3"><span aria-hidden="true">×</span><input class="cell n" value="1200" aria-label="Korkeus, I3"></span></td><td><span class="sm mu" aria-label="Kiinteä ikkuna, ei kätisyyttä">Ei aukea</span></td><td class="val">Karmi 170, U [0,70]<br>Turvalasi, ulkoa RR23<br>Venttiili, karmiporaus</td><td><input class="cell n" value="2" aria-label="Määrä, I3" style="width:48px"></td><td class="r"><span class="pr">2 080 €</span><span class="pk">1 040 € / kpl</span></td><td><span class="ia"><a href="#ap-ikkuna" aria-label="Muokkaa I3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a><a href="#" aria-label="Kopioi I3" title="Kopioi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></a><a href="#" aria-label="Poista I3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></a></span></td></tr><tr class=""><td><button type="button" class="ck" role="checkbox" aria-checked="false" aria-label="Valitse I4"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button></td><td><input class="cell" value="I4" aria-label="Tunnus, rivi 4"></td><td><input class="cell" value="Eteinen" aria-label="Huone, I4" style="min-width:112px"></td><td><span class="ik"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span class="nmw">Kiinteä, 1 osa</span></span></td><td><span class="wh"><input class="cell n" value="600" aria-label="Leveys, I4"><span aria-hidden="true">×</span><input class="cell n" value="600" aria-label="Korkeus, I4"></span></td><td><span class="sm mu" aria-label="Kiinteä ikkuna, ei kätisyyttä">Ei aukea</span></td><td class="val">Karmi 170, U 0,66<br>Turvalasi, ulkoa RR23<br>Venttiili, karmiporaus</td><td><input class="cell n" value="3" aria-label="Määrä, I4" style="width:48px"></td><td class="r"><span class="pr">1 920 €</span><span class="pk">640 € / kpl</span></td><td><span class="ia"><a href="#ap-ikkuna" aria-label="Muokkaa I4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a><a href="#" aria-label="Kopioi I4" title="Kopioi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></a><a href="#" aria-label="Poista I4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></a></span></td></tr><tr class="newr"><td><span class="ck-gap" aria-hidden="true"></span></td><td><input class="cell" value="I5" aria-label="Tunnus, uusi rivi"></td><td><input class="cell" value="Kylpyhuone" aria-label="Huone, uusi rivi"></td><td><span class="ik"><img src="img/96b158674ecb66ea2365a8b445a4de26.png" alt=""><span class="nmw">Kiinteä, 1 osa</span></span></td><td><span class="wh"><input class="cell n" value="600" aria-label="Leveys, uusi rivi"><span aria-hidden="true">×</span><span class="cell n fo empty" role="textbox" aria-label="Korkeus, uusi rivi">mm</span></span></td><td><span class="sm mu">Ei aukea</span></td><td class="val">Karmi 170, U 0,66<br>Turvalasi, ulkoa RR23<br>Venttiili, karmiporaus</td><td><input class="cell n" value="1" aria-label="Määrä, uusi rivi" style="width:48px"></td><td class="r"><span class="sm mu">Anna mitat</span></td><td></td></tr><tr class="newn"><td></td><td colspan="10">Uusi rivi alkaa edellisen rivin kopiona. Kirjoita tunnus, huone ja mitat, niin hinta lasketaan.</td></tr></tbody></table>
-      <div class="addl"><a class="btn2 bs" href="#">+ Lisää ikkuna</a></div>
-      <div class="doors"><h2 class="t3">Ovet</h2><a class="btn2 bs" href="#ovi">+ Lisää ovi</a></div>
+      <div class="addl"><a class="btn2 bs" href="#">+ Lisää ikkuna</a></div><section class="x-dsec" aria-labelledby="x-dh"><h2 id="x-dh" class="t3">Ovet</h2><p class="sm mu x-dempty">Hankkeessa ei ole vielä ovia.</p><table class="tbl x-dtbl" hidden><thead><tr><th aria-label="Valitse"></th><th>Tunnus</th><th>Ovi</th><th>Leveys × korkeus, mm</th><th>Kätisyys</th><th>Valinnat</th><th>kpl</th><th class="r">Yhteensä</th><th aria-label="Toiminnot"></th></tr></thead><tbody></tbody></table><div class="x-dact"><a class="btn2 bs x-dadd" href="#">+ Lisää ovi</a><a class="btn bs x-dmass" href="#" hidden>Muokkaa valittuja ovia</a></div></section>
     </section>
     <aside class="ysum" aria-labelledby="yh-ap-hanke">
       <h2 id="yh-ap-hanke" class="ysum-h">Yhteenveto</h2>
@@ -2937,6 +2962,130 @@ function doorSummary(q) {
   if (q) { var sp = doorSr.children; sp[0].textContent = 'Ovet, ' + q + ' kpl'; putPrice(sp[sp.length - 1], hankeTotal(allRows().filter(function (r) { return r.door; }))); }
 }
 
+/* ---------- ammattilaisen ovet (APO): kentät ovisivuilla, ovitaulukko ja massamuokkaus ---------- */
+var PRO = false, apDoors = [], apEditing = null, apMass = null, apSeq = 0, apV = VIEW['ap-hanke'] || null;
+function proEls() { var o = []; DKEYS.forEach(function (k) { $$('[data-pro]', VIEW[k]).forEach(function (el) { o.push(el); }); }); return o; }
+function proRead() { var o = {}; proEls().forEach(function (el) { o[el.getAttribute('data-pro')] = el.value; }); return o; }
+if (door) { doorDef.pro = proRead(); door.pro = copy(doorDef.pro); }
+DKEYS.forEach(function (k) { $$('.need', VIEW[k]).forEach(function (nd) { var h = $('h3', nd); if (h && /lukitus|näkösuoja/i.test(txt(h))) nd.classList.add('x-cons'); }); });
+var od3btn = DKEYS.length ? $('.navb a.btn', VIEW[DKEYS[DKEYS.length - 1]]) : null, od3txt = od3btn ? txt(od3btn) : '';
+function setPro(on) { PRO = !!on; D.body.classList.toggle('x-apro', PRO); }
+function apFind(id) { for (var i = 0; i < apDoors.length; i++) if (apDoors[i].id === id) return apDoors[i]; return null; }
+function apNextId() { var mx = 0; apDoors.forEach(function (r) { var m = /^UO(\d+)$/.exec((r.state.pro || {}).tunnus || ''); if (m) mx = Math.max(mx, +m[1]); }); return 'UO' + (mx + 1); }
+function proRender() {
+  if (!door) return;
+  if (!door.pro) door.pro = copy(doorDef.pro);
+  proEls().forEach(function (el) { var k = el.getAttribute('data-pro'), val = door.pro[k] == null ? '' : door.pro[k]; if (el.value !== val) el.value = val; });
+  $$('.x-sw').forEach(function (b) { b.setAttribute('aria-checked', PRO ? 'true' : 'false'); b.disabled = !!apMass; });
+  $$('.x-mban').forEach(function (p) {
+    p.hidden = !apMass;
+    if (apMass) p.textContent = 'Muokkaat ' + apMass.ids.length + ' ovea kerralla. Vain muuttamasi valinnat vaihtuvat. Tunnukset ja mitat pysyvät ennallaan.';
+  });
+  D.body.classList.toggle('x-amass', !!apMass);
+  if (od3btn) od3btn.textContent = !PRO ? od3txt : (apMass ? 'Muuta ' + apMass.ids.length + ' ovea' : (apEditing ? 'Tallenna muutokset' : 'Lisää hankkeeseen'));
+}
+var _rd = renderDoor; renderDoor = function () { _rd(); proRender(); };
+var _sda = startDoorAdd, _sde = startDoorEdit;
+startDoorAdd = function (s) { setPro(false); apMass = null; apEditing = null; _sda(s); };
+startDoorEdit = function (r) { setPro(false); apMass = null; apEditing = null; _sde(r); };
+function onPro(e) { var el = e.target; if (!door || !el.hasAttribute || !el.hasAttribute('data-pro')) return; door.pro[el.getAttribute('data-pro')] = el.value; }
+DKEYS.forEach(function (k) { VIEW[k].addEventListener('input', onPro); VIEW[k].addEventListener('change', onPro); });
+function apOpen(state, editing, mass) {
+  door = copy(state); if (!door.pro) door.pro = copy(doorDef.pro);
+  apEditing = editing; apMass = mass; dEditing = null; dTarget = null; setPro(true); go(DKEYS[0]);
+}
+function apCommit() {
+  if (apMass) {
+    var base = apMass.base;
+    apMass.ids.forEach(function (id) {
+      var r = apFind(id); if (!r) return;
+      Object.keys(door.sel).forEach(function (k) { if (door.sel[k] !== base.sel[k]) r.state.sel[k] = door.sel[k]; });
+      Object.keys(door.chk).forEach(function (k) { if (door.chk[k] !== base.chk[k]) r.state.chk[k] = door.chk[k]; });
+      Object.keys(door.pro).forEach(function (k) { if (!/^(tunnus|leveys|korkeus)$/.test(k) && door.pro[k] !== base.pro[k]) r.state.pro[k] = door.pro[k]; });
+    });
+  } else if (apEditing && apFind(apEditing)) { apFind(apEditing).state = copy(door); }
+  else { var st = copy(door); if (!st.pro.tunnus) st.pro.tunnus = apNextId(); apDoors.push({ id: 'ad' + (++apSeq), state: st, qty: 1, on: false }); }
+  apMass = null; apEditing = null;
+  apRender(); go('ap-hanke');
+}
+function apEur(v) { return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €'; }
+function apPrice(st) { var P = doorCalc(st); if (!P.known) return null; var e = P.ex / 100; (P.ph || []).forEach(function (a) { var n = phNum(a); if (n) e += n; }); return e; }
+function gSel(cls, st) { var g = dG.filter(function (x) { return x.kind === 'btn' && x.items[0].classList.contains(cls); })[0]; return g ? gTitle(g, st.sel[g.k]) : ''; }
+function shortHela(h) { var m = /^(Helapaketti(?: Musta)? \w+|HP\d+(?:\/\d+)?(?: [A-Za-zäö]+)?)/.exec(h || ''); return m ? m[1].replace(/:$/, '') : String(h || '').split(',')[0]; }
+function korkMm(k) { var m = /^M(\d+)$/.exec(k || ''); return m ? String(+m[1] * 100) : (k || ''); }
+function apSync() { if (!apV) return; $$('.x-dtbl tbody tr', apV).forEach(function (tr) { var r = apFind(tr.getAttribute('data-ad')), c = $('.x-dck', tr); if (r && c) r.on = c.getAttribute('aria-checked') === 'true'; }); }
+window.__apDoorSum = function () { var s = 0; apDoors.forEach(function (r) { var p = apPrice(r.state); if (p !== null) s += p * r.qty; }); return s; };
+var apSr = null;
+function apSummary() {
+  var base = apV ? $('.ysum .sr', apV) : null; if (!base) return;
+  if (!apSr) { apSr = base.cloneNode(true); base.parentNode.insertBefore(apSr, base.nextSibling); }
+  var q = 0; apDoors.forEach(function (r) { q += r.qty; });
+  apSr.hidden = !q;
+  if (q) { apSr.children[0].textContent = 'Ovet, ' + q + ' kpl'; apSr.children[apSr.children.length - 1].textContent = apEur(window.__apDoorSum()); }
+}
+function apRender() {
+  if (!apV) return;
+  var tb = $('.x-dtbl tbody', apV), tbl = $('.x-dtbl', apV), em = $('.x-dempty', apV);
+  if (!tb) return;
+  tb.innerHTML = '';
+  apDoors.forEach(function (r) {
+    var st = r.state, i = doorInfo(st), p = st.pro || {}, pr = apPrice(st), tr = D.createElement('tr');
+    tr.setAttribute('data-ad', r.id);
+    if (r.on) tr.className = 'on';
+    tr.innerHTML = '<td><button type="button" class="ck x-dck" role="checkbox"></button></td><td class="b"></td><td></td><td class="num"></td><td></td><td class="sm"></td>'
+      + '<td><input class="x-dq" type="number" min="1" max="99"></td><td class="r num"></td>'
+      + '<td class="x-dia"><a href="#" data-a="edit">Muokkaa</a><a href="#" data-a="copy">Kopioi</a><a href="#" data-a="del">Poista</a></td>';
+    var c = tr.children;
+    c[0].firstChild.setAttribute('aria-checked', r.on ? 'true' : 'false');
+    c[0].firstChild.setAttribute('aria-label', 'Valitse ovi ' + p.tunnus);
+    c[1].textContent = p.tunnus || '';
+    c[2].textContent = i.typeName + ', ' + i.model;
+    c[3].textContent = (p.leveys || '') + ' × ' + korkMm(p.korkeus);
+    c[4].textContent = gSel('xk', st);
+    c[5].textContent = [i.rak, shortHela(p.hela), gSel('xl', st) ? 'lasi ' + gSel('xl', st).toLowerCase() : '', i.color].filter(Boolean).join(', ');
+    var q = c[6].firstChild; q.value = r.qty; q.setAttribute('aria-label', 'Määrä, ovi ' + p.tunnus);
+    c[7].textContent = pr === null ? '[Kasken hinta]' : apEur(pr * r.qty);
+    $$('a', c[8]).forEach(function (a) { a.setAttribute('role', 'button'); a.setAttribute('aria-label', a.textContent + ', ovi ' + p.tunnus); });
+    tb.appendChild(tr);
+  });
+  tbl.hidden = !apDoors.length; if (em) em.hidden = !!apDoors.length;
+  var mass = $('.x-dmass', apV), nOn = apDoors.filter(function (r) { return r.on; }).length;
+  if (mass) { mass.hidden = nOn < 1; mass.textContent = 'Muokkaa valittuja ovia' + (nOn ? ' (' + nOn + ')' : ''); }
+  apSummary();
+  if (window.__apRecalc) window.__apRecalc();
+}
+if (apV) apV.addEventListener('input', function (e) {
+  if (!e.target.classList || !e.target.classList.contains('x-dq')) return;
+  var tr = e.target.closest('tr'), r = apFind(tr.getAttribute('data-ad')); if (!r) return;
+  r.qty = Math.max(1, Math.min(99, parseInt(e.target.value, 10) || 1));
+  var pr = apPrice(r.state); tr.children[7].textContent = pr === null ? '[Kasken hinta]' : apEur(pr * r.qty);
+  apSummary();
+});
+window.addEventListener('click', function (e) {
+  var t = e.target; if (!t || !t.closest) return;
+  var b = t.closest('.x-sw');
+  if (b) { e.preventDefault(); e.stopPropagation(); if (b.disabled) return; setPro(!PRO); if (!PRO) apEditing = null; renderDoor(); return; }
+  if (PRO && od3btn && t.closest('.navb a.btn') === od3btn) { e.preventDefault(); e.stopPropagation(); apCommit(); return; }
+  if (!apV || !apV.contains(t)) return;
+  if (t.closest('.x-dadd')) { e.preventDefault(); e.stopPropagation(); apSync(); var st = copy(doorDef); st.pro.tunnus = apNextId(); apOpen(st, null, null); return; }
+  if (t.closest('.x-dmass')) {
+    e.preventDefault(); e.stopPropagation(); apSync();
+    var on = apDoors.filter(function (r) { return r.on; }); if (!on.length) return;
+    var st2 = copy(on[0].state); apOpen(st2, null, { ids: on.map(function (r) { return r.id; }), base: copy(st2) }); return;
+  }
+  if ((b = t.closest('.x-dck'))) { e.preventDefault(); e.stopPropagation(); apSync(); var r = apFind(b.closest('tr').getAttribute('data-ad')); if (r) r.on = !r.on; apRender(); return; }
+  if ((b = t.closest('.x-dia a'))) {
+    e.preventDefault(); e.stopPropagation(); apSync();
+    var row = apFind(b.closest('tr').getAttribute('data-ad')), act = b.getAttribute('data-a'), ix = apDoors.indexOf(row);
+    if (!row) return;
+    if (act === 'edit') { apOpen(row.state, row.id, null); return; }
+    if (act === 'copy') { var nr = { id: 'ad' + (++apSeq), state: copy(row.state), qty: row.qty, on: false }; nr.state.pro.tunnus = apNextId(); apDoors.splice(ix + 1, 0, nr); }
+    if (act === 'del') apDoors.splice(ix, 1);
+    apRender(); return;
+  }
+  if (t.closest('.selbar')) setTimeout(function () { apSync(); apRender(); }, 0);
+}, true);
+
 route();
 window.__proto = { state: function () { return { draft: copy(draft), hanke: copy(hanke), editing: editing, target: target, edit: E ? copy(E) : null, select: SM ? copy(SM) : null, lastMass: lastMass ? { n: lastMass.n, text: lastMass.text, d: lastMass.d } : null }; } };
 })();
@@ -2966,10 +3115,11 @@ function recalc(view) {
   });
   var sr = view.querySelector('.ysum .sr');
   if (sr) { sr.children[0].textContent = 'Ikkunat, ' + q + ' kpl'; sr.children[1].textContent = eur(sum); }
+  var dsum = window.__apDoorSum ? window.__apDoorSum() : 0;
   var tv = view.querySelector('.ysum .tot .v');
-  if (tv) tv.textContent = eur(sum);
+  if (tv) tv.textContent = eur(sum + dsum);
   var vat = view.querySelector('.ysum .tot .sm .num');
-  if (vat) vat.textContent = eur(Math.round(sum / 1.255 / 10) * 10);
+  if (vat) vat.textContent = eur(Math.round((sum + dsum) / 1.255 / 10) * 10);
   var sel = 0;
   rows.forEach(function (r) {
     var c = r.querySelector('.ck');
@@ -3070,6 +3220,7 @@ function handle(e) {
   }
   return false;
 }
+window.__apRecalc = function () { $$('.x-view[data-view="ap-hanke"]').forEach(recalc); };
 D.addEventListener('click', function (e) { if (handle(e)) e.stopPropagation(); }, true);
 
 D.addEventListener('input', function (e) {
