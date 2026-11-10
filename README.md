@@ -5,4 +5,4 @@ Klikattava prototyyppi. Julkaisupeili, noindex.
 - Ikkunan valinta kolmessa vaiheessa: `index.html#rakenne`
 - Esimerkkihanke ja usean ikkunan muokkaus kerralla: `index.html#esimerkki`
 
-Hinnat hakasulkeissa ovat paikkahintoja, joita Kaskipuu tarkentaa.
+Pyöreät hinnat ilman senttejä ovat arvioita, jotka tarkentuvat Kasken hinnoiksi.
