@@ -2472,7 +2472,14 @@ function renderEdit() {
     if (nCh) { M.big.classList.remove('big-ph'); M.big.textContent = fmtD(dT) || '+' + eur(0); }
     else { M.big.classList.add('big-ph'); M.big.textContent = CFG.noChanges; }
   }
-  var X = fmtT(hankeTotal(allRows())), Y = fmtT(hankeTotal(after)), XW = fmtT(hankeTotal(winRows())), YW = fmtT(hankeTotal(after.filter(function (r) { return !r.door; })));
+  var X = fmtT(hankeTotal(allRows())), Y = fmtT(hankeTotal(after));
+  if (M.big) {
+    var nt = M.big.parentNode.querySelector('.x-newtot');
+    if (!nt) { nt = D.createElement('p'); nt.className = 'sm b x-newtot'; M.big.parentNode.insertBefore(nt, M.big.nextSibling); }
+    nt.textContent = nCh ? 'Hanke yhteensä ' + X + ', muutoksen jälkeen ' + Y : 'Hanke yhteensä ' + X;
+    nt.setAttribute('data-y', nCh ? Y : '');
+  }
+  var XW = fmtT(hankeTotal(winRows())), YW = fmtT(hankeTotal(after.filter(function (r) { return !r.door; })));
   (M.lines || []).forEach(function (l) {
     var k = 0;
     var ik = /^Ikkunat/.test(l.tpl);
@@ -3342,6 +3349,8 @@ D.addEventListener('keydown', function (e) {
     if (!big || !target) { bar.hidden = true; return; }
     var lEl = bar.querySelector('.l');
     if (lEl.textContent !== lab) lEl.textContent = lab;
+    var ntot = v.querySelector('.x-newtot');
+    if (!sb && !ys && ntot && ntot.getAttribute('data-y')) { lab = 'Uusi yhteensä (' + big.textContent.trim() + ')'; val = ntot.getAttribute('data-y'); }
     if (val === null) val = big.textContent.trim();
     if (vEl.textContent !== val) vEl.textContent = val;
     if (bEl.textContent !== t) bEl.textContent = t;
