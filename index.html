@@ -684,6 +684,7 @@ body:not(.x-apro) .x-pro { display:none !important }
   .sec, .msec, .qrow, .qv, .item, .steps2, .mgrid, .g2, .g3, .pair, .next2, .prod,
   :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .lay, :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .item, :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .prod { grid-template-columns:minmax(0,1fr);gap:16px }
   .sec { padding:24px 0 }
+  .x-view .pair > .pc-sub { grid-column:1 / -1 }
   .g4m, :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .minis { grid-template-columns:repeat(2,minmax(0,1fr)) }
   .g5m { grid-template-columns:repeat(3,minmax(0,1fr)) }
   .x-view .cgrid, .x-view .vgrid .cgrid { grid-template-columns:repeat(2,minmax(0,1fr)) }
@@ -1780,9 +1781,25 @@ function baseOf(c, sel) {
   var t = sel[iT] ? 1 : 0, l = sel[iH] ? 1 : 0, k = c.exact ? 10 : 1, w = num(c.w), h = num(c.h), key = null;
   if (c.type === refType && c.jako === jako0 && w !== null && h !== null) key = (w / k) + 'x' + (h / k);
   var tab = key ? CFG.prices[key] : null, v = tab && tab[t] ? tab[t][l] : null;
-  return { val: v == null ? null : v, key: (key || ['?', c.type, c.jako, c.w, c.h, c.exact ? 1 : 0].join('/')) + '|' + t + l };
+  return { val: v == null ? null : v, est: v == null ? estBase(c, t, l, w, h, k) : null, key: (key || ['?', c.type, c.jako, c.w, c.h, c.exact ? 1 : 0].join('/')) + '|' + t + l };
 }
-function isKnown(c) { return baseOf(c).val !== null; }
+/* Arvio muille koille ja jaoille: pinta-ala 120x140-hinnasta, osat ja kiinteä kerroin. Pyöreä summa = arvio. */
+var PARTW = { yksi: 1, kaksi: 2, kolme: 3, nelj: 4 };
+function partsOf(j) {
+  var o = jakos[j], s = o ? String(o.parts || '') + ' ' + o.name : '', m = /(\d+)\s*osa/i.exec(s);
+  if (m) return +m[1];
+  for (var k in PARTW) if (new RegExp(k, 'i').test(s)) return PARTW[k];
+  return 1;
+}
+function estBase(c, t, l, w, h, k) {
+  var ref = CFG.prices['120x140'], r = ref && ref[t] ? ref[t][l] : null;
+  if (r == null && ref && ref[t]) r = ref[t][0];
+  if (r == null || w === null || h === null || !w || !h) return null;
+  var a = (w / k) * (h / k) / 10000, f = (0.4 + 0.6 * a / 1.68) * (1 + 0.3 * (partsOf(c.jako) - 1));
+  if (c.type !== refType) f *= 0.8;
+  return Math.max(1, Math.round(r * f / 1000)) * 1000;
+}
+function isKnown(c) { var b = baseOf(c); return b.val !== null || b.est != null; }
 function priceOf(c, sel) {
   sel = sel || c.sel;
   var b = baseOf(c, sel), ex = 0, ph = [];
@@ -1800,7 +1817,7 @@ function priceOf(c, sel) {
     else if (r.kind === 'exact') ex += r.val;
     if (r.sub && c.sub[i]) { if (r.sub.kind === 'ph') ph.push(r.sub.amt); else ex += r.sub.val; }
   });
-  return { known: b.val !== null, ex: (b.val || 0) + ex, extra: ex, ph: ph, key: b.key };
+  return { known: b.val !== null || b.est != null, ex: (b.val !== null ? b.val : (b.est || 0)) + ex, extra: ex, ph: ph, key: b.key };
 }
 function needDelta(c, i) {
   var r = needs[i], a = c.sel.slice(), b = c.sel.slice();
