@@ -668,6 +668,7 @@ body:not(.x-apro) .x-pro { display:none !important }
 
 /* mobiili */
 .x-mbar { display:none }
+.ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
 /* hankkeen lisäysrivi: ikkuna ja ovi tasavertaisina */
 .addline.x-add { display:flex;flex-wrap:wrap;gap:12px;padding:20px 0;align-items:center }
 .x-add > a.btn, .x-add > a.add { display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:160px;padding:0 20px;margin:0;box-sizing:border-box;border:1.5px solid var(--ink);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:650;text-decoration:none }
@@ -736,6 +737,7 @@ body:not(.x-apro) .x-pro { display:none !important }
   /* sivun omat jatkonapit pinoon */
   .navb { flex-wrap:wrap;gap:12px }
   .navb > a { flex:1 1 auto;justify-content:center;text-align:center }
+  .navb > a.btn { display:none }
 
   /* kiinteä alapalkki: hinta ja seuraava askel */
   .x-mbar { position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--ln2);box-shadow:0 -6px 18px oklch(0.2 0.01 250 / .08) }
@@ -902,7 +904,7 @@ body:not(.x-apro) .x-pro { display:none !important }
         <div class="routes" role="group" aria-labelledby="mj">
           <h3 id="mj" class="sm b">Miten jatketaan?</h3>
           <div class="jr"><a class="btn2" href="M1-Mittauskaynti.dc.html">Kaski mittaa ja asentaa</a><p class="xs">Asiantuntija mittaa kotonasi ja tekee tarjouksen asennuksineen.</p></div>
-          <div class="jr"><a class="btn2" href="T2-Verkkotapaaminen.dc.html">Tilaa itse</a><p class="xs">Tarkat mitat kysytään kaikista ikkunoista kerralla.</p></div>
+          <div class="jr"><a class="btn x-pri" href="T2-Verkkotapaaminen.dc.html">Tilaa itse</a><p class="xs">Tarkat mitat kysytään kaikista ikkunoista kerralla.</p></div>
         </div>
         <div style="border-top:1px solid var(--ln);padding-top:12px;display:flex;flex-direction:column;gap:8px"><p class="sm b" style="margin:0">Lähetä itsellesi</p><p class="xs" style="margin:0">Saat hankkeen ja hinnan linkkinä. Tiliä ei tarvita.</p><div class="f"><label class="xs b" for="lis">Sähköposti tai puhelin</label><input id="lis" class="in" type="text"></div><button type="button" class="btn2 bs" style="align-self:flex-start">Lähetä</button><p class="xs" style="margin:0">Voit myös <a class="lk" href="#">kopioida linkin</a> ja jakaa sen esimerkiksi puolisolle.</p></div>
         <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Kysyttävää?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
@@ -3368,7 +3370,7 @@ D.addEventListener('keydown', function (e) {
       val = cnt ? cnt.textContent.trim().replace(/ valittu$/, '') : 'Ei vielä valintoja';
       t = target ? target.textContent.trim() : '';
     } else if (ys) {
-      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr') || ys; t = 'Miten jatketaan?'; lab = 'Yhteensä';
+      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr') || ys; t = target.tagName === 'A' ? target.textContent.trim() : 'Miten jatketaan?'; lab = 'Hanke yhteensä';
       if (ys.getBoundingClientRect().top < window.innerHeight - 40) { bar.hidden = true; return; }
     } else {
       t = target ? (target.textContent || '').trim().replace(/^Seuraava:.*$/i, 'Seuraava') : '';
