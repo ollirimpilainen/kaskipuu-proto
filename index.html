@@ -628,6 +628,10 @@ details.vp[open]>summary{text-decoration:none}
 
 /* mobiili */
 .x-mbar { display:none }
+/* hankkeen lisäysrivi: ikkuna ja ovi tasavertaisina */
+.addline.x-add { display:flex;flex-wrap:wrap;gap:12px;padding:20px 0;align-items:center }
+.x-add > a.btn, .x-add > a.add { display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:160px;padding:0 20px;margin:0;box-sizing:border-box;border:1.5px solid var(--ink);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:650;text-decoration:none }
+.x-add > a.btn:hover, .x-add > a.add:hover { background:var(--sf) }
 @media (max-width: 767px) {
   html { -webkit-text-size-adjust:100% }
   body { padding-bottom:84px }
@@ -670,7 +674,17 @@ details.vp[open]>summary{text-decoration:none}
   .it > .it-txt { grid-area:txt }
   .it > .stepper { grid-area:st;justify-self:start }
   .it > .it-p { grid-area:p;text-align:right }
-  .addline { flex-wrap:wrap;gap:12px }
+  .addline { flex-wrap:wrap;gap:8px 16px !important }
+  .addline > .sm { order:3;flex-basis:100% }
+  .addline.x-add { display:grid;grid-template-columns:1fr 1fr;gap:12px !important }
+  .x-add > a.btn, .x-add > a.add { min-width:0 }
+  .hh { display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px }
+  .rh { flex-wrap:wrap;gap:8px 16px }
+  .ysum { scroll-margin-top:16px }
+  .selbar { flex-wrap:wrap;gap:8px 12px }
+  .selbar > .sm.b { white-space:nowrap }
+  .selbar .grow { flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px }
+  .selbar .grow .btn { display:none }
   .tab, .addroom, :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .tab, :where(#v-hanke,#v-ap-hanke,#v-ap-tilaus) .addroom { min-width:0 }
 
   /* sivun omat jatkonapit pinoon */
@@ -822,7 +836,7 @@ details.vp[open]>summary{text-decoration:none}
 <div class="banner" role="status"><p class="sm"><span class="b">Muutit 4 ikkunaa:</span> lämpimämpi, +402,02 €.</p><a class="btn2 bs" href="#hanke">Peru muutos</a></div>
 <div class="selbar" hidden><button type="button" class="ck" role="checkbox" aria-checked="mixed" aria-label="Valitse kaikki ikkunat"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button><span class="sm b">Valitse kaikki ikkunat</span><span class="grow"><span class="sm b">3 ikkunaa valittu</span><a class="lk sm" href="#hanke">Peruuta</a><a class="btn bs" href="#muokkaa">Muokkaa valittuja</a></span></div>
       <section class="room2" aria-labelledby="r1">
-        <div class="rh"><div class="rh rhb"><h2 id="rb0" class="t3">Olohuone</h2><a class="act rdel" href="#" role="button" aria-label="Poista huone: Olohuone"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista huone</a></div><a class="act rdel" href="#" role="button" aria-label="Poista huone: Lastenhuone"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista huone</a></div>
+        <div class="rh rhb"><h2 id="rb0" class="t3">Olohuone</h2><a class="act rdel" href="#" role="button" aria-label="Poista huone: Olohuone"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista huone</a></div>
         <div class="it">
           <img class="it-img" src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Avattava ikkuna, yksi osa">
           <div class="it-txt"><p class="b">Avattava ikkuna, 1 osa<span class="tag">Muutettu: lämpimämpi</span></p><p class="sm mu">noin 120 × 140 cm, turvalasi, valkoinen</p>
@@ -830,7 +844,7 @@ details.vp[open]>summary{text-decoration:none}
           <span class="stepper" aria-label="Määrä"><button type="button" aria-label="Vähennä">−</button><span>1</span><button type="button" aria-label="Lisää samanlainen">+</button></span>
           <span class="it-p num">1 018,74 €</span>
         </div>
-        <div class="addline" style="align-items:center;padding:20px 0;gap:16px"><a class="btn bs" href="#rakenne">+ Lisää ikkuna</a><span class="sm mu">Alkaa tämän ikkunan kopiona.</span><a class="add" href="#ovet" style="margin-left:auto">+ Lisää ovi</a></div>
+        <div class="addline x-add"><a class="btn bs" href="#rakenne" role="button">+ Lisää ikkuna</a><a class="add" href="#ovet" role="button">+ Lisää ovi</a></div>
       </section>
       <div class="roomadd"><a class="btn2 bs" href="#lisaa-huone">+ Lisää huone</a></div>
     </section>
@@ -3080,13 +3094,26 @@ D.addEventListener('keydown', function (e) {
     queued = false;
     var v = null, all = D.querySelectorAll('.x-view');
     for (var i = 0; i < all.length; i++) if (!all[i].hidden) { v = all[i]; break; }
-    var big = v && v.querySelector('aside .big'), nbs = v ? v.querySelectorAll('.navb a.btn') : [];
+    var big = v && v.querySelector('aside .big'), nbs = v ? v.querySelectorAll('.navb a.btn') : [], t, lab;
     target = nbs.length ? nbs[nbs.length - 1] : null;
+    var ys = v && !big ? v.querySelector('.ysum') : null, sb = v ? v.querySelector('.selbar:not([hidden])') : null, val = null;
+    if (sb) {
+      var cnt = sb.querySelector('.grow > .sm.b:not([hidden])');
+      big = cnt || sb; target = sb.querySelector('a.btn'); lab = 'Valittu';
+      val = cnt ? cnt.textContent.trim().replace(/ valittu$/, '') : 'Ei vielä valintoja';
+      t = target ? target.textContent.trim() : '';
+    } else if (ys) {
+      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr') || ys; t = 'Jatka'; lab = 'Yhteensä';
+      if (ys.getBoundingClientRect().top < window.innerHeight - 40) { bar.hidden = true; return; }
+    } else {
+      t = target ? (target.textContent || '').trim().replace(/^Seuraava:.*$/i, 'Seuraava') : '';
+      lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : 'Hinta';
+    }
     if (!big || !target) { bar.hidden = true; return; }
-    var t = (target.textContent || '').trim().replace(/^Seuraava:.*$/i, 'Seuraava');
-    var lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : 'Hinta', lEl = bar.querySelector('.l');
+    var lEl = bar.querySelector('.l');
     if (lEl.textContent !== lab) lEl.textContent = lab;
-    if (vEl.textContent !== big.textContent.trim()) vEl.textContent = big.textContent.trim();
+    if (val === null) val = big.textContent.trim();
+    if (vEl.textContent !== val) vEl.textContent = val;
     if (bEl.textContent !== t) bEl.textContent = t;
     bar.hidden = false;
   }
@@ -3095,7 +3122,15 @@ D.addEventListener('keydown', function (e) {
     for (var i = 0; i < ms.length; i++) if (!bar.contains(ms[i].target)) { q(); return; }
   }).observe(D.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['hidden'] });
   window.addEventListener('hashchange', q);
-  bEl.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (target) target.click(); });
+  window.addEventListener('scroll', q, { passive: true });
+  bEl.addEventListener('click', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    if (!target) return;
+    if (target.tagName === 'A') { target.click(); return; }
+    var ps = target.previousElementSibling, el = ps && /^H\d$/.test(ps.tagName) ? ps : target;
+    el.style.scrollMarginTop = '16px'; el.scrollIntoView({ block: 'start' });
+    var f = target.querySelector('a, button'); if (f) f.focus({ preventScroll: true });
+  });
   q();
 })();
 
