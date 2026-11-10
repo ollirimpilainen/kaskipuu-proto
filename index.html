@@ -660,6 +660,12 @@ body:not(.x-apro) .x-pro { display:none !important }
 .x-cpr:hover { border-color:var(--ink) }
 .x-cpx { align-self:flex-start;min-height:44px;padding:0;border:0;background:transparent;color:inherit;font:inherit;font-size:14px;text-decoration:underline;cursor:pointer }
 
+/* massamuokkauksen pikalinkit */
+.x-jump { display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px }
+.x-jump button { min-height:40px;padding:0 12px;border:1.5px solid var(--ln2);border-radius:20px;background:var(--bg);color:inherit;font:inherit;font-size:14px;cursor:pointer }
+.x-jump button:hover { border-color:var(--ink) }
+@media (max-width: 767px) { .x-jump button { min-height:44px } }
+
 /* mobiili */
 .x-mbar { display:none }
 /* hankkeen lisäysrivi: ikkuna ja ovi tasavertaisina */
@@ -3177,6 +3183,22 @@ window.addEventListener('click', function (e) {
   }
   if (t.closest('.x-cpx')) { e.preventDefault(); e.stopPropagation(); cpClose(); }
 }, true);
+
+/* ---------- massamuokkaus: pikalinkit osioihin (käyttäjätesti) ---------- */
+(function () {
+  var mv = VIEW['muokkaa'], hm = mv ? mv.querySelector('#s-mit') : null;
+  if (!hm) return;
+  var hs = Array.prototype.slice.call(mv.querySelectorAll('h3[id^="n-"]'));
+  if (hs.length < 4) return;
+  var nav = D.createElement('nav'); nav.className = 'x-jump'; nav.setAttribute('aria-label', 'Siirry osioon');
+  hs.forEach(function (h) {
+    var b = D.createElement('button'); b.type = 'button'; b.textContent = h.textContent.trim();
+    b.addEventListener('click', function () { h.style.scrollMarginTop = '16px'; h.scrollIntoView({ block: 'start' }); });
+    nav.appendChild(b);
+  });
+  var p = hm.nextElementSibling && hm.nextElementSibling.tagName === 'P' ? hm.nextElementSibling : hm;
+  p.parentNode.insertBefore(nav, p.nextSibling);
+})();
 
 route();
 window.__proto = { state: function () { return { draft: copy(draft), hanke: copy(hanke), editing: editing, target: target, edit: E ? copy(E) : null, select: SM ? copy(SM) : null, lastMass: lastMass ? { n: lastMass.n, text: lastMass.text, d: lastMass.d } : null }; } };
