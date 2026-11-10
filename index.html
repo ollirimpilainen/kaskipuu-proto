@@ -330,6 +330,9 @@ details.mx[open] .cl2{display:none}
 .hh{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
 .room2{margin-top:28px}
 .room2 h2{margin:0 0 4px}
+.rh{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 4px}
+.rh h2{margin:0}
+.rh .rdel{margin-left:auto;align-self:center}
 .big2{grid-template-columns:minmax(0,1fr) 96px}
 .big2 img{order:2;justify-self:end}
 .help{display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--ln);padding-top:20px}
@@ -601,7 +604,7 @@ details.vp[open]>summary{text-decoration:none}
 <div class="banner" role="status"><p class="sm"><span class="b">Muutit 4 ikkunaa:</span> lämpimämpi, +402,02 €.</p><a class="btn2 bs" href="#hanke">Peru muutos</a></div>
 <div class="selbar" hidden><button type="button" class="ck" role="checkbox" aria-checked="mixed" aria-label="Valitse kaikki ikkunat"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button><span class="sm b">Valitse kaikki ikkunat</span><span class="grow"><span class="sm b">3 ikkunaa valittu</span><a class="lk sm" href="#hanke">Peruuta</a><a class="btn bs" href="#muokkaa">Muokkaa valittuja</a></span></div>
       <section class="room2" aria-labelledby="r1">
-        <div class="rh rhb"><h2 id="rb0" class="t3">Olohuone</h2></div>
+        <div class="rh"><div class="rh rhb"><h2 id="rb0" class="t3">Olohuone</h2><a class="act rdel" href="#" role="button" aria-label="Poista huone: Olohuone"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista huone</a></div><a class="act rdel" href="#" role="button" aria-label="Poista huone: Lastenhuone"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Poista huone</a></div>
         <div class="it">
           <img class="it-img" src="img/96b158674ecb66ea2365a8b445a4de26.png" alt="Avattava ikkuna, yksi osa">
           <div class="it-txt"><p class="b">Avattava ikkuna, 1 osa<span class="tag">Muutettu: lämpimämpi</span></p><p class="sm mu">noin 120 × 140 cm, turvalasi, valkoinen</p>
@@ -1083,7 +1086,8 @@ if (selbar && selAll) {
 }
 var banner = $('.banner', v4), bannerP = banner ? $('p', banner) : null;
 var bannerTpl = bannerP && $('span.b', bannerP) ? txt($('span.b', bannerP)).replace(/\d+ ikkunaa?/, '{n}') : 'Muutit {n}:';
-if (banner) { banner.hidden = true; var pb0 = $('a', banner); if (pb0) pb0.setAttribute('role', 'button'); }
+var bannerBtn = banner ? $('a', banner) : null, bannerBtnText = bannerBtn ? txt(bannerBtn) : 'Peru muutos';
+if (banner) { banner.hidden = true; if (bannerBtn) { bannerBtn.setAttribute('role', 'button'); bannerBtn.setAttribute('data-fk', 'undo'); } }
 var tagTpl = null, tagText = 'Muutettu: {t}';
 var nameTpl = '{type} ikkuna, {parts}', altTpl = '{type} ikkuna, {jako}';
 var actRoles = [];
@@ -1594,7 +1598,8 @@ function renderHanke() {
     sec.setAttribute('data-sec', s.id);
     var h = $('h2', sec);
     if (h) { h.id = 'x-r' + s.id; h.textContent = secName(s); sec.setAttribute('aria-labelledby', h.id); }
-    var rh = $('.rh', sec);
+    var rh = $('.rh', sec), rdel = rh ? $('a.rdel', rh) : null;
+    if (rdel) { rdel.setAttribute('aria-label', 'Poista huone: ' + secName(s)); rdel.setAttribute('data-fk', s.id + ':rdel'); }
     if (SM && ckTpl && rh) {
       var on = s.rows.filter(function (r) { return SM[r.id]; }).length, rc = ckTpl.cloneNode(true);
       rc.setAttribute('aria-checked', on && on === s.rows.length ? 'true' : (on ? 'mixed' : 'false'));
@@ -1642,10 +1647,17 @@ function renderHanke() {
     if (lastMass && bannerP) {
       bannerP.textContent = '';
       var b = D.createElement('span'); b.className = 'b';
-      b.textContent = bannerTpl.replace('{n}', lastMass.n === 1 ? '1 ikkunan' : lastMass.n + ' ikkunaa');
-      bannerP.appendChild(b);
-      bannerP.appendChild(D.createTextNode(' ' + lastMass.text + ', ' + lastMass.d + '.'));
+      if (lastMass.room) {
+        b.textContent = lastMass.room;
+        bannerP.appendChild(b);
+        bannerP.appendChild(D.createTextNode(lastMass.rest));
+      } else {
+        b.textContent = bannerTpl.replace('{n}', lastMass.n === 1 ? '1 ikkunan' : lastMass.n + ' ikkunaa');
+        bannerP.appendChild(b);
+        bannerP.appendChild(D.createTextNode(' ' + lastMass.text + ', ' + lastMass.d + '.'));
+      }
     }
+    if (bannerBtn) bannerBtn.textContent = lastMass && lastMass.room ? 'Peru poisto' : bannerBtnText;
   }
   /* Yhteissumma: oikeat hinnat ja paikkahinnat yhteen. Jos yhdenkin rivin hinta
      puuttuu kokonaan, summaa ei voi laskea, ja se on [Kasken hinta]. */
@@ -1968,6 +1980,20 @@ v4.addEventListener('click', function (e) {
     e.preventDefault();
     toggleSel(el === selAll ? 'all' : ck);
     pendingFocus = el.getAttribute('data-fk');
+    renderHanke();
+    return;
+  }
+  if (secE && el.classList.contains('rdel')) {
+    e.preventDefault();
+    var ds = findSec(secE.getAttribute('data-sec'));
+    if (!ds) return;
+    var snapR = copy(hanke), qR = 0, nameR = secName(ds);
+    ds.rows.forEach(function (r) { qR += r.qty; if (SM) delete SM[r.id]; });
+    hanke.splice(hanke.indexOf(ds), 1);
+    if (editing && !findRow(editing)) editing = null;
+    if (lastRow && !findRow(lastRow)) lastRow = null;
+    lastMass = { room: 'Poistit huoneen ' + nameR, rest: qR === 0 ? '.' : (qR === 1 ? ' ja sen ikkunan.' : ' ja sen ' + qR + ' ikkunaa.'), snap: snapR };
+    pendingFocus = 'undo';
     renderHanke();
     return;
   }
