@@ -750,6 +750,25 @@ body:not(.x-apro) .x-pro { display:none !important }
   .x-toast { top:16px;bottom:auto;max-width:calc(100vw - 32px);box-sizing:border-box }
 }
 
+/* alapalkki stagingin mallin mukaan: esikatselupalkki ja navigaatio */
+@media (max-width: 767px) {
+  body { padding-bottom:156px }
+  .navb { display:none !important }
+  .x-mbar { display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;text-align:left;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom)) }
+  .x-mrow1, .x-mrow2 { width:100%;box-sizing:border-box }
+  .x-mbar[hidden] { display:none }
+  .x-mrow1 { display:flex;align-items:center;justify-content:space-between;gap:12px }
+  .x-mq { margin:0;min-width:0 }
+  .x-mchip { flex:none;width:52px;height:52px;padding:2px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--bg);cursor:pointer;box-sizing:border-box }
+  .x-mchip img { width:100%;height:100%;object-fit:contain;display:block }
+  .x-mchip[hidden] { display:none }
+  .x-mrow2 { display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px }
+  .x-mbar.x-one .x-mrow2 { grid-template-columns:minmax(0,1fr) }
+  .x-mrow2 a { min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;margin:0;padding:0 18px;box-sizing:border-box;white-space:nowrap;text-decoration:none }
+  .x-mrow2 .x-mback[hidden] { display:none }
+  .x-toast { top:16px;bottom:auto }
+}
+
 </style>
 </head>
 <body>
@@ -3350,55 +3369,76 @@ D.addEventListener('keydown', function (e) {
 });
 })();
 
-/* mobiilin alapalkki: näkyvän näkymän hinta ja seuraava askel */
+/* mobiilin alapalkki stagingin mallin mukaan: esikatselupalkki (nimi, hinta, kuva) ja navigaatio (Takaisin, pääpainike) */
 (function () {
   var D = document, bar = D.createElement('div');
   bar.className = 'w x-mbar'; bar.hidden = true;
-  bar.innerHTML = '<p style="margin:0"><span class="l">Hinta</span><span class="v"></span></p><a class="btn" href="#"></a>';
+  bar.innerHTML = '<div class="x-mrow1"><p class="x-mq"><span class="l"></span><span class="v"></span></p>'
+    + '<button type="button" class="x-mchip" aria-label="Näytä esikatselu ja yhteenveto"><img alt=""></button></div>'
+    + '<nav class="x-mrow2" aria-label="Vaiheet"><a class="btn2 x-mback" href="#" role="button"><span aria-hidden="true">←</span> Takaisin</a>'
+    + '<a class="btn x-mnext" href="#" role="button"></a></nav>';
   D.body.appendChild(bar);
-  var vEl = bar.querySelector('.v'), bEl = bar.querySelector('.btn'), target = null, queued = false;
+  var lEl = bar.querySelector('.l'), vEl = bar.querySelector('.v'), chip = bar.querySelector('.x-mchip'), cImg = chip.querySelector('img');
+  var bBack = bar.querySelector('.x-mback'), bNext = bar.querySelector('.x-mnext');
+  var target = null, backT = null, chipT = null, queued = false;
+  function set(el, t) { if (el.textContent !== t) el.textContent = t; }
   function upd() {
     queued = false;
     var v = null, all = D.querySelectorAll('.x-view');
     for (var i = 0; i < all.length; i++) if (!all[i].hidden) { v = all[i]; break; }
-    var big = v && v.querySelector('aside .big'), nbs = v ? v.querySelectorAll('.navb a.btn') : [], t, lab;
+    if (!v) { bar.hidden = true; return; }
+    var big = v.querySelector('aside .big'), nbs = v.querySelectorAll('.navb a.btn'), t = '', lab = '', val = null;
     target = nbs.length ? nbs[nbs.length - 1] : null;
-    var ys = v && !big ? v.querySelector('.ysum') : null, sb = v ? v.querySelector('.selbar:not([hidden])') : null, val = null;
+    backT = v.querySelector('.navb a.btn2');
+    chipT = null;
+    var ys = !big ? v.querySelector('.ysum') : null, sb = v.querySelector('.selbar:not([hidden])');
     if (sb) {
-      var cnt = sb.querySelector('.grow > .sm.b:not([hidden])');
-      big = cnt || sb; target = sb.querySelector('a.btn'); var tv0 = v.querySelector('.ysum .tot .v'); lab = tv0 ? 'Valittu, hanke yhteensä ' + tv0.textContent.trim() : 'Valittu';
+      var cnt = sb.querySelector('.grow > .sm.b:not([hidden])'), tv0 = v.querySelector('.ysum .tot .v');
+      big = cnt || sb; target = sb.querySelector('a.btn'); backT = sb.querySelector('a.lk');
+      lab = tv0 ? 'Valittu, hanke yhteensä ' + tv0.textContent.trim() : 'Valittu';
       val = cnt ? cnt.textContent.trim().replace(/ valittu$/, '') : 'Ei vielä valintoja';
       t = target ? target.textContent.trim() : '';
     } else if (ys) {
-      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr') || ys; t = target.tagName === 'A' ? target.textContent.trim() : 'Miten jatketaan?'; lab = 'Hanke yhteensä';
-      if (ys.getBoundingClientRect().top < window.innerHeight - 40) { bar.hidden = true; return; }
+      big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr a'); backT = null;
+      lab = 'Hanke yhteensä'; t = target ? target.textContent.trim() : '';
+      chipT = ys;
     } else {
-      t = target ? (target.textContent || '').trim().replace(/^Seuraava:.*$/i, 'Seuraava') : '';
-      var h2 = v.querySelector('aside h2'); lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : (h2 && h2.textContent.trim() ? h2.textContent.trim() : 'Hinta');
+      var h2 = v.querySelector('aside h2');
+      lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : (h2 && h2.textContent.trim() ? h2.textContent.trim() : 'Hinta');
+      t = target ? target.textContent.trim().replace(/^Seuraava:.*$/i, 'Seuraava') : '';
+      var ntot = v.querySelector('.x-newtot');
+      if (ntot && ntot.getAttribute('data-y') && big) { lab = 'Uusi summa, muutos ' + big.textContent.trim(); val = ntot.getAttribute('data-y'); }
+      chipT = v.querySelector('aside .pvw') || v.querySelector('aside');
     }
     if (!big || !target) { bar.hidden = true; return; }
-    var lEl = bar.querySelector('.l');
-    if (lEl.textContent !== lab) lEl.textContent = lab;
-    var ntot = v.querySelector('.x-newtot');
-    if (!sb && !ys && ntot && ntot.getAttribute('data-y')) { lab = 'Uusi summa, muutos ' + big.textContent.trim(); val = ntot.getAttribute('data-y'); lEl.textContent = lab; }
     if (val === null) val = big.textContent.trim();
-    if (vEl.textContent !== val) vEl.textContent = val;
-    if (bEl.textContent !== t) bEl.textContent = t;
+    set(lEl, lab); set(vEl, val); set(bNext, t);
+    var im = chipT ? chipT.querySelector('img') : null, src = im ? im.getAttribute('src') : '';
+    chip.hidden = !src;
+    if (src && cImg.getAttribute('src') !== src) cImg.setAttribute('src', src);
+    bBack.hidden = !backT;
+    if (backT) {
+      var bt = backT.textContent.trim();
+      bBack.lastChild.textContent = ' ' + (/^takaisin$/i.test(bt) ? 'Takaisin' : bt);
+      bBack.firstChild.hidden = !/^takaisin$/i.test(bt);
+    }
+    bar.classList.toggle('x-one', !backT);
     bar.hidden = false;
   }
   function q() { if (!queued) { queued = true; setTimeout(upd, 30); } }
   new MutationObserver(function (ms) {
     for (var i = 0; i < ms.length; i++) if (!bar.contains(ms[i].target)) { q(); return; }
-  }).observe(D.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['hidden'] });
+  }).observe(D.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['hidden', 'src'] });
   window.addEventListener('hashchange', q);
-  window.addEventListener('scroll', q, { passive: true });
-  bEl.addEventListener('click', function (e) {
+  function proxy(getT) {
+    return function (e) { e.preventDefault(); e.stopPropagation(); var x = getT(); if (x) x.click(); };
+  }
+  bNext.addEventListener('click', proxy(function () { return target; }));
+  bBack.addEventListener('click', proxy(function () { return backT; }));
+  chip.addEventListener('click', function (e) {
     e.preventDefault(); e.stopPropagation();
-    if (!target) return;
-    if (target.tagName === 'A') { target.click(); return; }
-    var ps = target.previousElementSibling, el = ps && /^H\d$/.test(ps.tagName) ? ps : target;
-    el.style.scrollMarginTop = '16px'; el.scrollIntoView({ block: 'start' });
-    var f = target.querySelector('a, button'); if (f) f.focus({ preventScroll: true });
+    if (!chipT) return;
+    chipT.style.scrollMarginTop = '16px'; chipT.scrollIntoView({ block: 'start' });
   });
   q();
 })();
