@@ -809,6 +809,8 @@ details.x-inopen > .mxb { margin-top:12px }
   .x-booked .x-ctl { grid-template-columns:1fr;gap:2px } .x-booked .x-ctl dd { margin-bottom:8px }
 }
 
+.x-tibook { margin:12px 0 0 } .x-tibook p { margin:0 } .x-approx { margin:8px 0 0 }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -4309,7 +4311,7 @@ function renderBooked() {
     var v = VIEW[k], B = BOOK[k], pnl = v.querySelector('.x-booked'); if (!pnl) return;
     var sl = booked[k] || slotOf(v), pv = v.querySelector(B.place[1]);
     var nm = v.querySelector(B.fields[0][0]), ph = v.querySelector(B.fields[1][0]);
-    pnl.querySelector('.x-bk-when').textContent = B.kind + ' ' + sl + '. Varaus on maksuton eikä sido mihinkään.';
+    pnl.querySelector('.x-bk-when').textContent = (B.moved ? 'Aika siirretty: ' : B.kind + ' ') + sl + '. Varaus on maksuton eikä sido mihinkään.';
     fillDl(pnl.querySelector('dl'), [['Aika', sl], ['Nimi', nm ? nm.value.trim() : ''], ['Puhelin', ph ? ph.value.trim() : ''], [B.place[0], pv ? pv.value.trim() : '']]);
     var ol = pnl.querySelector('ol'); ol.innerHTML = '';
     B.next.forEach(function (t) { var li = D.createElement('li'); li.textContent = t.replace('{obj}', objAcc()); ol.appendChild(li); });
@@ -4492,6 +4494,129 @@ var _dcmF = doorCommit; doorCommit = function () {
   toast((wasEdit ? 'Päivitit oven' : 'Lisäsit oven') + (s ? ': ' + secName(s) : '') + '.');
 };
 var _rnS = render; render = function () { _rnS(); renderShop(); renderMalNote(); renderEditAside(); };
+/* Kierros 5: tuuletusikkuna valittavaksi kun jako sallii, pesutuki vain avattavaan, jakoteksti, haun esimerkki */
+var ventJ = -1, washJ = -1;
+adds.forEach(function (r, j) { if (ventInfo && r.el && r.el.contains(ventInfo.b)) ventJ = j; if (/pesutuki/i.test(r.title || '')) washJ = j; });
+var ventNum = ventJ >= 0 ? $$('span.num', adds[ventJ].el).pop() : null, ventNum0 = ventNum ? txt(ventNum) : '';
+var ventTail = ventInfo && ventInfo.lk && ventInfo.lk.nextSibling && ventInfo.lk.nextSibling.nodeType === 3 ? ventInfo.lk.nextSibling : null, ventTail0 = ventTail ? ventTail.nodeValue : '';
+if (ventJ >= 0) adds[ventJ].cb.addEventListener('change', function (e) {
+  e.stopPropagation();
+  draft.chk[ventJ] = adds[ventJ].cb.checked; render();
+});
+var washWhy = null;
+if (washJ >= 0 && !adds[washJ].dis) {
+  washWhy = D.createElement('span'); washWhy.className = 'b x-washwhy'; washWhy.hidden = true; washWhy.textContent = ' Ei tarvita kiinteään ikkunaan, koska sitä ei avata.';
+  var wy = adds[washJ].el.querySelector('.why'); if (wy) wy.appendChild(washWhy);
+}
+var _rsF = renderShop; renderShop = function () {
+  _rsF();
+  if (!draft) return;
+  var fixed = draft.type !== refType;
+  if (ventJ >= 0) {
+    var r = adds[ventJ], ok = fitsVent(draft);
+    r.cb.disabled = !ok; r.el.classList.toggle('dis', !ok);
+    if (!ok && draft.chk[ventJ]) draft.chk[ventJ] = false;
+    r.cb.checked = ok && !!draft.chk[ventJ];
+    ventInfo.b.hidden = ok; if (ventInfo.rest) ventInfo.rest.nodeValue = ok ? ' Tuuletusikkuna tulee kapeampaan osaan.' : (fixed ? ' Tuuletusikkuna tarvitsee avattavan ikkunan. ' : ventInfo.rest0);
+    if (ventInfo.lk) ventInfo.lk.hidden = ok;
+    if (ventTail) ventTail.nodeValue = ok || fixed ? '' : ventTail0;
+    if (ventNum) ventNum.textContent = ok ? '+' + (CFG.massPrices['Tuuletusikkuna'] || '150 €') : ventNum0;
+  }
+  if (washJ >= 0 && washWhy) {
+    var w = adds[washJ];
+    w.cb.disabled = fixed; w.el.classList.toggle('dis', fixed);
+    if (fixed && draft.chk[washJ]) { draft.chk[washJ] = false; w.cb.checked = false; }
+    washWhy.hidden = !fixed;
+  }
+  if (jakoP && jakoP.n) {
+    var t = jakoP.n.nodeValue;
+    if (draft.jako !== jako0) t = t.replace(/Yksi osa on valittu, koska se on yleisin\.\s*/, '');
+    if (jakoP.n.nodeValue !== t) jakoP.n.nodeValue = t;
+  }
+};
+/* Ovihaku: esimerkiksi malli, joka löytyy */
+(function () {
+  if (!hm) return;
+  var names = $$('.g4m button.md4', WD).map(function (b) { var l = (b.getAttribute('aria-label') || '').split(','); return l.length > 1 ? l[1].trim() : ''; }).filter(Boolean);
+  var pick = names.filter(function (n) { return !/classic/i.test(n); })[0] || names[0];
+  if (pick) hm.setAttribute('placeholder', 'esim. ' + pick.replace(/^Kaski\s+/, ''));
+})();
+/* Mikä tämä on: avattu selitys näkyviin alapalkin yläpuolelle */
+D.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest ? e.target.closest('.x-what') : null; if (!b || b.getAttribute('aria-expanded') !== 'true') return;
+  var p = b.nextElementSibling; if (p && p.classList.contains('x-whatp')) { p.style.scrollMarginBottom = '160px'; p.scrollIntoView({ block: 'nearest' }); }
+});
+/* Lähetä itsellesi: numero ilman lupaa */
+(function () {
+  var box = WH ? WH.querySelector('.x-send') : null; if (!box) return;
+  var st = WH.querySelector('.x-sendst'); if (!st) return;
+  var btn = st.previousElementSibling;
+  if (btn) btn.addEventListener('click', function () {
+    var ph = box.querySelector('#lis-p'), lupa = box.querySelector('.x-lupa input');
+    if (st.classList.contains('x-ok') && ph && ph.value.trim() && lupa && !lupa.checked) st.textContent += ' Emme soita, koska et antanut lupaa yhteydenottoon.';
+  });
+})();
+/* Tilaa itse: likimitat estävät Mittaan itse, varattu käynti näkyy, tiedot varauksesta */
+var tiNote = null, tiBook = null;
+if (TV && AE) {
+  tiNote = D.createElement('p'); tiNote.className = 'x-ferr x-approx'; tiNote.setAttribute('role', 'alert'); tiNote.hidden = true;
+  AE.h.parentNode.insertBefore(tiNote, AE.d ? AE.d.nextSibling : AE.h.nextSibling);
+  var kuka = TV.querySelector('[aria-labelledby="s-kuka"]');
+  tiBook = D.createElement('div'); tiBook.className = 'x-tibook'; tiBook.hidden = true;
+  tiBook.innerHTML = '<p class="sm x-meet"></p><button type="button" class="x-what">Peru varattu käynti</button>';
+  if (kuka) kuka.parentNode.insertBefore(tiBook, kuka.nextSibling);
+  tiBook.querySelector('button').addEventListener('click', function (e) { e.preventDefault(); Object.keys(BOOK).forEach(function (k) { if (booked[k]) setBooked(k, false); }); location.hash = '#tilaa'; render(); });
+}
+function approxRows() {
+  var n = 0;
+  allRows().forEach(function (r) {
+    if (!(r.qty > 0)) return;
+    if (r.door) { if (/tarkistetaan/.test(r.door.info || '')) n += r.qty; }
+    else if (/^noin /.test(rowInfo(r.cfg))) n += r.qty;
+  });
+  return n;
+}
+var _amF = applyMode; applyMode = function () {
+  _amF();
+  if (!tiNote) return;
+  var m = modeOf(), n = m.key === 'itse' ? approxRows() : 0;
+  tiNote.hidden = !n;
+  tiNote.textContent = n ? (n === 1 ? 'Yhdellä tuotteella' : n + ' tuotteella') + ' on vielä likimitat tai karmisyvyys auki. Mittaan itse vaatii tarkat mitat: muokkaa tuotetta hankkeessa ja valitse Tarkat mitat, tai valitse, että asiantuntija opastaa tai Kaski mittaa.' : '';
+  var bk = Object.keys(BOOK).filter(function (k) { return booked[k]; });
+  tiBook.hidden = !bk.length;
+  if (bk.length) tiBook.querySelector('p').textContent = 'Sinulla on varattuna ' + bk.map(function (k) { return BOOK[k].kind.toLowerCase() + ' ' + booked[k]; }).join(' ja ') + '. Jos tilaat itse, voit perua sen.';
+};
+window.addEventListener('click', function (e) {
+  if (current !== 'tilaa' || !tiNote) return;
+  var c = e.target && e.target.closest ? e.target.closest('.navb a.btn') : null; if (!c || !TV.contains(c)) return;
+  if (modeOf().key === 'itse' && approxRows()) { e.preventDefault(); e.stopImmediatePropagation(); tiNote.hidden = false; tiNote.scrollIntoView({ block: 'center' }); }
+}, true);
+function prefillFromBooking() {
+  if (!TV) return;
+  var src = [['#nimi-tilaa', ['#nimi', '#nimi-verkkotapaaminen']], ['#puh-tilaa', ['#puh', '#puh-verkkotapaaminen']], ['#os-tilaa', ['#os']], ['#sp-tilaa', ['#sp']]];
+  src.forEach(function (x) {
+    var dst = TV.querySelector(x[0]); if (!dst || dst.value.trim()) return;
+    for (var i = 0; i < x[1].length; i++) {
+      var el = D.querySelector('#v-mittaus ' + x[1][i] + ', #v-verkkotapaaminen ' + x[1][i]);
+      if (el && el.value.trim()) { dst.value = x[0] === '#os-tilaa' ? el.value.trim().split(',')[0] : el.value.trim(); break; }
+    }
+  });
+}
+/* Varauksen jälkeen: otsikko, chat-otsikko ja siirron kuittaus */
+var prevSlot = {};
+var _sbF = setBooked; setBooked = function (k, on) {
+  var before = prevSlot[k];
+  _sbF(k, on);
+  var v = VIEW[k], ch = v.querySelector('.chatb .svc-h');
+  if (ch) { if (!ch._t0) ch._t0 = ch.lastChild.nodeValue; ch.lastChild.nodeValue = on ? 'Kysyttävää varauksesta?' : ch._t0; }
+  if (on) {
+    document.title = BOOK[k].title;
+    BOOK[k].moved = !!(before && before !== booked[k]);
+    prevSlot[k] = booked[k];
+    renderBooked();
+  }
+};
+var _rnR5 = render; render = function () { _rnR5(); if (current === 'tilaa') prefillFromBooking(); };
 })();
 
 route();
