@@ -788,6 +788,26 @@ details.x-inopen > .mxb { margin-top:12px }
   .x-contact .x-ctl { grid-template-columns:1fr;gap:2px }
   .x-contact .x-ctl dd { margin-bottom:8px }
 }
+@media (max-width: 767px) { .x-view .ol2 a.lk { display:inline-block;padding:12px 0;margin:-12px 0 } }
+
+.x-booked { display:flex;flex-direction:column;gap:16px }
+.x-booked h1:focus { outline:none }
+.x-booked .x-ctl { display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:0;font-size:15px }
+.x-booked .x-ctl dt { color:var(--mu);margin:0 } .x-booked .x-ctl dd { margin:0;overflow-wrap:anywhere }
+.x-booked .x-next { font-size:15px }
+.x-booked .navb { border-top:0;padding-top:0 }
+.x-bookline { margin:0 0 12px }
+.x-asbtn { display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:4px 0 16px }
+.x-sendst.x-ok { font-size:15px;font-weight:650 }
+@media (max-width: 767px) {
+  .x-view .logo { display:inline-flex;align-items:center;min-height:44px }
+  .x-view a.lk { display:inline-block;padding:11px 0;margin:-11px 0 }
+  .x-view .bs { min-height:44px }
+  .x-view .ck { position:relative } .x-view .ck::after { content:'';position:absolute;inset:-11px }
+  #v-tarjous table.tb th:nth-child(3), #v-tarjous table.tb td:nth-child(3) { display:none }
+  .x-desk { display:none }
+  .x-booked .x-ctl { grid-template-columns:1fr;gap:2px } .x-booked .x-ctl dd { margin-bottom:8px }
+}
 
 /* mobiili */
 .x-mbar { display:none }
@@ -1059,7 +1079,7 @@ details.x-inopen > .mxb { margin-top:12px }
           <div class="jr"><a class="btn x-pri" href="#tilaa">Tilaa itse</a><ol class="x-next"><li>Tarkistamme mitat kanssasi verkkotapaamisessa.</li><li>Maksat vasta, kun mitat on tarkistettu.</li><li>Toimitus 6-8 viikossa.</li></ol></div>
           <div class="jr"><a class="btn2" href="#mittaus">Kaski mittaa ja asentaa</a><ol class="x-next"><li>Asiantuntija käy kotonasi vapaana aikana.</li><li>Saat tarjouksen asennuksineen, voimassa 3 päivää.</li><li>Asennus sovittuna päivänä.</li></ol></div>
         </div>
-        <div style="border-top:1px solid var(--ln);padding-top:12px;display:flex;flex-direction:column;gap:8px"><p class="sm b" style="margin:0">Lähetä itsellesi</p><p class="xs" style="margin:0">Saat hankkeen ja hinnan linkkinä. Tiliä ei tarvita.</p><div class="x-send"><div class="f"><label class="xs b" for="lis">Sähköposti</label><input id="lis" class="in" type="email" autocomplete="email"></div><div class="f"><label class="xs b" for="lis-p">Puhelin</label><input id="lis-p" class="in" type="tel" autocomplete="tel"></div><div class="f"><label class="xs b" for="lis-n">Postinumero</label><input id="lis-n" class="in" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div><label class="x-lupa"><input type="checkbox"><span class="xs">Kaski saa olla minuun yhteydessä tästä hankkeesta.</span></label></div><button type="button" class="btn2 bs" style="align-self:flex-start">Lähetä</button><p class="xs" style="margin:0">Voit myös <a class="lk" href="#">kopioida linkin</a> ja jakaa sen esimerkiksi puolisolle.</p></div>
+        <div style="border-top:1px solid var(--ln);padding-top:12px;display:flex;flex-direction:column;gap:8px"><p class="sm b" style="margin:0">Lähetä itsellesi</p><p class="xs" style="margin:0">Saat hankkeen ja hinnan linkkinä. Tiliä ei tarvita.</p><div class="x-send"><div class="f"><label class="xs b" for="lis">Sähköposti</label><input id="lis" class="in" type="email" autocomplete="email"></div><div class="f"><label class="xs b" for="lis-p">Puhelin <span class="mu">(jos haluat soiton)</span></label><input id="lis-p" class="in" type="tel" autocomplete="tel"></div><div class="f"><label class="xs b" for="lis-n">Postinumero <span class="mu">(valinnainen)</span></label><input id="lis-n" class="in" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div><label class="x-lupa"><input type="checkbox"><span class="xs">Kaski saa olla minuun yhteydessä tästä hankkeesta.</span></label></div><button type="button" class="btn2 bs" style="align-self:flex-start">Lähetä</button><p class="xs" style="margin:0">Voit myös <a class="lk" href="#">kopioida linkin</a> ja jakaa sen esimerkiksi puolisolle.</p></div>
         <div class="help"><div class="help-p"><span class="ava" role="img" aria-label="Kuva asiantuntijasta">[kuva]</span><div><p class="help-t">Kysyttävää?</p><p class="sm">[Nimi], alueesi asiantuntija, auttaa puhelimessa.</p></div></div><div class="help-b"><a class="btn2 bs" href="tel:+358000000000">Soita [Nimi]</a><a class="btn2 bs" href="#soittopyynto">Pyydä soittoa</a></div></div>
       </div>
     </aside>
@@ -1141,7 +1161,7 @@ details.x-inopen > .mxb { margin-top:12px }
           <p class="oh-txt">Mittaa vanhan oven karmi ulkoreunasta ulkoreunaan, leveys ja korkeus. Saranapuoli kysytään vasta, kun tilaat.</p>
         </aside>
       </div>
-    </section><section class="sec x-karmi" aria-labelledby="s-karmi"><div class="lab"><h2 id="s-karmi" class="t3">Karmisyvyys</h2><p class="sm mu">Valitse seinän paksuuden mukaan. Tätä ei voi valita puolestasi.</p></div><div class="x-pcol"><div class="x-chips" role="radiogroup" aria-labelledby="s-karmi"><button type="button" class="xm chip" aria-pressed="false">115 mm</button><button type="button" class="xm chip" aria-pressed="false">130 mm</button><button type="button" class="xm chip" aria-pressed="false">170 mm</button><button type="button" class="xm chip" aria-pressed="false">210 mm</button><button type="button" class="xm chip" aria-pressed="false">Tarkistetaan mittauksessa</button></div><p class="sm mu">Mittaa seinän paksuus karmin kohdalta ja valitse lähin syvyys.</p><p class="x-err" role="alert" hidden>Valitse karmisyvyys ennen kuin jatkat.</p></div></section>
+    </section><section class="sec x-karmi" aria-labelledby="s-karmi"><div class="lab"><h2 id="s-karmi" class="t3">Karmisyvyys</h2><p class="sm mu">Valitse seinän paksuuden mukaan. Tätä ei voi valita puolestasi.</p></div><div class="x-pcol"><div class="x-chips" role="radiogroup" aria-labelledby="s-karmi"><button type="button" class="xm chip" aria-pressed="false">115 mm</button><button type="button" class="xm chip" aria-pressed="false">130 mm</button><button type="button" class="xm chip" aria-pressed="false">170 mm</button><button type="button" class="xm chip" aria-pressed="false">210 mm</button><button type="button" class="xm chip" aria-pressed="false">Tarkistetaan mittauksessa</button></div><p class="x-err" role="alert" hidden>Valitse karmisyvyys ennen kuin jatkat.</p></div></section>
     <section class="sec" aria-labelledby="s-lev">
       <div class="lab"><h2 id="s-lev" class="t3">Levike</h2><p class="sm mu">Kun seinän aukko on ovea leveämpi.</p></div>
       <div class="pair" role="radiogroup" aria-labelledby="s-lev"><div class="pc pic" role="radio" tabindex="0" aria-checked="true"><span class="pc-pic pc-svg" role="img" aria-label="Yksi ovilehti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 112" aria-hidden="true"><rect x="24" y="6" width="80" height="100" rx="3" fill="#fdfdfd" stroke="#111010" stroke-width="3"/><g><rect x="34" y="16" width="60" height="80" fill="#fdfdfd" stroke="#111010" stroke-width="2.5"/><rect x="53" y="24" width="22" height="26" fill="#e9edee" stroke="#111010" stroke-width="1.5"/><rect x="85" y="52" width="4" height="13" rx="2" fill="#111010"/></g></svg></span><span class="pc-t">Ei levikettä</span><span class="pc-d">Ovi täyttää aukon.</span><span class="pc-p">Sisältyy</span></div><div class="pc pic" role="radio" tabindex="0" aria-checked="false"><span class="pc-pic pc-svg" role="img" aria-label="Ovi ja kiinteä sivuelementti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 112" aria-hidden="true"><rect x="6" y="6" width="116" height="100" rx="3" fill="#fdfdfd" stroke="#111010" stroke-width="3"/><g><g><rect x="16" y="16" width="62" height="80" fill="#fdfdfd" stroke="#111010" stroke-width="2.5"/><rect x="36" y="24" width="22" height="26" fill="#e9edee" stroke="#111010" stroke-width="1.5"/><rect x="69" y="52" width="4" height="13" rx="2" fill="#111010"/></g><rect x="84" y="16" width="28" height="80" fill="#fdfdfd" stroke="#111010" stroke-width="2.5"/><rect x="89" y="21" width="18" height="70" fill="#e9edee" stroke="#111010" stroke-width="1.5"/></g></svg></span><span class="pc-t">Levike oven viereen</span><span class="pc-d">Kiinteä lasi- tai umpielementti oven sivuun. Mitta on silloin koko aukon leveys, ja ovi ja levike sovitetaan siihen yhdessä.</span><span class="pc-p">[Kasken hinta]</span></div></div>
@@ -1388,7 +1408,7 @@ details.x-inopen > .mxb { margin-top:12px }
       <div class="s8" style="margin-bottom:24px"><h1>Tilaa itse</h1><p class="mu">Tarvitsemme vielä tarkat tiedot jokaisesta ikkunasta ja ovesta. Maksat vasta, kun Kaski on tarkistanut tiedot.</p></div>
       <section class="sec" aria-labelledby="s-kuka">
         <div class="lab"><h2 id="s-kuka" class="t3">Kuka mittaa?</h2></div>
-        <div class="g3k" role="radiogroup" aria-labelledby="s-kuka"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Mittaan itse</span><span class="pc-d">Kirjoitat mitat tälle sivulle ja vastaat niistä itse. Kaski käy ne läpi. Sopii, jos olet mitannut ikkunoita ennenkin.</span><span class="pc-p">Maksuton</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Mittaan asiantuntijan opastamana</span><span class="pc-d">Asiantuntija opastaa sinua mittaamisessa videopuhelussa ja kirjaa mitat puolestasi. Sopii, jos et ole varma, mistä mitataan.</span><span class="pc-p">Maksuton</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Kaski mittaa puolestani</span><span class="pc-d">Asiantuntija mittaa kaikki ikkunat ja oven kotonasi, ja Kaski vastaa mitoista. Sopii, jos aukot ovat vinoja.</span><span class="pc-p">Maksuton</span></div></div>
+        <div class="g3k" role="radiogroup" aria-labelledby="s-kuka"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Mittaan itse</span><span class="pc-d">Tarkistat mitat hankkeessa ja vastaat niistä itse. Kaski käy ne läpi ennen maksua. Sopii, jos olet mitannut ikkunoita ennenkin.</span><span class="pc-p">Maksuton</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Mittaan asiantuntijan opastamana</span><span class="pc-d">Asiantuntija opastaa sinua mittaamisessa videopuhelussa ja kirjaa mitat puolestasi. Sopii, jos et ole varma, mistä mitataan.</span><span class="pc-p">Maksuton</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Kaski mittaa puolestani</span><span class="pc-d">Asiantuntija mittaa kaikki ikkunat ja oven kotonasi, ja Kaski vastaa mitoista. Sopii, jos aukot ovat vinoja.</span><span class="pc-p">Maksuton</span></div></div>
       </section>
       <section class="qsec" aria-labelledby="s-aika-tilaa">
         <h2 id="s-aika-tilaa" class="t3">Valitse aika verkkotapaamiselle</h2>
@@ -3227,11 +3247,12 @@ v4.addEventListener('click', function (e) {
       renderHanke();
     } else if (act === 'del') {
       e.preventDefault();
+      var snapD = copy(hanke), nmD = loc.row.door ? loc.row.door.name : rowName(loc.row.cfg);
       loc.sec.rows.splice(loc.idx, 1);
       if (editing === loc.row.id) editing = null;
       if (lastRow === loc.row.id) lastRow = null;
-      lastMass = null;
-      pendingFocus = loc.sec.id + ':add';
+      lastMass = { room: 'Poistit: ' + nmD, rest: ' (' + secName(loc.sec) + (loc.row.qty > 1 ? ', ' + loc.row.qty + ' kpl' : '') + ').', snap: snapD };
+      pendingFocus = 'undo';
       renderHanke();
     }
     return;
@@ -3781,7 +3802,7 @@ function renderErHanke() {
   var rows = [];
   $$('.it', WH).forEach(function (it) {
     if (it.closest('template')) return;
-    var nm = txt(it.querySelector('.it-txt p.b')), sec = it.closest('section.room2'), h = sec ? txt(sec.querySelector('h2')) : '';
+    var nm = plainName(it.querySelector('.it-txt p.b')), sec = it.closest('section.room2'), h = sec ? txt(sec.querySelector('h2')) : '';
     var st = it.querySelector('.stepper'), q = 1;
     if (st) Array.prototype.forEach.call(st.children, function (x) { if (x.tagName === 'SPAN' && /^\d+$/.test(txt(x))) q = +txt(x); });
     rows.push([(h ? h + ': ' : '') + nm + (q > 1 ? ', ' + q + ' kpl' : ''), txt(it.querySelector('.it-p'))]);
@@ -3980,7 +4001,8 @@ window.addEventListener('click', function (e) {
     var f = v.querySelector('.slot'); if (f) { f.scrollIntoView({ block: 'center' }); f.focus({ preventScroll: true }); }
     return;
   }
-  if (current === 'tilaa' && !checkFields()) { e.preventDefault(); e.stopPropagation(); }
+  if (current === 'tilaa' && !checkFields()) { e.preventDefault(); e.stopPropagation(); return; }
+  if (BOOK[current] && c.classList.contains('x-book')) { e.preventDefault(); e.stopPropagation(); if (checkList(v, BOOK[current].fields)) setBooked(current, true); }
 }, true);
 
 /* Tilaa itse: kuka mittaa ohjaa ajanvarauksen, pakolliset kentät */
@@ -4040,9 +4062,9 @@ var FIELDS = [
 ];
 function fieldErr(inp, msg) {
   var id = inp.id + '-err', p = D.getElementById(id);
-  if (!msg) { inp.removeAttribute('aria-invalid'); if (p) p.hidden = true; return; }
+  if (!msg) { inp.removeAttribute('aria-invalid'); if (p) p.style.visibility = 'hidden'; return; }
   if (!p) { p = D.createElement('p'); p.id = id; p.className = 'x-ferr'; inp.parentNode.appendChild(p); inp.setAttribute('aria-describedby', id); }
-  p.textContent = msg; p.hidden = false; inp.setAttribute('aria-invalid', 'true');
+  p.textContent = msg; p.hidden = false; p.style.visibility = ''; inp.setAttribute('aria-invalid', 'true');
 }
 function checkFields() {
   var first = null;
@@ -4086,7 +4108,7 @@ function renderOrderList() {
         if (im && ri) { im.setAttribute('src', ri.getAttribute('src')); im.setAttribute('alt', ri.getAttribute('alt') || ''); }
         var ps = el.querySelectorAll('p');
         if (ps[0]) ps[0].textContent = secName(s);
-        if (ps[1]) ps[1].textContent = [txt(re.querySelector('.it-txt p.b')), txt(re.querySelector('.it-txt p.sm'))].filter(Boolean).join(', ');
+        if (ps[1]) ps[1].textContent = [plainName(re.querySelector('.it-txt p.b')), txt(re.querySelector('.it-txt p.sm'))].filter(Boolean).join(', ');
         var q = el.querySelector('.q'); if (q) q.textContent = r.qty + ' kpl';
         var p = el.querySelector('.p'); if (p) p.textContent = txt(re.querySelector('.it-p'));
         t.parent.appendChild(el);
@@ -4203,7 +4225,7 @@ var WHAT = {
   jako: 'Jako kertoo, miten ikkuna jakautuu osiin. Tasajaossa osat ovat yhtä leveät. Jos toinen osa on kapeampi, toinen jää leveämmäksi.',
   nako: 'Näkösuoja on kuviolasi: valo pääsee läpi, mutta näkymä ei. Kuvio on itse lasissa, ei erillistä kalvoa.',
   pesu: 'Pesutuki pitää avatun ikkunan paikallaan, kun peset lasien välit. Ilman sitä avattu puite voi kääntyä.',
-  karmi: 'Karmisyvyys on karmin paksuus seinän suunnassa. Mittaa seinän paksuus oven kohdalta ja valitse lähin syvyys, niin ovi asettuu seinään oikein.',
+  karmi: 'Karmisyvyys on karmin paksuus seinän suunnassa, sisäreunasta ulkoreunaan. Sen on oltava seinää kapeampi: mittaa seinän paksuus oven kohdalta ja valitse suurin syvyys, joka on sitä pienempi. Jos et ole varma, valitse Tarkistetaan mittauksessa.',
   levike: 'Levike on kiinteä lasi- tai umpiosa oven sivussa. Sitä tarvitaan, kun seinän aukko on ovea leveämpi: ovi ja levike sovitetaan aukkoon yhdessä, ja mitaksi annetaan koko aukon leveys.'
 };
 function addWhat(key, afterEl) {
@@ -4227,6 +4249,249 @@ function addWhat(key, afterEl) {
   var hl = WD ? WD.querySelector('#s-lev') : null;
   if (hl) addWhat('levike', hl.closest('.lab').lastElementChild);
 })();
+/* Kaski mittaa ja asentaa: varaus vahvistetaan, tarjous ja tekstit rakentuvat hankkeesta */
+var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function okLen(n) { return function (v) { return v.length >= n; }; }
+function okPhone(v) { return v.replace(/\D/g, '').length >= 7; }
+function okMail(v) { return EMAIL.test(v); }
+var BOOK = {};
+if (VIEW['mittaus']) BOOK['mittaus'] = { kind: 'Mittauskäynti', title: 'Mittauskäynti on varattu',
+  fields: [['#nimi', 'Anna nimesi.', okLen(2)], ['#puh', 'Tarkista puhelinnumero.', okPhone], ['#os', 'Anna osoite, jossa käynti tehdään.', okLen(3)]],
+  place: ['Osoite', '#os'],
+  next: ['Saat vahvistuksen tekstiviestinä. Ajan voi siirtää samasta viestistä.', 'Asiantuntija soittaa päivää ennen käyntiä.', 'Käynnillä hän mittaa {obj} ja käy valintasi kanssasi läpi.', 'Saat tarjouksen asennuksineen linkkinä samana päivänä. Se on voimassa 3 päivää.'] };
+if (VIEW['verkkotapaaminen']) BOOK['verkkotapaaminen'] = { kind: 'Verkkotapaaminen', title: 'Verkkotapaaminen on varattu',
+  fields: [['#nimi-verkkotapaaminen', 'Anna nimesi.', okLen(2)], ['#puh-verkkotapaaminen', 'Tarkista puhelinnumero.', okPhone], ['#sp', 'Tarkista sähköpostiosoite, esimerkiksi nimi@esimerkki.fi.', okMail]],
+  place: ['Sähköposti', '#sp'],
+  next: ['Linkki videopuheluun tulee sähköpostiisi.', 'Asiantuntija opastaa, kun mittaat {obj}, ja kirjaa mitat puolestasi.', 'Saat tarjouksen asennuksineen linkkinä samana päivänä. Se on voimassa 3 päivää.'] };
+var booked = {}, lastBooked = null;
+function checkList(v, fields) {
+  var first = null;
+  fields.forEach(function (f) {
+    var i = v.querySelector(f[0]); if (!i) return;
+    var ok = f[2](i.value.trim());
+    fieldErr(i, ok ? '' : f[1]);
+    if (!ok && !first) first = i;
+  });
+  if (first) { first.scrollIntoView({ block: 'center' }); first.focus({ preventScroll: true }); }
+  return !first;
+}
+Object.keys(BOOK).forEach(function (k) {
+  var v = VIEW[k], B = BOOK[k], tm = v.querySelector('.tm'); if (!tm) return;
+  var c = $$('.navb a.btn', v).pop(); if (c) c.classList.add('x-book');
+  var pnl = D.createElement('div'); pnl.className = 'x-booked s16'; pnl.hidden = true;
+  pnl.innerHTML = '<div class="s8"><p class="eb">Kaski mittaa ja asentaa</p><h1 tabindex="-1">' + B.title + '</h1><p class="mu x-bk-when"></p></div>'
+    + '<dl class="x-ctl"></dl><h2 class="t3">Mitä seuraavaksi</h2><ol class="x-next x-bk-next"></ol>'
+    + '<p class="sm"><button type="button" class="x-what x-bk-edit">Muuta varausta</button></p>'
+    + '<p class="sm"><a class="btn2" href="#tarjous">Esikatsele seuraavaa vaihetta: tarjous ' + (k === 'mittaus' ? 'mittauskäynnin' : 'verkkotapaamisen') + ' jälkeen</a></p>'
+    + '<div class="navb"><a class="btn" href="#hanke">Takaisin hankkeeseen</a></div>';
+  tm.insertBefore(pnl, tm.firstChild);
+  pnl.querySelector('.x-bk-edit').addEventListener('click', function (e) { e.preventDefault(); setBooked(k, false); });
+  v.addEventListener('input', function (e) {
+    var i = e.target; if (!i || i.getAttribute('aria-invalid') !== 'true') return;
+    B.fields.forEach(function (f) { if ('#' + i.id === f[0] && f[2](i.value.trim())) fieldErr(i, ''); });
+  });
+});
+function setBooked(k, on) {
+  var v = VIEW[k], tm = v.querySelector('.tm'), pnl = tm.querySelector('.x-booked');
+  booked[k] = on ? slotOf(v) : '';
+  if (on) lastBooked = k; else if (lastBooked === k) lastBooked = booked.mittaus ? 'mittaus' : (booked.verkkotapaaminen ? 'verkkotapaaminen' : null);
+  Array.prototype.forEach.call(tm.children, function (ch) { if (ch !== pnl) ch.hidden = on; });
+  pnl.hidden = !on;
+  renderBooked();
+  window.scrollTo(0, 0);
+  var h = on ? pnl.querySelector('h1') : v.querySelector('h1'); if (h) { if (!on) h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+}
+function cnt() { var w = 0, d = 0; allRows().forEach(function (r) { if (r.door) d += r.qty; else w += r.qty; }); return { w: w, d: d }; }
+function objAcc() { var q = cnt(), a = []; if (q.w) a.push(q.w > 1 ? 'ikkunat' : 'ikkunan'); if (q.d) a.push(q.d > 1 ? 'ovet' : 'oven'); return a.join(' ja ') || 'ikkunat'; }
+function objGen() { var q = cnt(), a = []; if (q.w) a.push(q.w > 1 ? 'ikkunoiden' : 'ikkunan'); if (q.d) a.push(q.d > 1 ? 'ovien' : 'oven'); return a.join(' ja ') || 'ikkunoiden'; }
+function renderBooked() {
+  Object.keys(BOOK).forEach(function (k) {
+    var v = VIEW[k], B = BOOK[k], pnl = v.querySelector('.x-booked'); if (!pnl) return;
+    var sl = booked[k] || slotOf(v), pv = v.querySelector(B.place[1]);
+    var nm = v.querySelector(B.fields[0][0]), ph = v.querySelector(B.fields[1][0]);
+    pnl.querySelector('.x-bk-when').textContent = B.kind + ' ' + sl + '. Varaus on maksuton eikä sido mihinkään.';
+    fillDl(pnl.querySelector('dl'), [['Aika', sl], ['Nimi', nm ? nm.value.trim() : ''], ['Puhelin', ph ? ph.value.trim() : ''], [B.place[0], pv ? pv.value.trim() : '']]);
+    var ol = pnl.querySelector('ol'); ol.innerHTML = '';
+    B.next.forEach(function (t) { var li = D.createElement('li'); li.textContent = t.replace('{obj}', objAcc()); ol.appendChild(li); });
+  });
+  if (bookLine) {
+    var parts = Object.keys(BOOK).filter(function (k) { return booked[k]; }).map(function (k) { return BOOK[k].kind + ' varattu: ' + booked[k] + '.'; });
+    bookLine.hidden = !parts.length; bookLine.textContent = parts.join(' ');
+  }
+}
+var bookLine = null;
+(function () {
+  var jr = WH ? WH.querySelector('.ysum .jr') : null; if (!jr) return;
+  bookLine = D.createElement('p'); bookLine.className = 'sm x-meet x-bookline'; bookLine.setAttribute('role', 'status'); bookLine.hidden = true;
+  jr.parentNode.insertBefore(bookLine, jr);
+})();
+/* Hankkeesi-yhteenveto: rahti omana rivinään */
+['mittaus', 'verkkotapaaminen'].forEach(function (k) {
+  var v = VIEW[k]; if (!v) return;
+  var b = v.querySelector('.ysum-b'), tot = b ? b.querySelector('.tot') : null;
+  if (!tot || $$('.sr', b).some(function (r) { return /^Rahti/.test(txt(r)); })) return;
+  var r = D.createElement('div'); r.className = 'sr'; r.innerHTML = '<span>Rahti</span><span class="num">90 €</span>';
+  b.insertBefore(r, tot);
+});
+/* Tarjous hankkeesta */
+var TJ = VIEW['tarjous'], tjRows = {}, tjDoorTpl = null, tjBody = null;
+if (TJ) {
+  tjBody = TJ.querySelector('table.tb tbody');
+  $$('tr', tjBody).forEach(function (tr) {
+    var t = txt(tr.querySelector('td'));
+    if (/^Ikkunat/.test(t)) tjRows.win = tr; else if (/^Ulko-ovi/.test(t)) { tjDoorTpl = tr.cloneNode(true); tjRows.door0 = tr; }
+    else if (/purku/i.test(t)) tjRows.purku = tr; else if (/^Asennus/.test(t)) tjRows.asennus = tr;
+    else if (/listat/i.test(t)) tjRows.listat = tr; else if (/^Rahti/.test(t)) tjRows.rahti = tr;
+  });
+  var hp = TJ.querySelector('.tm > .s8 p.mu');
+  if (hp) hp.classList.add('x-tj-head');
+  var sp = TJ.querySelector('#s-sis + p, [id^="s-sis"] + p');
+  if (sp) { var m0 = /^([^.]*\.)\s*(.*)$/.exec(sp.firstChild && sp.firstChild.nodeType === 3 ? sp.firstChild.nodeValue : ''); if (m0) { var sd = D.createElement('span'); sd.className = 'x-desk'; sd.textContent = m0[1] + ' '; sp.firstChild.nodeValue = m0[2]; sp.insertBefore(sd, sp.firstChild); } }
+}
+var ASENNUS_IKKUNA = 34000, ASENNUS_OVI = 40000, LISTAT_KPL = 4000, RAHTI = 9000;
+function dayOf(sl) { var m = /(\d+)\.(\d+)\./.exec(sl || ''); return m ? new Date(2026, +m[2] - 1, +m[1]) : new Date(); }
+function dm(d) { return d.getDate() + '.' + (d.getMonth() + 1) + '.'; }
+function renderOffer() {
+  if (!TJ || !tjBody) return;
+  var all = allRows(), wr = all.filter(function (r) { return !r.door && r.qty > 0; }), dr = all.filter(function (r) { return r.door && r.qty > 0; });
+  var q = cnt(), tW = hankeTotal(wr);
+  if (tjRows.win) { tjRows.win.hidden = !q.w; tjRows.win.children[0].textContent = 'Ikkunat, ' + q.w + ' kpl, valmistetaan mittojen mukaan'; putPrice(tjRows.win.children[1], tW); }
+  $$('tr.x-tjd', tjBody).forEach(remove);
+  if (tjRows.door0) tjRows.door0.hidden = true;
+  var at = tjRows.door0 || tjRows.purku;
+  dr.forEach(function (r) {
+    var tr = tjDoorTpl.cloneNode(true); tr.classList.add('x-tjd'); tr.hidden = false;
+    tr.children[0].textContent = r.door.name + (r.qty > 1 ? ', ' + r.qty + ' kpl' : '');
+    var P = r.door.price; putPrice(tr.children[1], P.known ? { known: true, ex: P.ex * r.qty, ph: P.ph } : P);
+    tjBody.insertBefore(tr, at);
+  });
+  var asen = q.w * ASENNUS_IKKUNA + q.d * ASENNUS_OVI, list = (q.w + q.d) * LISTAT_KPL;
+  if (tjRows.purku) tjRows.purku.children[0].textContent = (q.w > 1 || q.d > 1 ? 'Vanhojen ' : 'Vanhan ') + objGen() + ' purku';
+  if (tjRows.asennus) tjRows.asennus.children[1].textContent = eur(asen);
+  if (tjRows.listat) tjRows.listat.children[1].textContent = eur(list);
+  if (tjRows.rahti) tjRows.rahti.children[1].textContent = eur(RAHTI);
+  var tot = totAdd(totAdd(tW, hankeTotal(dr)), { known: true, ex: asen + list + RAHTI, ph: [] });
+  var tv = TJ.querySelector('.ysum .tot .v'); if (tv) putPrice(tv, tot);
+  var k = lastBooked || 'mittaus', sl = booked[k] || (VIEW[k] ? slotOf(VIEW[k]) : ''), d = dayOf(sl), until = new Date(d.getTime()); until.setDate(until.getDate() + 3);
+  var uTxt = dm(until) + '2026';
+  var hp = TJ.querySelector('.x-tj-head');
+  if (hp) hp.textContent = (k === 'verkkotapaaminen' ? '[Myyjän nimi] kirjasi ' + objGen() + ' mitat verkkotapaamisessa ' : '[Myyjän nimi] mittasi ' + objAcc() + ' ') + dm(d) + ' Tarjouksessa on sama hanke asennettuna. Se on voimassa 3 päivää, ' + uTxt + ' asti.';
+  var vb = TJ.querySelector('.valid .b'); if (vb) vb.textContent = 'Voimassa ' + uTxt + ' asti';
+}
+/* Yleiset tekstit hankkeen sisällön mukaan: ikkunat ja oven */
+var objNodes = [];
+ORD.concat(['hanke']).forEach(function (k) {
+  if (!VIEW[k]) return;
+  var w = D.createTreeWalker(VIEW[k], NodeFilter.SHOW_TEXT, null), n;
+  while ((n = w.nextNode())) if (/ikkunat ja oven|ikkunoiden ja oven/.test(n.nodeValue) && !(n.parentNode.closest && n.parentNode.closest('.x-booked,.x-tj-head'))) objNodes.push({ n: n, tpl: n.nodeValue });
+});
+function renderObj() {
+  var a = objAcc(), g = objGen();
+  objNodes.forEach(function (x) { var t = x.tpl.replace(/ikkunat ja oven/g, a).replace(/ikkunoiden ja oven/g, g); if (x.n.nodeValue !== t) x.n.nodeValue = t; });
+}
+/* Tarkistus: milloin, mittaustavan mukaan; vahvistus: tuotteet, yhteystiedot ja maksupäivä */
+var chkNode = null;
+if (VIEW['tarkistus']) { var w2 = D.createTreeWalker(VIEW['tarkistus'], NodeFilter.SHOW_TEXT, null), n2; while ((n2 = w2.nextNode())) if (/\[Yleensä seuraavana arkipäivänä\.\]/.test(n2.nodeValue)) { chkNode = { n: n2, tpl: n2.nodeValue }; break; } }
+var VV = VIEW['vahvistus'], payNode = null;
+if (VV) {
+  var tmv = VV.querySelector('.tm');
+  if (tmv && crTpl['maksa']) {
+    var sec = D.createElement('section'); sec.className = 'qsec'; sec.setAttribute('aria-labelledby', 'x-vt');
+    sec.innerHTML = '<h2 id="x-vt" class="t3" style="margin-bottom:16px">Tilaus</h2><p class="rmh"></p>';
+    tmv.appendChild(sec);
+    crTpl['vahvistus'] = { el: crTpl['maksa'].el, parent: sec };
+    var cs = D.createElement('section'); cs.className = 'qsec x-contact'; cs.setAttribute('aria-labelledby', 'x-ct-vahvistus');
+    cs.innerHTML = '<h2 id="x-ct-vahvistus" class="t3">Toimitus ja yhteystiedot</h2><dl class="x-ctl"></dl>';
+    tmv.appendChild(cs); contactBoxes.push(cs);
+  }
+  payNode = {};
+  $$('.steps p.b', VV).forEach(function (p) { var n = p.nextElementSibling; if (n && /^\d+\.\d+\.$/.test(txt(n))) payNode[txt(p)] = n; });
+}
+var _rmK = renderOrderMeta; renderOrderMeta = function () {
+  _rmK();
+  var m = modeOf(), tv = TV ? slotOf(TV) : '';
+  if (chkNode) chkNode.n.nodeValue = m.key === 'itse' ? chkNode.tpl : chkNode.tpl.replace('[Yleensä seuraavana arkipäivänä.]', m.key === 'kaski' ? 'Mittauskäynnin jälkeen.' : 'Verkkotapaamisen jälkeen.');
+  if (payNode) { var chk = dm(m.key !== 'itse' && tv ? dayOf(tv) : new Date()); Object.keys(payNode).forEach(function (t) { payNode[t].textContent = /lähetetty/i.test(t) ? dm(new Date()) : chk; }); }
+  ['maksa', 'vahvistus'].forEach(function (k) {
+    var t = crTpl[k]; if (!t) return;
+    $$('.cr p', t.parent).forEach(function (p) { var s = p.textContent.replace(/noin (\d+) × (\d+) cm/, function (x, a, b) { return a * 10 + ' × ' + b * 10 + ' mm'; }); if (s !== p.textContent) p.textContent = s; });
+  });
+  renderBooked(); renderOffer(); renderObj();
+};
+/* Ostopolku: tekstit valinnan mukaan, ovihaku, muokkauksen painike sivupaneelissa, oven lisäyksen kuittaus */
+function plainName(el) { if (!el) return ''; var c = el.cloneNode(true); $$('.tag,.bdg', c).forEach(remove); return txt(c); }
+var ventInfo = null;
+adds.forEach(function (r) {
+  if (!r.dis || !r.el || ventInfo) return;
+  var b = $$('.b', r.el).filter(function (x) { return /Ei saatavilla/.test(txt(x)); })[0];
+  if (!b) return;
+  var rest = b.nextSibling && b.nextSibling.nodeType === 3 ? b.nextSibling : null, lk = b.parentNode.querySelector('a.lk');
+  ventInfo = { b: b, b0: txt(b), rest: rest, rest0: rest ? rest.nodeValue : '', lk: lk, lk0: lk ? txt(lk) : '' };
+});
+var jakoP = null;
+(function () {
+  var hj = WR ? $$('h2', WR).filter(function (h) { return /jako/i.test(txt(h)); })[0] : null;
+  var lab = hj ? hj.closest('.lab') : null, p = lab ? lab.querySelector('p') : null;
+  if (p) { var n = $$('*', p).length ? null : p.firstChild; jakoP = { p: p, n: p.firstChild && p.firstChild.nodeType === 3 ? p.firstChild : null }; if (jakoP.n) jakoP.t0 = jakoP.n.nodeValue; }
+})();
+function renderShop() {
+  var fixed = draft && draft.type !== refType;
+  if (ventInfo) {
+    ventInfo.b.textContent = fixed ? 'Ei saatavilla kiinteään ikkunaan.' : ventInfo.b0;
+    if (ventInfo.rest) ventInfo.rest.nodeValue = fixed ? ' Tuuletusikkuna tarvitsee avattavan ikkunan. ' : ventInfo.rest0;
+    if (ventInfo.lk) ventInfo.lk.textContent = fixed ? 'Vaihda ikkunan tyyppiä' : ventInfo.lk0;
+  }
+  if (jakoP && jakoP.n) jakoP.n.nodeValue = fixed ? jakoP.t0.replace(/, ja jokainen osa aukeaa erikseen\./, '.') : jakoP.t0;
+}
+/* Ovi: oletusmallin perustelu vain oletusmallille, hintojen selitys mallien kohdalla */
+var malP = WD ? WD.querySelector('[aria-labelledby^="s-mal"] .lab p') : null, malP0 = malP ? txt(malP) : '';
+function renderMalNote() {
+  if (!malP || !door) return;
+  var m = dByClass('md4')[0], isDef = m && door.sel[m.k] === m.def, extra = 0;
+  dG.forEach(function (g) { if (g.kind !== 'pc' || g.def < 0) return; var p = parsePrice(gPrice(g, g.def)); if (p.kind === 'exact' && p.val > 0) extra += p.val; });
+  var t = isDef ? malP0 : malP0.replace(/\s*\S+ on valittu, koska se on Kasken oletus\./, '');
+  if (extra) t += ' Mallien hinnat ilman lisävalintoja. Valmiiksi valittu lämpimämpi rakenne lisää hintaan ' + eur(extra) + '.';
+  if (malP.textContent !== t) malP.textContent = t;
+}
+/* Ovihaku: kenttä mallien yläpuolelle, ääkköset ja ilman */
+(function () {
+  if (!hm) return;
+  var f = hm.closest('.f'), s12 = WD.querySelector('[aria-labelledby^="s-mal"] .s12'), g = s12 ? s12.querySelector('.g4m') : null;
+  if (f && s12 && g) s12.insertBefore(f, g);
+  var ph = WD.querySelector('[aria-labelledby^="s-mal"] .ph'), flt = WD.querySelector('[aria-labelledby^="s-mal"] .flt');
+  function fold(x) { return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  hm.addEventListener('input', function (e) {
+    e.stopImmediatePropagation();
+    var q = fold(hm.value.trim()), n = 0;
+    $$('button.md4', WD).forEach(function (b) {
+      var ok = !q || fold((b.getAttribute('aria-label') || '') + ' ' + txt(b)).indexOf(q) >= 0;
+      b.hidden = !ok; if (ok) n++;
+    });
+    none.hidden = n > 0;
+    if (ph) ph.hidden = !!q;
+    if (flt) flt.hidden = !!q;
+  }, true);
+})();
+/* Muokkaa valittuja: pääpainike myös sivupaneeliin */
+var editAside = null;
+(function () {
+  var v = K5 ? VIEW[K5] : null; if (!v) return;
+  var as = v.querySelector('aside.side'), nb = $$('.navb a.btn', v).pop(); if (!as || !nb) return;
+  var help = as.querySelector('.help');
+  editAside = D.createElement('a'); editAside.className = 'btn x-asbtn'; editAside.href = nb.getAttribute('href') || '#';
+  editAside.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); nb.click(); });
+  as.insertBefore(editAside, help || null);
+  editAside._nb = nb;
+})();
+function renderEditAside() { if (editAside) { var t = txt(editAside._nb); if (editAside.textContent !== t) editAside.textContent = t; editAside.hidden = !!editAside._nb.closest('[hidden]:not(.x-view)'); } }
+/* Ovi hankkeeseen: kuittaus */
+var _dcmF = doorCommit; doorCommit = function () {
+  var wasEdit = !!dEditing, tgt = dTarget;
+  _dcmF();
+  var s = tgt ? findSec(tgt) : null;
+  toast((wasEdit ? 'Päivitit oven' : 'Lisäsit oven') + (s ? ': ' + secName(s) : '') + '.');
+};
+var _rnS = render; render = function () { _rnS(); renderShop(); renderMalNote(); renderEditAside(); };
 })();
 
 route();
@@ -4395,9 +4660,10 @@ D.addEventListener('keydown', function (e) {
     var v = null, all = D.querySelectorAll('.x-view');
     for (var i = 0; i < all.length; i++) if (!all[i].hidden) { v = all[i]; break; }
     if (!v) { bar.hidden = true; return; }
-    var big = v.querySelector('aside .big'), nbs = v.querySelectorAll('.navb a.btn'), t = '', lab = '', val = null;
+    var shown = function (el) { return !el.closest('[hidden]:not(.x-view)'); };
+    var big = v.querySelector('aside .big'), nbs = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn'), shown), t = '', lab = '', val = null;
     target = nbs.length ? nbs[nbs.length - 1] : null;
-    backT = v.querySelector('.navb a.btn2');
+    backT = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn2'), shown)[0] || null;
     chipT = null;
     var ys = !big ? v.querySelector('.ysum') : null, sb = v.querySelector('.selbar:not([hidden])');
     if (sb) {
@@ -4410,7 +4676,7 @@ D.addEventListener('keydown', function (e) {
       big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr a'); backT = null;
       lab = 'Hanke yhteensä'; t = target ? target.textContent.trim() : '';
       chipT = ys;
-      if (!target) { var nb2 = v.querySelectorAll('.navb a.btn'); target = nb2.length ? nb2[nb2.length - 1] : null; backT = v.querySelector('.navb a.btn2'); lab = 'Yhteensä'; t = target ? target.textContent.trim() : ''; chipT = null; }
+      if (!target) { var nb2 = nbs; target = nb2.length ? nb2[nb2.length - 1] : null; backT = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn2'), shown)[0] || null; lab = 'Yhteensä'; t = target ? target.textContent.trim() : ''; chipT = null; }
     } else {
       var h2 = v.querySelector('aside h2');
       lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : (h2 && h2.textContent.trim() ? h2.textContent.trim() : 'Hinta');
@@ -4429,7 +4695,7 @@ D.addEventListener('keydown', function (e) {
     bBack.hidden = !backT;
     if (backT) {
       var bt = backT.textContent.trim();
-      bBack.lastChild.textContent = ' ' + (/^takaisin$/i.test(bt) ? 'Takaisin' : bt);
+      bBack.lastChild.textContent = ' ' + (/^takaisin$/i.test(bt) ? 'Takaisin' : bt.replace(/,.*$/, ''));
       bBack.firstChild.hidden = !/^takaisin$/i.test(bt);
     }
     bar.classList.toggle('x-one', !backT);
