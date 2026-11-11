@@ -770,6 +770,9 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-sendst { margin:6px 0 0;color:#b4232a;font-weight:650 }
 .x-sendst.x-ok { color:var(--ink);font-weight:400 }
 
+.x-view .slot[aria-pressed="true"] { background:var(--ink);color:var(--bg);border-color:var(--ink) }
+.x-meet { margin:8px 0 0;font-weight:650 }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -882,6 +885,8 @@ details.x-inopen > .mxb { margin-top:12px }
   .x-view table.tb { display:block;overflow-x:auto;max-width:100% }
 }
 
+@media (max-width: 767px) { .x-mrow2 a.x-mnext { white-space:normal;text-align:center;line-height:1.2 } }
+
 </style>
 </head>
 <body>
@@ -914,7 +919,7 @@ details.x-inopen > .mxb { margin-top:12px }
       <div class="mgrid">
         <div class="s16">
           <div class="seg" role="radiogroup" aria-label="Kuinka tarkasti tiedät koon"><button type="button" class="chip" aria-pressed="true">Suunnilleen</button><button type="button" class="chip" aria-pressed="false">Tiedän tarkat mitat</button></div>
-          <p id="koko-vihje" class="sm mu koko-vihje" style="margin-top:-8px">Sentin tarkkuus riittää hintaan.</p>
+          <p id="koko-vihje" class="sm mu koko-vihje" style="margin-top:-8px">Suunnilleen riittää hintaan. Tarkat mitat tarkistetaan ennen tilausta.</p>
           <div class="f"><label for="lev">Leveys, cm</label><input id="lev" class="in num" type="text" inputmode="numeric" value="120" aria-describedby="koko-vihje"></div>
           <div class="f"><label for="kor">Korkeus, cm</label><input id="kor" class="in num" type="text" inputmode="numeric" value="140" aria-describedby="koko-vihje"></div>
           <div class="svc"><p class="svc-h"><svg class="svc-i" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="11" width="26" height="10" rx="1.5"/><path d="M8 11v4M12 11v6M16 11v4M20 11v6M24 11v4"/></svg>Et halua mitata itse?</p><p class="sm">Asiantuntija mittaa kotonasi ja tekee tarjouksen asennuksineen.</p><a class="btn2 bs" href="#mittaus">Varaa maksuton mittauskäynti</a></div>
@@ -988,7 +993,7 @@ details.x-inopen > .mxb { margin-top:12px }
 <main class="c pg"><div class="row">
   <div class="main" style="gap:0">
     <div class="s8" style="margin-bottom:24px"><h1>Lisätäänkö jotain?</h1><p class="mu">Valitse, jos tarvitset. Hinta tähän ikkunaan.</p></div>
-    <div style="border-bottom:1px solid var(--ln)"><section class="sec" aria-labelledby="g-ilma"><div class="lab"><h2 id="g-ilma" class="t3">Raitis ilma</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Korvausilmaventtiili</span><br><span class="why">Tuo raitista ilmaa ikkunan kautta. Tarpeen, jos talossa ei ole tuloilmaa tuovaa ilmanvaihtokonetta. Valittaessa: venttiilin malli, esimerkiksi äänieristetty.</span></span><span class="sm num" style="padding-top:2px">+116,80 €</span></label></div><div class="oi dis"><label class="orow"><input type="checkbox" disabled><span><span class="ttl">Tuuletusikkuna</span><br><span class="why">Avaat ikkunan tuuletukseen yhdellä painikkeella, ja aukaisunrajoitin estää sitä aukeamasta liikaa. Hyvä valinta lapsiperheeseen.<br><span class="b">Ei saatavilla näin leveään yhden osan ikkunaan.</span> Kahden osan jaossa tuuletusikkuna tulee kapeampaan osaan. <a class="lk" href="#rakenne">Vaihda jakoa</a> [Kasken leveysraja]</span></span><span class="sm num" style="padding-top:2px">Ei saatavilla</span></label></div></div></section><section class="sec" aria-labelledby="g-varj"><div class="lab"><h2 id="g-varj" class="t3">Varjostus</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Sälekaihdin</span><br><span class="why">Suojaa auringolta ja säätää valoa.</span></span><span class="sm num" style="padding-top:2px">+180 €</span></label></div></div></section><section class="sec" aria-labelledby="g-pesu"><div class="lab"><h2 id="g-pesu" class="t3">Pesu ja ulkonäkö</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Kiinteä pesutuki</span><br><span class="why">Pitää avatun ikkunan paikallaan pesun ajan. Suositellaan yli 150 cm leveisiin.</span></span><span class="sm num" style="padding-top:2px">+95,17 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ristikko</span><br><span class="why">Jakaa lasin ruutuihin ja muuttaa talon ilmettä. Valittaessa: ristikon tyyppi ja malli.</span></span><span class="sm num" style="padding-top:2px">+96,13 €</span></label></div></div></section><section class="sec" aria-labelledby="g-itse"><div class="lab"><h2 id="g-itse" class="t3">Jos asennat itse</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Karmiporaus</span><br><span class="why">Valmiit ruuvinreiät karmissa nopeuttavat asennusta. Valittaessa voit lisätä peitetulpat, +12,80 €.</span></span><span class="sm num" style="padding-top:2px">+10,23 €</span></label></div></div></section></div>
+    <div style="border-bottom:1px solid var(--ln)"><section class="sec" aria-labelledby="g-ilma"><div class="lab"><h2 id="g-ilma" class="t3">Raitisilma</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Korvausilmaventtiili</span><br><span class="why">Tuo raitista ilmaa ikkunan kautta. Tarpeen, jos talossa ei ole tuloilmaa tuovaa ilmanvaihtokonetta. Valittaessa: venttiilin malli, esimerkiksi äänieristetty.</span></span><span class="sm num" style="padding-top:2px">+116,80 €</span></label></div><div class="oi dis"><label class="orow"><input type="checkbox" disabled><span><span class="ttl">Tuuletusikkuna</span><br><span class="why">Avaat ikkunan tuuletukseen yhdellä painikkeella, ja aukaisunrajoitin estää sitä aukeamasta liikaa. Hyvä valinta lapsiperheeseen.<br><span class="b">Ei saatavilla näin leveään yhden osan ikkunaan.</span> Kahden osan jaossa tuuletusikkuna tulee kapeampaan osaan. <a class="lk" href="#rakenne">Vaihda jakoa</a> [Kasken leveysraja]</span></span><span class="sm num" style="padding-top:2px">Ei saatavilla</span></label></div></div></section><section class="sec" aria-labelledby="g-varj"><div class="lab"><h2 id="g-varj" class="t3">Varjostus</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Sälekaihdin</span><br><span class="why">Suojaa auringolta ja säätää valoa.</span></span><span class="sm num" style="padding-top:2px">+180 €</span></label></div></div></section><section class="sec" aria-labelledby="g-pesu"><div class="lab"><h2 id="g-pesu" class="t3">Pesu ja ulkonäkö</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Kiinteä pesutuki</span><br><span class="why">Pitää avatun ikkunan paikallaan pesun ajan. Suositellaan yli 150 cm leveisiin.</span></span><span class="sm num" style="padding-top:2px">+95,17 €</span></label></div><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Ristikko</span><br><span class="why">Jakaa lasin ruutuihin ja muuttaa talon ilmettä. Valittaessa: ristikon tyyppi ja malli.</span></span><span class="sm num" style="padding-top:2px">+96,13 €</span></label></div></div></section><section class="sec" aria-labelledby="g-itse"><div class="lab"><h2 id="g-itse" class="t3">Jos asennat itse</h2></div><div class="ol2"><div class="oi"><label class="orow"><input type="checkbox"><span><span class="ttl">Karmiporaus</span><br><span class="why">Valmiit ruuvinreiät karmissa nopeuttavat asennusta. Valittaessa voit lisätä peitetulpat, +12,80 €.</span></span><span class="sm num" style="padding-top:2px">+10,23 €</span></label></div></div></section></div>
     <div class="navb" style="border-top:0"><a class="btn2" href="#ominaisuudet">Takaisin</a><a class="btn" href="#hanke">Lisää hankkeeseen</a></div>
   </div>
   <aside class="side pn" aria-labelledby="ih-lisavarusteet">
@@ -1095,7 +1100,7 @@ details.x-inopen > .mxb { margin-top:12px }
 </div></header>
 <nav class="stp" aria-label="Vaiheet"><ol><li aria-current="step"><span class="k">1</span>Rakenne ja ulkonäkö</li><li><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
-  <div class="main" style="gap:0"><div class="x-apsw"><button type="button" class="x-sw" role="switch" aria-checked="false"><span class="x-tr" aria-hidden="true"></span>Näytä kaikki Kasken valinnat</button><p class="sm mu">Päällä näet myös tunnuksen, millimitat, helapaketit ja lasit. Ovi menee ammattilaisen hankkeeseen.</p></div><p class="x-mban" role="status" hidden></p>
+  <div class="main" style="gap:0"><div class="x-apsw"><button type="button" class="x-sw" role="switch" aria-checked="false"><span class="x-tr" aria-hidden="true"></span>Näytä kaikki Kasken valinnat</button><p class="sm mu">Ammattilaisille: päällä näet myös tunnuksen, millimitat, helapaketit ja lasit.</p></div><p class="x-mban" role="status" hidden></p>
     <div class="s8" style="margin-bottom:24px"><h1>Millainen ovi?</h1></div>
     <section class="sec" aria-labelledby="s-typ-ovi">
       <div class="lab"><h2 id="s-typ-ovi" class="t3">Ulko-ovi vai parvekeovi</h2></div>
@@ -3933,6 +3938,77 @@ window.addEventListener('click', function (e) {
   }
 }, true);
 
+/* Tilauspolku: valintakortit, esitäyttö, tuotelista ja päiväykset hankkeesta */
+ORD.forEach(function (k) {
+  var v = VIEW[k];
+  if (k === 'tilaa') ['#os-tilaa', '#pn', '#pt', '#nimi-tilaa', '#puh-tilaa', '#sp-tilaa'].forEach(function (s) { var i = v.querySelector(s); if (i) { i.value = ''; i.removeAttribute('value'); } });
+});
+var crTpl = {};
+ORD.forEach(function (k) { var c = VIEW[k].querySelector('.cr'); if (c) crTpl[k] = { el: c.cloneNode(true), parent: c.parentNode }; });
+function prefillOrder() {
+  var v = VIEW['tilaa']; if (!v || !WH) return;
+  [['#lis', '#sp-tilaa'], ['#lis-p', '#puh-tilaa'], ['#lis-n', '#pn']].forEach(function (pr) {
+    var a = WH.querySelector(pr[0]), b = v.querySelector(pr[1]);
+    if (a && b && a.value.trim() && !b.value.trim()) b.value = a.value.trim();
+  });
+}
+function renderOrderList() {
+  Object.keys(crTpl).forEach(function (k) {
+    var t = crTpl[k];
+    $$('.cr', t.parent).forEach(remove);
+    hanke.forEach(function (s) {
+      s.rows.forEach(function (r) {
+        if (!(r.qty > 0)) return;
+        var re = rowEl(r), el = t.el.cloneNode(true);
+        var im = el.querySelector('img'), ri = re.querySelector('img');
+        if (im && ri) { im.setAttribute('src', ri.getAttribute('src')); im.setAttribute('alt', ri.getAttribute('alt') || ''); }
+        var ps = el.querySelectorAll('p');
+        if (ps[0]) ps[0].textContent = secName(s);
+        if (ps[1]) ps[1].textContent = [txt(re.querySelector('.it-txt p.b')), txt(re.querySelector('.it-txt p.sm'))].filter(Boolean).join(', ');
+        var q = el.querySelector('.q'); if (q) q.textContent = r.qty + ' kpl';
+        var p = el.querySelector('.p'); if (p) p.textContent = txt(re.querySelector('.it-p'));
+        t.parent.appendChild(el);
+      });
+    });
+  });
+}
+function d2(n) { return String(n); }
+function today() { var d = new Date(); return d2(d.getDate()) + '.' + d2(d.getMonth() + 1) + '.'; }
+var dateNodes = [];
+ORD.forEach(function (k) {
+  var w = D.createTreeWalker(VIEW[k], NodeFilter.SHOW_TEXT, null), n;
+  while ((n = w.nextNode())) {
+    if (/Tänään \d+\.\d+\./.test(n.nodeValue)) dateNodes.push({ n: n, kind: 'today', tpl: n.nodeValue });
+    else if (/läpi \d+\.\d+\./.test(n.nodeValue)) dateNodes.push({ n: n, kind: 'checked', tpl: n.nodeValue });
+  }
+});
+var meetLine = null;
+(function () {
+  var v = VIEW['tarkistus']; if (!v) return;
+  var h = v.querySelector('h1'); if (!h) return;
+  meetLine = D.createElement('p'); meetLine.className = 'sm x-meet'; meetLine.hidden = true;
+  var after = h.nextElementSibling || h; after.parentNode.insertBefore(meetLine, after.nextSibling);
+})();
+function renderOrderMeta() {
+  var tv = VIEW['tilaa'] ? slotOf(VIEW['tilaa']) : '';
+  var day = /^(\S+ \d+\.\d+\.)/.exec(tv);
+  dateNodes.forEach(function (x) {
+    if (x.kind === 'today') x.n.nodeValue = x.tpl.replace(/Tänään \d+\.\d+\./, 'Tänään ' + today());
+    else x.n.nodeValue = x.tpl.replace(/läpi \d+\.\d+\./, 'läpi ' + (day ? day[1].split(' ')[1] : today()));
+  });
+  if (meetLine) { meetLine.hidden = !tv; meetLine.textContent = tv ? 'Verkkotapaaminen: ' + tv + '. Saat linkin sähköpostiisi.' : ''; }
+}
+var _rnL = render; render = function () { _rnL(); renderOrderList(); renderOrderMeta(); if (current === 'tilaa') prefillOrder(); };
+window.addEventListener('click', function (e) {
+  var t = e.target; if (!t || !t.closest || ORD.indexOf(current) < 0) return;
+  var c = t.closest('.pc[role="radio"]'); if (!c || !VIEW[current].contains(c)) return;
+  var g = c.closest('[role="radiogroup"]') || c.parentNode;
+  $$('.pc[role="radio"]', g).forEach(function (x) { x.setAttribute('aria-checked', x === c ? 'true' : 'false'); });
+}, true);
+D.addEventListener('keydown', function (e) {
+  if ((e.key === ' ' || e.key === 'Enter') && e.target.matches && e.target.matches('.pc[role="radio"]') && ORD.indexOf(current) >= 0) { e.preventDefault(); e.target.click(); }
+});
+
 /* HA5: Lähetä itsellesi, palaute ja tarkistus */
 (function () {
   var box = WH ? WH.querySelector('.x-send') : null; if (!box) return;
@@ -4173,6 +4249,7 @@ D.addEventListener('keydown', function (e) {
       big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr a'); backT = null;
       lab = 'Hanke yhteensä'; t = target ? target.textContent.trim() : '';
       chipT = ys;
+      if (!target) { var nb2 = v.querySelectorAll('.navb a.btn'); target = nb2.length ? nb2[nb2.length - 1] : null; backT = v.querySelector('.navb a.btn2'); lab = 'Yhteensä'; t = target ? target.textContent.trim() : ''; chipT = null; }
     } else {
       var h2 = v.querySelector('aside h2');
       lab = /muokkaa/.test(location.hash) ? 'Hintamuutos' : (h2 && h2.textContent.trim() ? h2.textContent.trim() : 'Hinta');
@@ -4183,6 +4260,7 @@ D.addEventListener('keydown', function (e) {
     }
     if (!big || !target) { bar.hidden = true; return; }
     if (val === null) val = big.textContent.trim();
+    t = t.replace(/\s+(ma|ti|ke|to|pe|la|su)\s+\d+\.\d+\..*$/, '').replace(/\s+ja\s.*$/, '');
     set(lEl, lab); set(vEl, val); set(bNext, t);
     var im = chipT ? chipT.querySelector('img') : null, src = im ? im.getAttribute('src') : '';
     chip.hidden = !src;
