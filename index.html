@@ -749,8 +749,8 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-next { margin:6px 0 0;padding-left:20px;font-size:13px;line-height:1.45;color:var(--ink2, inherit) }
 .x-next li { margin:2px 0 }
 .x-send { display:flex;flex-direction:column;gap:10px }
-.x-lupa { display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start;font-weight:400;cursor:pointer }
-.x-lupa input { width:20px;height:20px;margin:2px 0 0 }
+.x-lupa { display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;min-height:44px;font-weight:400;cursor:pointer }
+.x-lupa input { width:24px;height:24px;margin:0 }
 .x-what { display:inline-flex;align-items:center;min-height:32px;padding:0;margin:4px 0 0;border:0;background:transparent;color:inherit;font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer }
 .x-whatp { margin:10px 0 4px;padding:14px 16px;border:1.5px solid var(--ln2);border-radius:6px;background:var(--sf);max-width:520px }
 .x-whatp p { margin:8px 0 0 }
@@ -772,6 +772,22 @@ details.x-inopen > .mxb { margin-top:12px }
 
 .x-view .slot[aria-pressed="true"] { background:var(--ink);color:var(--bg);border-color:var(--ink) }
 .x-meet { margin:8px 0 0;font-weight:650 }
+
+.x-ferr { margin:6px 0 0;color:#b4232a;font-weight:650;font-size:14px }
+.x-view .in[aria-invalid="true"] { border-color:#b4232a }
+.x-contact .x-ctl { display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:12px 0 0;font-size:15px }
+.x-contact .x-ctl dt { color:var(--mu);margin:0 }
+.x-contact .x-ctl dd { margin:0;overflow-wrap:anywhere }
+.x-contact > p { margin:10px 0 0 }
+@media (max-width: 767px) {
+  .x-view .cr { grid-template-columns:48px minmax(0,1fr) auto;grid-template-areas:"i t t" "i q p";row-gap:4px }
+  .x-view .cr > img { grid-area:i;align-self:start }
+  .x-view .cr > div { grid-area:t }
+  .x-view .cr > .q { grid-area:q }
+  .x-view .cr > .p { grid-area:p }
+  .x-contact .x-ctl { grid-template-columns:1fr;gap:2px }
+  .x-contact .x-ctl dd { margin-bottom:8px }
+}
 
 /* mobiili */
 .x-mbar { display:none }
@@ -1114,7 +1130,7 @@ details.x-inopen > .mxb { margin-top:12px }
       <h2 id="s-kok-ovi" class="t3">Koko</h2>
       <div class="mgrid">
         <div class="s16">
-          <div class="seg" role="radiogroup" aria-label="Vakiokoko vai omat mitat"><button type="button" class="chip" aria-pressed="true">Vakiokoko</button><button type="button" class="chip" aria-pressed="false">Omat mitat</button></div><div class="x-omat" hidden><div class="x-two"><label class="x-f1"><span class="x-lab">Leveys, mm <span class="x-mod" data-for="w"></span></span><input class="x-in x-mm" data-dim="w" inputmode="numeric" value="990" aria-describedby="x-omat-v"></label><label class="x-f1"><span class="x-lab">Korkeus, mm <span class="x-mod" data-for="h"></span></span><input class="x-in x-mm" data-dim="h" inputmode="numeric" value="2090" aria-describedby="x-omat-v"></label></div><p id="x-omat-v" class="sm mu x-omat-v" role="status">Karmin ulkomitat millimetreinä. Moduulimitta näkyy suluissa.</p></div>
+          <div class="seg" role="radiogroup" aria-label="Vakiokoko vai omat mitat"><button type="button" class="chip" aria-pressed="true">Vakiokoko</button><button type="button" class="chip" aria-pressed="false">Omat mitat</button></div><div class="x-omat" hidden><div class="x-two"><label class="x-f1"><span class="x-lab">Leveys, mm <span class="x-mod" data-for="w"></span></span><input class="x-in x-mm" data-dim="w" inputmode="numeric" value="990" aria-describedby="x-omat-v"></label><label class="x-f1"><span class="x-lab">Korkeus, mm <span class="x-mod" data-for="h"></span></span><input class="x-in x-mm" data-dim="h" inputmode="numeric" value="2090" aria-describedby="x-omat-v"></label></div><p id="x-omat-v" class="sm mu x-omat-v" role="status">Karmin ulkomitat millimetreinä. Moduulimitta näkyy suluissa. Omat mitat lisäävät hintaan 180 €.</p></div>
           <div class="s8"><div class="cl" role="radiogroup" aria-label="Vakiokoko, leveys × korkeus desimetreinä" aria-describedby="koko-vihje-ovi"><button type="button" class="chip" aria-pressed="false">8×21</button><button type="button" class="chip" aria-pressed="true">9×21 <span class="bdg">Yleisin</span></button><button type="button" class="chip" aria-pressed="false">10×21</button><button type="button" class="chip" aria-pressed="false">10×23</button></div><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki 7 kokoa</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="cl"><button type="button" class="chip" aria-pressed="false">8×19</button><button type="button" class="chip" aria-pressed="false">9×19</button><button type="button" class="chip" aria-pressed="false">12×21</button></div></div></details></div>
           <p id="koko-vihje-ovi" class="sm mu" style="margin-top:-8px">Valittu koko 9×21 on ovi 890 × 2090 mm karmin ulkomittana. Jos mittasi ei ole listalla, valitse Omat mitat.</p>
           <div class="svc"><p class="svc-h"><svg class="svc-i" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="11" width="26" height="10" rx="1.5"/><path d="M8 11v4M12 11v6M16 11v4M20 11v6M24 11v4"/></svg>Et halua mitata itse?</p><p class="sm">Asiantuntija mittaa kotonasi ja tekee tarjouksen asennuksineen.</p><a class="btn2 bs" href="#mittaus">Varaa maksuton mittauskäynti</a></div>
@@ -1162,7 +1178,7 @@ details.x-inopen > .mxb { margin-top:12px }
 <nav class="stp" aria-label="Vaiheet"><ol><li class="done"><a href="#ovi"><span class="k">1</span>Rakenne ja ulkonäkö</a></li><li aria-current="step"><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
   <div class="main" style="gap:0"><p class="x-mban" role="status" hidden></p>
-    <div class="s8" style="margin-bottom:24px"><h1>Haluatko muuttaa jotain?</h1><p class="mu">Ulko-oveen on valittu lämpimämpi rakenne. Voit vaihtaa sen perusrakenteeseen.</p></div>
+    <div class="s8" style="margin-bottom:24px"><h1>Haluatko muuttaa jotain?</h1><p class="mu">Ulko-oveen on valittu lämpimämpi rakenne, ja sen lisähinta on mukana hinnassa. Voit vaihtaa sen perusrakenteeseen.</p></div>
     <section class="sec" aria-labelledby="s-rak">
       <div class="lab"><h2 id="s-rak" class="t3">Lämpö ja lukitus</h2><p class="sm mu">Hinta tähän oveen muiden valintojesi kanssa.</p></div>
       <div><div class="need" role="radiogroup" aria-labelledby="n-lampo-ovi-ominaisuudet"><h3 class="need-h" id="n-lampo-ovi-ominaisuudet">Lämpö ja ääni</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Perus</span><span class="pc-d">Kaski Lämmin, 62 mm ovilehti. U 1,0.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Lämpimämpi<span class="bdg">Suositeltu</span></span><span class="pc-d">Kaski Lämmin Plus, 86 mm ovilehti, pienempi lämmityslasku. U jopa 0,6.</span><span class="pc-p">+191,77 €</span></div><div class="pc-sub"><span>Suositeltu pääoveen.</span></div></div><div style="margin-top:12px"><details class="mx"><summary class="more"><span class="cl2">Näytä kaikki 5 rakennetta</span><span class="op">Näytä vähemmän</span></summary><div class="mxb"><div class="pair" role="radiogroup" aria-label="Muut rakenteet"><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Hiljaisempi</span><span class="pc-d">Äänieristysovi dB35. Porraskäytävään tai vilkkaan kadun varteen.</span><span class="pc-p">+1 144,52 €</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Paloluokiteltu</span><span class="pc-d">Palo- ja äänieristysovi EI30/dB35. Palo-osaston rajalle, esimerkiksi rivitalon porraskäytävään.</span><span class="pc-p">+524,55 €</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Vähän hiljaisempi</span><span class="pc-d">Äänieristysovi dB30.</span><span class="pc-p">[Kasken hinta]</span></div></div></div></details></div></div><div class="need" role="radiogroup" aria-labelledby="n-luk"><h3 class="need-h" id="n-luk">Lukitus</h3><div class="pair"><div class="pc" role="radio" tabindex="0" aria-checked="true"><span class="pc-t">Perus</span><span class="pc-d">Yksi lukko. Lukkopesä ja painike, kromi.</span><span class="pc-p">Sisältyy</span></div><div class="pc" role="radio" tabindex="0" aria-checked="false"><span class="pc-t">Kaksi lukkoa</span><span class="pc-d">Erillinen turvalukko, joten ovi lukitaan kahdesta kohdasta.</span><span class="pc-p">+150 €</span></div><div class="pc-sub l"><details class="vp"><summary>Lisää älylukko</summary><div><label class="rad"><input type="checkbox"><span><span class="b">Älylukko</span><br><span class="why">Avaat oven puhelimella tai koodilla. Valittaessa: Yale Doorman, Yale Linus tai BG 2000.</span></span><span class="num">+400 €</span></label></div></details></div></div></div></div>
@@ -2630,7 +2646,7 @@ function sideKey(label) { var l = String(label || '').toLowerCase(); return /mol
 function perfArr(o) {
   var k = 'g' + (o.fixed ? 2 : 1) + 't' + (o.turva || 1) + 'h' + (o.crepi ? 3 : 2) + 'T' + (o.thermo ? 2 : 1) + 'a' + (o.aur ? 2 : 1);
   var r = o.aani ? null : RT[k];
-  return r ? ['U ' + fmtN(r[0]) + ' W/m²K', 'g ' + fmtN(r[1]), 'Rw ' + Math.round(r[2]) + ' dB'] : null;
+  return r ? ['U ' + fmtN(Number(r[0]).toFixed(2)) + ' W/m²K', 'g ' + fmtN(Number(r[1]).toFixed(2)), 'Rw ' + Math.round(r[2]) + ' dB'] : null;
 }
 function perfText(c) {
   /* Kasken stagingin GlassRating-arvot; puuttuvalle yhdistelmälle [Kasken arvo] */
@@ -3874,6 +3890,32 @@ function doorPreview() {
     });
   });
 }
+/* Oven hinta: valmiiksi valitun lisähinnan sisältävä kortti on mukana hinnassa; omat mitat arviolla */
+var OMAT_LISA = 18000;
+var _dcC = doorCalc; doorCalc = function (o) {
+  var omat = segG && o.sel[segG.k] === 1, o2 = o;
+  if (omat) { o2 = copy(o); dG.forEach(function (g) { if (g.size) o2.sel[g.k] = g.def; }); }
+  var r = _dcC(o2); if (!r.known) return r;
+  var ex = r.ex;
+  dG.forEach(function (g) {
+    if (g.kind !== 'pc' || g.def < 0) return;
+    var p = parsePrice(gPrice(g, g.def));
+    if (p.kind === 'exact' && p.val > 0) ex += p.val;
+  });
+  if (omat) ex += OMAT_LISA;
+  return { known: true, ex: ex, ph: r.ph };
+};
+var _dsC = doorSnap; doorSnap = function (o) {
+  var s = _dsC(o);
+  if (xmG) { var i = o.sel[xmG.k], t = i >= 0 ? gTitle(xmG, i) : ''; if (t) s.info += /^Tarkistetaan/.test(t) ? ', karmisyvyys tarkistetaan mittauksessa' : ', karmisyvyys ' + t; }
+  return s;
+};
+/* Ikkunan rivi: kaikki valitut lisävarusteet näkyviin */
+var _riC = rowInfo; rowInfo = function (c) {
+  var s = _riC(c), x = [];
+  adds.forEach(function (a, j) { if (j !== salekJ && c.chk && c.chk[j]) x.push(String(a.title || '').toLowerCase()); });
+  return x.length ? s + ', ' + x.join(', ') : s;
+};
 var _rdC = renderDoor; renderDoor = function () { _rdC(); omRender(); doorPreview(); if (xmG && door && door.sel[xmG.k] >= 0) karmiErr(false); };
 
 /* Erittely: otsikko vaihtuu ja auki-tila säilyy vaiheesta toiseen */
@@ -3931,12 +3973,92 @@ window.addEventListener('click', function (e) {
     renderOrder(); return;
   }
   var c = t.closest('.navb a.btn');
-  if (c && v.contains(c) && ctaTxt[current] != null && !v.querySelector('.slot[aria-pressed="true"]')) {
+  if (!c || !v.contains(c)) return;
+  if (ctaTxt[current] != null && needSlot(current) && !v.querySelector('.slot[aria-pressed="true"]')) {
     e.preventDefault(); e.stopPropagation();
     var er2 = v.querySelector('.x-slot-err'); if (er2) er2.hidden = false;
-    var f = v.querySelector('.slot'); if (f) f.focus();
+    var f = v.querySelector('.slot'); if (f) { f.scrollIntoView({ block: 'center' }); f.focus({ preventScroll: true }); }
+    return;
   }
+  if (current === 'tilaa' && !checkFields()) { e.preventDefault(); e.stopPropagation(); }
 }, true);
+
+/* Tilaa itse: kuka mittaa ohjaa ajanvarauksen, pakolliset kentät */
+var TV = VIEW['tilaa'], kukaG = TV ? TV.querySelector('[role="radiogroup"][aria-labelledby="s-kuka"]') : null;
+var aikaS = TV ? TV.querySelector('[aria-labelledby="s-aika-tilaa"]') : null;
+function ohTextNode(p) { if (!p) return null; for (var i = p.childNodes.length - 1; i >= 0; i--) if (p.childNodes[i].nodeType === 3) return p.childNodes[i]; return null; }
+var AE = aikaS ? { h: aikaS.querySelector('h2'), d: aikaS.querySelector('h2 + p'), dl: aikaS.querySelector('.dl'), more: aikaS.querySelector('button.more'),
+  ohh: ohTextNode(aikaS.querySelector('.oh-h')), oh: $$('.oh-txt', aikaS), aside: aikaS.querySelector('aside.oh') } : null;
+var routesP = TV ? TV.querySelector('.ysum .routes p') : null;
+var MODES = [
+  { key: 'itse', lab: 'Mittaat itse', h: 'Tarkat mitat', d: 'Tarkat mitat, saranapuolet ja karmisyvyydet ovat hankkeessasi. Kaski käy ne läpi ennen kuin maksat.',
+    ohh: 'Näin tarkistus toimii', o1: 'Kaski käy jokaisen mitan läpi ja soittaa, jos jokin näyttää oudolta.', o2: 'Voit vielä muuttaa mittoja hankkeessa ennen kuin lähetät tiedot.',
+    cta: 'Lähetä tiedot tarkistettavaksi', row: '', slots: false,
+    routes: 'Kaski käy mitat läpi, ja saat maksulinkin sähköpostiisi. Hinta muuttuu vain, jos muutat valintoja tai tarkka mitta muuttaa ikkunan tai oven kokoa.' },
+  { key: 'opas', lab: 'Verkkotapaaminen', row: 'Verkkotapaaminen', slots: true },
+  { key: 'kaski', lab: 'Mittauskäynti', h: 'Valitse aika mittauskäynnille', d: 'Asiantuntija mittaa ikkunat ja oven kotonasi ja kirjaa tiedot tilaukseesi.',
+    ohh: 'Näin mittauskäynti toimii', o1: 'Asiantuntija tulee sovittuna aikana ja mittaa jokaisen aukon. Käynti kestää noin [60 min].', o2: 'Ole kotona ja varmista, että ikkunoiden ja oven eteen pääsee.',
+    cta: 'Varaa mittauskäynti ja lähetä tiedot', row: 'Mittauskäynti', slots: true,
+    routes: 'Kaski käy mittauskäynnillä kirjatut mitat läpi, ja saat maksulinkin sähköpostiisi. Hinta muuttuu vain, jos muutat valintoja tai tarkka mitta muuttaa ikkunan tai oven kokoa.' }
+];
+if (AE) { var M1 = MODES[1]; M1.h = txt(AE.h); M1.d = AE.d ? txt(AE.d) : ''; M1.ohh = AE.ohh ? AE.ohh.nodeValue : ''; M1.o1 = AE.oh[0] ? txt(AE.oh[0]) : ''; M1.o2 = AE.oh[1] ? txt(AE.oh[1]) : ''; M1.cta = ctaTxt['tilaa'] || ''; M1.routes = routesP ? txt(routesP) : ''; }
+function modeOf() {
+  var cs = kukaG ? $$('.pc', kukaG) : [], i = -1;
+  cs.forEach(function (c, k) { if (c.getAttribute('aria-checked') === 'true') i = k; });
+  return MODES[i] || MODES[1];
+}
+function needSlot(k) { return k !== 'tilaa' || modeOf().slots; }
+function applyMode() {
+  if (!AE) return;
+  var m = modeOf();
+  if (AE.h.textContent !== m.h) AE.h.textContent = m.h;
+  if (AE.d) AE.d.textContent = m.d;
+  if (AE.ohh) AE.ohh.nodeValue = m.ohh;
+  if (AE.oh[0]) AE.oh[0].textContent = m.o1;
+  if (AE.oh[1]) AE.oh[1].textContent = m.o2;
+  if (AE.aside) AE.aside.setAttribute('aria-label', 'Ohje: ' + m.ohh.replace(/^Näin /, '').replace(/ toimii$/, ''));
+  if (AE.dl) AE.dl.hidden = !m.slots;
+  if (AE.more) AE.more.hidden = !m.slots;
+  if (!m.slots) { var se = TV.querySelector('.x-slot-err'); if (se) se.hidden = true; }
+  ctaTxt['tilaa'] = m.cta;
+  if (routesP) routesP.textContent = m.routes;
+  $$('.ysum-b .sr', TV).forEach(function (row) {
+    var a = row.children[0]; if (!a || !a.querySelector('.sub')) return;
+    row.hidden = !m.row;
+    if (m.row && a.firstChild && a.firstChild.nodeType === 3) a.firstChild.nodeValue = m.row;
+  });
+  var c = $$('.navb a.btn', TV).pop(), sl = m.slots ? slotOf(TV) : '';
+  if (c) c.textContent = m.cta + (sl ? ' ' + sl : '');
+}
+var FIELDS = [
+  ['#os-tilaa', 'Anna toimitusosoite.', function (v) { return v.length > 2; }],
+  ['#pn', 'Postinumerossa on viisi numeroa.', function (v) { return /^\d{5}$/.test(v); }],
+  ['#pt', 'Anna postitoimipaikka.', function (v) { return v.length > 1; }],
+  ['#nimi-tilaa', 'Anna nimesi.', function (v) { return v.length > 1; }],
+  ['#puh-tilaa', 'Tarkista puhelinnumero.', function (v) { return v.replace(/\D/g, '').length >= 7; }],
+  ['#sp-tilaa', 'Tarkista sähköpostiosoite, esimerkiksi nimi@esimerkki.fi.', function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }]
+];
+function fieldErr(inp, msg) {
+  var id = inp.id + '-err', p = D.getElementById(id);
+  if (!msg) { inp.removeAttribute('aria-invalid'); if (p) p.hidden = true; return; }
+  if (!p) { p = D.createElement('p'); p.id = id; p.className = 'x-ferr'; inp.parentNode.appendChild(p); inp.setAttribute('aria-describedby', id); }
+  p.textContent = msg; p.hidden = false; inp.setAttribute('aria-invalid', 'true');
+}
+function checkFields() {
+  var first = null;
+  FIELDS.forEach(function (f) {
+    var i = TV.querySelector(f[0]); if (!i) return;
+    var ok = f[2](i.value.trim());
+    fieldErr(i, ok ? '' : f[1]);
+    if (!ok && !first) first = i;
+  });
+  if (first) { first.scrollIntoView({ block: 'center' }); first.focus({ preventScroll: true }); }
+  return !first;
+}
+if (TV) TV.addEventListener('input', function (e) {
+  var i = e.target; if (!i || i.getAttribute('aria-invalid') !== 'true') return;
+  FIELDS.forEach(function (f) { if ('#' + i.id === f[0] && f[2](i.value.trim())) fieldErr(i, ''); });
+});
 
 /* Tilauspolku: valintakortit, esitäyttö, tuotelista ja päiväykset hankkeesta */
 ORD.forEach(function (k) {
@@ -3996,15 +4118,51 @@ function renderOrderMeta() {
     if (x.kind === 'today') x.n.nodeValue = x.tpl.replace(/Tänään \d+\.\d+\./, 'Tänään ' + today());
     else x.n.nodeValue = x.tpl.replace(/läpi \d+\.\d+\./, 'läpi ' + (day ? day[1].split(' ')[1] : today()));
   });
-  if (meetLine) { meetLine.hidden = !tv; meetLine.textContent = tv ? 'Verkkotapaaminen: ' + tv + '. Saat linkin sähköpostiisi.' : ''; }
+  var m = modeOf(), adr = orderVal('#os-tilaa');
+  if (meetLine) {
+    var mt = '';
+    if (m.key === 'opas' && tv) mt = 'Verkkotapaaminen: ' + tv + '. Saat linkin sähköpostiisi.';
+    else if (m.key === 'kaski' && tv) mt = 'Mittauskäynti: ' + tv + (adr ? '. Asiantuntija tulee osoitteeseen ' + adr + '.' : '.');
+    meetLine.hidden = !mt; meetLine.textContent = mt;
+  }
+  renderContact();
 }
-var _rnL = render; render = function () { _rnL(); renderOrderList(); renderOrderMeta(); if (current === 'tilaa') prefillOrder(); };
+function orderVal(s) { var i = TV ? TV.querySelector(s) : null; return i ? i.value.trim() : ''; }
+/* Toimitus ja yhteystiedot näkyviin tarkistukseen ja maksuun */
+var contactBoxes = [];
+[['tarkistus', function (v) { var p = $$('p.sm', v.querySelector('.tm')).filter(function (x) { return /Huomasitko virheen/.test(txt(x)); })[0]; return p; }],
+ ['maksa', function (v) { var s = v.querySelector('[aria-labelledby="s-mt"]'); return s; }]].forEach(function (x) {
+  var v = VIEW[x[0]]; if (!v) return;
+  var before = x[1](v); if (!before) return;
+  var s = D.createElement('section'); s.className = 'qsec x-contact'; s.setAttribute('aria-labelledby', 'x-ct-' + x[0]);
+  s.innerHTML = '<h2 id="x-ct-' + x[0] + '" class="t3">Toimitus ja yhteystiedot</h2><dl class="x-ctl"></dl><p class="sm"><a class="lk" href="#tilaa">Muuta tietoja</a></p>';
+  before.parentNode.insertBefore(s, before);
+  contactBoxes.push(s);
+});
+function renderContact() {
+  if (!contactBoxes.length) return;
+  var m = modeOf(), tv = TV ? slotOf(TV) : '', pt = [orderVal('#pn'), orderVal('#pt')].filter(Boolean).join(' ');
+  var rows = [['Nimi', orderVal('#nimi-tilaa')], ['Puhelin', orderVal('#puh-tilaa')], ['Sähköposti', orderVal('#sp-tilaa')],
+    ['Toimitusosoite', [orderVal('#os-tilaa'), pt].filter(Boolean).join(', ')], ['Mittaus', m.lab + (m.slots && tv ? ', ' + tv : '')]];
+  contactBoxes.forEach(function (s) { fillDl(s.querySelector('dl'), rows.map(function (r) { return [r[0], r[1] || 'Puuttuu']; })); });
+}
+var _rnL = render; render = function () { _rnL(); renderOrderList(); renderOrderMeta(); applyMode(); if (current === 'tilaa') prefillOrder(); };
 window.addEventListener('click', function (e) {
   var t = e.target; if (!t || !t.closest || ORD.indexOf(current) < 0) return;
   var c = t.closest('.pc[role="radio"]'); if (!c || !VIEW[current].contains(c)) return;
   var g = c.closest('[role="radiogroup"]') || c.parentNode;
   $$('.pc[role="radio"]', g).forEach(function (x) { x.setAttribute('aria-checked', x === c ? 'true' : 'false'); });
+  if (g === kukaG) { renderOrder(); applyMode(); renderOrderMeta(); }
 }, true);
+/* Tarkistetun tilauksen otsikko: määrät hankkeesta */
+var _roC = renderOrder; renderOrder = function () {
+  _roC();
+  var all = allRows(), qW = 0, qD = 0;
+  all.forEach(function (r) { if (r.door) qD += r.qty; else qW += r.qty; });
+  var t = [qW ? 'ikkunat ' + qW + ' kpl' : '', qD ? 'ovet ' + qD + ' kpl' : ''].filter(Boolean).join(', ');
+  t = t ? t.charAt(0).toUpperCase() + t.slice(1) : 'Ei tuotteita';
+  ORD.forEach(function (k) { $$('.rmh', VIEW[k]).forEach(function (h, i) { h.hidden = i > 0; if (!i) h.textContent = t; }); });
+};
 D.addEventListener('keydown', function (e) {
   if ((e.key === ' ' || e.key === 'Enter') && e.target.matches && e.target.matches('.pc[role="radio"]') && ORD.indexOf(current) >= 0) { e.preventDefault(); e.target.click(); }
 });
@@ -4025,8 +4183,11 @@ D.addEventListener('keydown', function (e) {
     if (pv && !okP) { st.textContent = 'Tarkista puhelinnumero.'; if (ph) ph.focus(); return; }
     if (!okE && !okP) { st.textContent = 'Anna sähköposti tai puhelinnumero.'; if (em) em.focus(); return; }
     if (nv && !/^\d{5}$/.test(nv)) { st.textContent = 'Postinumerossa on viisi numeroa.'; if (pn) pn.focus(); return; }
+    var lupa = box.querySelector('.x-lupa input'), call = lupa && lupa.checked;
+    if (call && !okP) { st.textContent = 'Anna puhelinnumero, jotta asiantuntija voi soittaa sinulle.'; if (ph) ph.focus(); return; }
     st.classList.add('x-ok');
-    st.textContent = okE ? 'Lähetimme linkin hankkeeseen osoitteeseen ' + ev + '.' : 'Lähetimme linkin hankkeeseen numeroon ' + pv + '.';
+    st.textContent = (okE ? 'Lähetimme linkin hankkeeseen osoitteeseen ' + ev + '.' : 'Lähetimme linkin hankkeeseen numeroon ' + pv + '.')
+      + (call ? ' Kasken asiantuntija soittaa sinulle numeroon ' + pv + '.' : '');
   });
 })();
 
