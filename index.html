@@ -4379,17 +4379,23 @@ function renderOffer() {
     var P = r.door.price; putPrice(tr.children[1], P.known ? { known: true, ex: P.ex * r.qty, ph: P.ph } : P);
     tjBody.insertBefore(tr, at);
   });
-  var asen = q.w * ASENNUS_IKKUNA + q.d * ASENNUS_OVI, list = (q.w + q.d) * LISTAT_KPL;
+  var iw = 0, id = 0, own = [];
+  hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (!(r.qty > 0)) return; var it = r.door ? r.door.state && r.door.state.inst : r.cfg && r.cfg.inst;
+    if (it === 'itse') own.push(secName(s0) + ': ' + (r.door ? r.door.name : rowName(r.cfg)) + (r.qty > 1 ? ', ' + r.qty + ' kpl' : '')); else if (r.door) id += r.qty; else iw += r.qty; }); });
+  var asen = iw * INST.w + id * INST.d, list = 0;
   if (tjRows.purku) tjRows.purku.children[0].textContent = (q.w > 1 || q.d > 1 ? 'Vanhojen ' : 'Vanhan ') + objGen() + ' purku';
-  if (tjRows.asennus) tjRows.asennus.children[1].textContent = eur(asen);
-  if (tjRows.listat) tjRows.listat.children[1].textContent = eur(list);
+  if (tjRows.asennus) { tjRows.asennus.children[0].textContent = 'Asennus, ' + [iw ? iw + (iw > 1 ? ' ikkunaa' : ' ikkuna') : '', id ? id + (id > 1 ? ' ovea' : ' ovi') : ''].filter(Boolean).join(' ja '); tjRows.asennus.children[1].textContent = eur(asen); }
+  if (tjRows.listat) tjRows.listat.children[1].textContent = 'sisältyy asennukseen';
+  var ownP = TJ.querySelector('.x-tj-own');
+  if (!ownP) { ownP = D.createElement('p'); ownP.className = 'sm x-tj-own'; var tb0 = TJ.querySelector('table.tb'); tb0.parentNode.insertBefore(ownP, tb0.nextSibling); }
+  ownP.hidden = !own.length; ownP.textContent = own.length ? 'Asennat itse, ei mukana asennuksessa: ' + own.join('; ') + '.' : '';
   if (tjRows.rahti) tjRows.rahti.children[1].textContent = eur(RAHTI);
   var tot = totAdd(totAdd(tW, hankeTotal(dr)), { known: true, ex: asen + list + RAHTI, ph: [] });
   var tv = TJ.querySelector('.ysum .tot .v'); if (tv) putPrice(tv, tot);
   var k = lastBooked || 'mittaus', sl = booked[k] || (VIEW[k] ? slotOf(VIEW[k]) : ''), d = dayOf(sl), until = new Date(d.getTime()); until.setDate(until.getDate() + 3);
   var uTxt = dm(until) + '2026';
   var hp = TJ.querySelector('.x-tj-head');
-  if (hp) hp.textContent = (k === 'verkkotapaaminen' ? '[Myyjän nimi] kirjasi ' + objGen() + ' mitat verkkotapaamisessa ' : '[Myyjän nimi] mittasi ' + objAcc() + ' ') + dm(d) + ' Tarjouksessa on sama hanke asennettuna. Se on voimassa 3 päivää, ' + uTxt + ' asti.';
+  if (hp) hp.textContent = (k === 'verkkotapaaminen' ? '[Myyjän nimi] kirjasi ' + objGen() + ' mitat verkkotapaamisessa ' : '[Myyjän nimi] mittasi ' + objAcc() + ' ') + dm(d) + ' Tarjouksessa on sama hanke asennettuna sinun valintojesi mukaan. Se on voimassa 3 päivää, ' + uTxt + ' asti.';
   var vb = TJ.querySelector('.valid .b'); if (vb) vb.textContent = 'Voimassa ' + uTxt + ' asti';
 }
 /* Yleiset tekstit hankkeen sisällön mukaan: ikkunat ja oven */
@@ -4774,7 +4780,7 @@ function instSection(key, isDoor) {
   var s = D.createElement('section'); s.className = 'sec x-inst'; s.setAttribute('aria-labelledby', 'x-as-' + key);
   s.innerHTML = '<div class="lab"><h2 id="x-as-' + key + '" class="t3">Asennus</h2><p class="sm mu">Asennatko itse vai asentaako Kaski? Voit muuttaa valintaa myöhemmin.</p></div>'
     + '<div><div class="pair" role="radiogroup" aria-labelledby="x-as-' + key + '">'
-    + '<div class="pc x-ip" role="radio" tabindex="0" aria-checked="true" data-inst=""><span class="pc-t">Asennan itse</span><span class="pc-d">Toimitus kotiovelle asennusohjeineen.</span><span class="pc-p">Sisältyy</span></div>'
+    + '<div class="pc x-ip" role="radio" tabindex="0" aria-checked="false" data-inst="itse"><span class="pc-t">Asennan itse</span><span class="pc-d">Toimitus kotiovelle asennusohjeineen.</span><span class="pc-p">Sisältyy</span></div>'
     + '<div class="pc x-ip" role="radio" tabindex="0" aria-checked="false" data-inst="kaski"><span class="pc-t">Kaski asentaa</span><span class="pc-d">Vanhan ' + (isDoor ? 'oven' : 'ikkunan') + ' purku, asennus, tilkitys, pellit ja listat sekä jätteiden vienti.</span><span class="pc-p">noin +' + amt + '</span></div>'
     + '</div><p class="sm x-inst-n"></p></div>';
   first.parentNode.insertBefore(s, first);
@@ -4786,9 +4792,10 @@ function instTotal() { var t = 0; allRows().forEach(function (r) { if (r.qty > 0
 function renderInstSec(s, st, isDoor) {
   if (!s || !st) return;
   var on = st.inst === 'kaski';
-  $$('.x-ip', s).forEach(function (c) { c.setAttribute('aria-checked', (c.getAttribute('data-inst') === 'kaski') === on ? 'true' : 'false'); });
+  $$('.x-ip', s).forEach(function (c) { c.setAttribute('aria-checked', c.getAttribute('data-inst') === st.inst ? 'true' : 'false'); });
   var n = s.querySelector('.x-inst-n'); n.innerHTML = '';
-  if (on) n.textContent = 'Hinta tarkentuu, kun Kaski on nähnyt aukon. Asennusta ei ole saatavilla kaikilla alueilla, joten olemme yhteydessä ennen maksua.';
+  if (!st.inst) n.textContent = 'Voit valita myöhemmin. Jos Kaski mittaa ja asentaa, asennus tulee tarjoukseen.';
+  else if (on) n.textContent = 'Hinta tarkentuu, kun Kaski on nähnyt aukon. Asennusta ei ole saatavilla kaikilla alueilla, joten olemme yhteydessä ennen maksua.';
   else { var a = D.createElement('a'); a.className = 'lk'; a.href = '#asennusohje-pdf'; a.textContent = 'Lataa asennusohje'; n.appendChild(a); }
   var as = s.closest('.x-view').querySelector('aside.side'); if (!as) return;
   var big = as.querySelector('p.big'), ln = as.querySelector('.x-instline');
@@ -4799,7 +4806,7 @@ D.addEventListener('click', function (e) {
   var c = e.target && e.target.closest ? e.target.closest('.x-ip') : null; if (!c) return;
   e.preventDefault(); e.stopPropagation();
   var isDoor = !!c.closest('#v-ovi-lisavarusteet'), st = isDoor ? door : draft; if (!st) return;
-  st.inst = c.getAttribute('data-inst') || undefined;
+  st.inst = c.getAttribute('data-inst');
   if (isDoor) renderDoor(); else render();
 }, true);
 D.addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && e.target.classList && e.target.classList.contains('x-ip')) { e.preventDefault(); e.target.click(); } });
@@ -4854,16 +4861,16 @@ var STYLE = { 'UOL1': 'lasi', 'Diana': 'umpi', 'Hyönä': 'umpi', 'Vega': 'lasi'
   });
 })();
 /* Hanke säilyy sivun uudelleenlatauksessa (ei testikehyksessä) */
-var PERSIST = (function () { try { return window.top === window && !!window.localStorage; } catch (e) { return false; } })(), PKEY = 'kaski-proto-hanke-v1';
-if (PERSIST) { try { var sv = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (sv && sv.hanke && sv.hanke.length) { hanke = sv.hanke; seq = sv.seq || seq; } } catch (e) {} }
-function saveHanke() { if (!PERSIST) return; try { localStorage.setItem(PKEY, JSON.stringify({ hanke: hanke, seq: seq })); } catch (e) {} }
+var PERSIST = (function () { try { return window.top === window && !!window.sessionStorage; } catch (e) { return false; } })(), PKEY = 'kaski-proto-hanke-v1';
+if (PERSIST) { try { var sv = JSON.parse(sessionStorage.getItem(PKEY) || 'null'); if (sv && sv.hanke && sv.hanke.length) { hanke = sv.hanke; seq = sv.seq || seq; } } catch (e) {} }
+function saveHanke() { if (!PERSIST) return; try { sessionStorage.setItem(PKEY, JSON.stringify({ hanke: hanke, seq: seq })); } catch (e) {} }
 (function () {
   if (!WH || !PERSIST) return;
   var h1 = WH.querySelector('h1'); if (!h1) return;
   var p = D.createElement('p'); p.className = 'sm x-reset';
-  p.innerHTML = 'Hanke säilyy tässä selaimessa. <button type="button" class="x-what">Aloita alusta</button>';
+  p.innerHTML = 'Hanke säilyy, vaikka lataat sivun uudelleen. <button type="button" class="x-what">Aloita alusta</button>';
   h1.parentNode.appendChild(p);
-  p.querySelector('button').addEventListener('click', function (e) { e.preventDefault(); try { localStorage.removeItem(PKEY); } catch (x) {} hanke = []; lastMass = null; editing = null; render(); toast('Hanke tyhjennetty.'); });
+  p.querySelector('button').addEventListener('click', function (e) { e.preventDefault(); try { sessionStorage.removeItem(PKEY); } catch (x) {} hanke = []; lastMass = null; editing = null; render(); toast('Hanke tyhjennetty.'); });
 })();
 /* Muokkauksessa tallennus joka vaiheessa */
 var saveBtns = [];
@@ -4907,6 +4914,73 @@ var _rdR7 = renderDoor; renderDoor = function () { _rdR7(); renderInstSec(instD,
 var _rnR7 = render; render = function () { _rnR7(); renderInstSec(instW, draft, false); renderInstSums(); renderSave(); saveHanke(); };
 var _roR7 = renderOrder; renderOrder = function () { _roR7(); renderInstSums(); };
 var _rhR7 = renderHanke; renderHanke = function () { _rhR7(); renderInstSums(); saveHanke(); };
+
+/* Kierros 8: summien otsikot ja asennusmaininta valintojen mukaan */
+var noInstNodes = [];
+[WH, VIEW['lisavarusteet'], VIEW['ovi-lisavarusteet']].concat(ORD.map(function (k) { return VIEW[k]; })).forEach(function (v) {
+  if (!v) return; var w = D.createTreeWalker(v, NodeFilter.SHOW_TEXT, null), n;
+  while ((n = w.nextNode())) if (/ei asennusta|Ei sisällä asennusta|ilman asennusta/.test(n.nodeValue)) noInstNodes.push({ n: n, tpl: n.nodeValue, v: v });
+});
+function renderInstText() {
+  var amt = instTotal();
+  noInstNodes.forEach(function (x) {
+    var local = x.v === VIEW['lisavarusteet'] ? (draft && draft.inst === 'kaski') : (x.v === VIEW['ovi-lisavarusteet'] ? (door && door.inst === 'kaski') : amt > 0);
+    var t = local ? x.tpl.replace(/, ei asennusta\./, '.').replace(/ Ei sisällä asennusta\./, ' Asennus arviona mukana.').replace(/Yhteensä ilman asennusta/, 'Yhteensä, asennus arviona') : x.tpl;
+    if (x.n.nodeValue !== t) x.n.nodeValue = t;
+  });
+  var v5 = K5 ? VIEW[K5] : null;
+  if (v5) $$('aside .lines p', v5).forEach(function (p) { if (/^Hanke yhteensä/.test(p.textContent)) p.textContent = p.textContent.replace(/^Hanke yhteensä/, 'Tuotteet yhteensä'); });
+  if (WH) $$('.it', WH).forEach(function (it) { var d = $$('.acts a', it)[2], nm = plainName(it.querySelector('.it-txt p.b')), sec = it.closest('section.room2'); if (d && nm) d.setAttribute('aria-label', 'Poista: ' + nm + (sec ? ', ' + txt(sec.querySelector('h2')) : '')); });
+}
+var _risR8 = renderInstSums; renderInstSums = function () { _risR8(); renderInstText(); };
+var _reaR8 = renderEditAside; renderEditAside = function () {
+  if (editAside) { var nb = editAside._nb; if (/^Muuta 0 /.test(txt(nb))) nb.textContent = 'Valitse muutos'; }
+  _reaR8();
+};
+
+/* Kierros 8b: asennuksen vaihe tilauksessa, toimitusteksti, menneet ajat, tarkistetut mitat, esitäyttö, tallennuksen kuittaus */
+var instNotes = [];
+['tarkistus', 'maksa'].forEach(function (k) {
+  var v = VIEW[k], h = v ? v.querySelector('h1') : null; if (!h) return;
+  var p = D.createElement('p'); p.className = 'sm x-meet x-instnote2'; p.hidden = true; h.parentNode.appendChild(p); instNotes.push({ k: k, p: p });
+});
+var delivNode = null;
+objNodes.forEach(function (x) { if (/asennusohjeineen/.test(x.tpl)) delivNode = x; });
+var delivTpl0 = delivNode ? delivNode.tpl : '';
+var _ritR8b = renderInstText; renderInstText = function () {
+  _ritR8b();
+  var amt = instTotal();
+  instNotes.forEach(function (x) {
+    x.p.hidden = !amt;
+    x.p.textContent = !amt ? '' : (x.k === 'tarkistus' ? 'Asennus: Kaski vahvistaa, että asennus onnistuu alueellasi, ja sopii asennuspäivän kanssasi ennen maksua.' : 'Asennus on vahvistettu alueellesi. Asennuspäivä sovitaan kanssasi maksun jälkeen. [Kasken vahvistama asennushinta]');
+  });
+  if (delivNode) { delivNode.tpl = amt ? delivTpl0.replace(/kotiovelle asennusohjeineen\./, 'kotiovelle. Kaski asentaa valitsemasi tuotteet sovittuna päivänä.') : delivTpl0; renderObj(); }
+  ['maksa', 'vahvistus'].forEach(function (k) {
+    var t = crTpl[k]; if (!t) return;
+    $$('.cr p', t.parent).forEach(function (p) { if (/karmisyvyys tarkistetaan mittauksessa/.test(p.textContent)) p.textContent = p.textContent.replace('karmisyvyys tarkistetaan mittauksessa', 'karmisyvyys tarkistettu'); });
+  });
+};
+(function () {
+  var v = VIEW['maksa'], h = v ? v.querySelector('#s-tt, [id^="s-tt"]') : null; if (!h) return;
+  var p = D.createElement('p'); p.className = 'sm mu'; p.style.margin = '-8px 0 12px'; p.textContent = 'Mitat ja karmisyvyydet on tarkistettu, joten ne näkyvät nyt millimetreinä.';
+  h.parentNode.insertBefore(p, h.nextSibling);
+})();
+/* Menneet ajat piiloon (ei testikehyksessä, jossa päivät ovat kiinteät) */
+if (PERSIST) {
+  var nowD = new Date(); nowD.setHours(0, 0, 0, 0);
+  ['tilaa', 'mittaus', 'verkkotapaaminen'].forEach(function (k) {
+    var v = VIEW[k]; if (!v) return;
+    $$('.dl .day', v).forEach(function (d) { var m = /(\d+)\.(\d+)\./.exec(txt(d.querySelector('p')) || ''); if (m && new Date(2026, +m[2] - 1, +m[1]) <= nowD) d.hidden = true; });
+  });
+}
+/* Mittausohjeen sähköposti tilauksen esitäyttöön */
+var _pfR8 = prefillFromBooking; prefillFromBooking = function () {
+  _pfR8();
+  var dst = TV ? TV.querySelector('#sp-tilaa') : null; if (!dst || dst.value.trim()) return;
+  ['#x-ohje-ikkuna', '#x-ohje-ovi'].some(function (q) { var i = D.querySelector(q); if (i && okMail(i.value.trim())) { dst.value = i.value.trim(); return true; } return false; });
+};
+/* Muokkauksen tallennuksen kuittaus */
+var _cmR8 = commit; commit = function () { var was = !!editing; _cmR8(); if (was) toast('Muutokset tallennettu.'); };
 })();
 
 route();
@@ -5079,6 +5153,7 @@ D.addEventListener('keydown', function (e) {
     var big = v.querySelector('aside .big'), nbs = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn'), shown), t = '', lab = '', val = null;
     target = nbs.length ? nbs[nbs.length - 1] : null;
     backT = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn2'), shown)[0] || null;
+    var svB = Array.prototype.filter.call(v.querySelectorAll('.navb a.x-save'), shown)[0]; if (svB) backT = svB;
     chipT = null;
     var ys = !big ? v.querySelector('.ysum') : null, sb = v.querySelector('.selbar:not([hidden])');
     if (sb) {
