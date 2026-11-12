@@ -4862,7 +4862,7 @@ var STYLE = { 'UOL1': 'lasi', 'Diana': 'umpi', 'Hyönä': 'umpi', 'Vega': 'lasi'
 })();
 /* Hanke säilyy sivun uudelleenlatauksessa (ei testikehyksessä) */
 var PERSIST = (function () { try { return window.top === window && !!window.sessionStorage; } catch (e) { return false; } })(), PKEY = 'kaski-proto-hanke-v1';
-if (PERSIST) { try { var sv = JSON.parse(sessionStorage.getItem(PKEY) || 'null'); if (sv && sv.hanke && sv.hanke.length) { hanke = sv.hanke; seq = sv.seq || seq; } } catch (e) {} }
+if (PERSIST) { try { var sv = JSON.parse(sessionStorage.getItem(PKEY) || 'null'); if (sv && sv.hanke && sv.hanke.length) { hanke = sv.hanke; seq = sv.seq || seq; committed = true; } } catch (e) {} }
 function saveHanke() { if (!PERSIST) return; try { sessionStorage.setItem(PKEY, JSON.stringify({ hanke: hanke, seq: seq })); } catch (e) {} }
 (function () {
   if (!WH || !PERSIST) return;
@@ -4981,6 +4981,94 @@ var _pfR8 = prefillFromBooking; prefillFromBooking = function () {
 };
 /* Muokkauksen tallennuksen kuittaus */
 var _cmR8 = commit; commit = function () { var was = !!editing; _cmR8(); if (was) toast('Muutokset tallennettu.'); };
+/* Kierros 9: uusi ikkuna ilman edellisen lisävarusteita, karmiporaus vain itse asentavalle, oven tallennus, varauksen linkki, tekstit */
+var _saR9 = startAdd; startAdd = function (sid) {
+  _saR9(sid);
+  if (!draft) return;
+  adds.forEach(function (r, i) { draft.chk[i] = !!r.chk0; if (draft.open) draft.open[i] = false; if (draft.sub) draft.sub[i] = false; });
+  draft.inst = undefined;
+  render();
+  if (allRows().some(function (r) { return !r.door; })) toast('Uusi ikkuna alkaa edellisen mitoilla ja väreillä. Lisävarusteet ja asennus valitset uudelleen.');
+};
+var drillJ = -1; adds.forEach(function (r, j) { if (/karmiporaus/i.test(r.title || '') && !r.dis) drillJ = j; });
+var drillWhy = null;
+if (drillJ >= 0) { drillWhy = D.createElement('span'); drillWhy.className = 'b x-drillwhy'; drillWhy.hidden = true; drillWhy.textContent = ' Ei tarvita, kun Kaski asentaa.'; var wyd = adds[drillJ].el.querySelector('.why'); if (wyd) wyd.appendChild(drillWhy); }
+function renderDrill() {
+  if (drillJ < 0 || !draft) return;
+  var r = adds[drillJ], k = draft.inst === 'kaski';
+  if (k && draft.chk[drillJ]) draft.chk[drillJ] = false;
+  r.cb.disabled = k; r.el.classList.toggle('dis', k); if (k) r.cb.checked = false; drillWhy.hidden = !k;
+}
+var _riR9 = rowInfo; rowInfo = function (c) { var s = _riR9(c); return c && c.inst === 'itse' ? s + ', asennat itse' : s; };
+var _dsR9 = doorSnap; doorSnap = function (o) { var s = _dsR9(o); if (o.inst === 'itse') s.info += ', asennat itse'; return s; };
+/* Ovi muokkauksessa: viimeinen painike tallentaa */
+function renderDoorSave() {
+  var v = VIEW['ovi-lisavarusteet']; if (!v) return;
+  var b = $$('.navb a.btn', v).pop(); if (!b) return;
+  if (!b._t0) b._t0 = b.textContent;
+  var t = dEditing ? 'Tallenna muutokset' : b._t0; if (b.textContent !== t) b.textContent = t;
+}
+/* Hanke: varattu tapaaminen avautuu varauksena, ei uutena lomakkeena */
+function renderBookLink() {
+  if (!WH) return;
+  var a = $$('.ysum .jr a', WH).filter(function (x) { return /mittaa ja asentaa/i.test(x.textContent) || x.classList.contains('x-booklink'); })[0]; if (!a) return;
+  a.classList.add('x-booklink');
+  if (!a._t0) { a._t0 = a.textContent; a._h0 = a.getAttribute('href'); }
+  var k = bookedKey();
+  a.setAttribute('href', k ? '#' + k : a._h0);
+  a.textContent = k ? 'Näytä varauksesi' : a._t0;
+}
+/* Asennus valittu: elävät sivupalkin tekstit, tarjouksen otsikot, muokkauksen summa */
+function liveNoInst() {
+  [['lisavarusteet', draft], ['ovi-lisavarusteet', door]].forEach(function (x) {
+    var v = VIEW[x[0]], on = x[1] && x[1].inst === 'kaski'; if (!v || !on) return;
+    var as = v.querySelector('aside.side'); if (!as) return;
+    var w = D.createTreeWalker(as, NodeFilter.SHOW_TEXT, null), n; while ((n = w.nextNode())) if (/, ei asennusta\./.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/, ei asennusta\./, '.');
+  });
+  var v5 = K5 ? VIEW[K5] : null;
+  if (v5) $$('aside .lines p', v5).forEach(function (p) { if (/^Hanke yhteensä/.test(p.textContent)) p.textContent = p.textContent.replace(/^Hanke yhteensä/, 'Tuotteet yhteensä'); });
+  if (TJ) {
+    var own = TJ.querySelector('.x-tj-own'), hh = TJ.querySelector('.ysum-h');
+    if (hh) { if (!hh._t0) hh._t0 = hh.textContent; hh.textContent = own && !own.hidden ? 'Hinta, asennus valintojesi mukaan' : hh._t0; }
+    var who = $$('tbody tr', TJ).filter(function (tr) { return /vastaa mitoista/.test(txt(tr.children[0])); })[0];
+    if (who) { if (!who._t0) who._t0 = who.children[1].textContent; who.children[1].textContent = lastBooked === 'verkkotapaaminen' ? '[Kasken linjaus: kuka vastaa verkkotapaamisessa kirjatuista mitoista]' : who._t0; }
+  }
+}
+var _reR9 = typeof renderEdit === 'function' ? renderEdit : null;
+if (_reR9) renderEdit = function () { _reR9.apply(this, arguments); liveNoInst(); };
+var _rdR9 = renderDoor; renderDoor = function () { _rdR9(); renderDoorSave(); liveNoInst(); };
+var _rnR9 = render; render = function () { renderDrill(); _rnR9(); renderDoorSave(); renderBookLink(); liveNoInst(); };
+var _rhR9 = renderHanke; renderHanke = function () { _rhR9(); renderBookLink(); };
+/* Kierros 9b: vahvistettu asennus maksussa, aikajanan asennusvaihe, toimitusteksti, asennusrivin sisältö */
+function instItems() { var a = []; hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (r.qty > 0 && instOf(r)) a.push(secName(s0) + ': ' + (r.door ? 'ulko-ovi' : 'ikkuna') + (r.qty > 1 ? ' ' + r.qty + ' kpl' : '')); }); }); return a; }
+var vvInstLi = null;
+if (VV) {
+  var stepsV = VV.querySelector('ol.steps'), lis = stepsV ? $$('li', stepsV) : [], last = lis[lis.length - 1];
+  if (last) { vvInstLi = D.createElement('li'); vvInstLi.hidden = true; vvInstLi.innerHTML = '<span class="n" aria-hidden="true"></span><div class="s4"><p class="b">Asennus</p><p class="sm mu"></p></div>'; stepsV.insertBefore(vvInstLi, last); }
+}
+var payTerms = VIEW['maksa'] ? VIEW['maksa'].querySelector('p.terms') : null, payTerms0 = payTerms ? payTerms.textContent : '';
+var _ritR9 = renderInstText; renderInstText = function () {
+  _ritR9();
+  var amt = instTotal(), items = instItems();
+  ['maksa', 'vahvistus'].forEach(function (k) {
+    var v = VIEW[k]; if (!v) return;
+    var r = v.querySelector('.sr.x-instr'); if (r) r.firstChild.textContent = 'Asennus';
+    var w = D.createTreeWalker(v, NodeFilter.SHOW_TEXT, null), n; while ((n = w.nextNode())) if (/Asennus arviona mukana\./.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace('Asennus arviona mukana.', 'Sisältää asennuksen.');
+  });
+  ['tilaa', 'tarkistus', 'mittaus', 'verkkotapaaminen'].forEach(function (k) {
+    var v = VIEW[k], r = v ? v.querySelector('.sr.x-instr') : null; if (r) r.firstChild.textContent = 'Asennus, arvio (' + items.length + (items.length === 1 ? ' tuote' : ' tuotetta') + ')';
+  });
+  instNotes.forEach(function (x) {
+    if (!amt) return;
+    x.p.textContent = x.k === 'tarkistus' ? 'Asennus: Kaski vahvistaa ennen maksua, että asennus onnistuu alueellasi. Asennuspäivä sovitaan maksun jälkeen.' : 'Asennus on vahvistettu alueellesi. Asennuspäivä sovitaan kanssasi maksun jälkeen.';
+  });
+  if (vvInstLi) {
+    vvInstLi.hidden = !amt;
+    vvInstLi.querySelector('.sm').textContent = amt ? 'Kaski asentaa: ' + items.join(', ') + '. Sovimme asennuspäivän kanssasi, kun toimitusviikko on tiedossa.' : '';
+    var nums = $$('ol.steps > li:not([hidden]) .n', VV); nums.forEach(function (sp, i) { if (!sp.querySelector('svg')) sp.textContent = String(i + 1); });
+  }
+  if (payTerms) payTerms.textContent = amt ? payTerms0.replace(/^Toimitamme kotiovelle/, 'Toimitamme kotiovelle, ja Kaski asentaa ' + items.join(', ') + '. Toimitus') : payTerms0;
+};
 })();
 
 route();
@@ -5174,6 +5262,7 @@ D.addEventListener('keydown', function (e) {
       var ntot = v.querySelector('.x-newtot');
       if (ntot && ntot.getAttribute('data-y') && big) { lab = 'Uusi summa, muutos ' + big.textContent.trim(); val = ntot.getAttribute('data-y'); }
       chipT = v.querySelector('aside .pvw') || v.querySelector('aside');
+      var il = v.querySelector('aside .x-instline'); if (il && !il.hidden && il.textContent) lab = lab + ', ' + il.textContent.replace(/^Lisäksi asennus arviolta /, '+ asennus noin ').replace(/\.$/, '');
     }
     if (!big || !target) { bar.hidden = true; return; }
     if (val === null) val = big.textContent.trim();
