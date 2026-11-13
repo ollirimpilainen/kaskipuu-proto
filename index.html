@@ -765,7 +765,7 @@ details.x-inopen > .mxb { margin-top:12px }
 
 .x-colp { display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0 }
 .x-crow { display:inline-flex;align-items:center;gap:6px }
-.x-cdot { width:14px;height:14px;border-radius:3px;border:1px solid var(--ln2);display:inline-block }
+.x-cdot { width:14px;height:14px;border-radius:50%;border:1px solid var(--ln2);display:inline-block }
 .x-slot-err { margin:10px 0 0 }
 .x-sendst { margin:6px 0 0;color:#b4232a;font-weight:650 }
 .x-sendst.x-ok { color:var(--ink);font-weight:400 }
@@ -4030,7 +4030,7 @@ var AE = aikaS ? { h: aikaS.querySelector('h2'), d: aikaS.querySelector('h2 + p'
   ohh: ohTextNode(aikaS.querySelector('.oh-h')), oh: $$('.oh-txt', aikaS), aside: aikaS.querySelector('aside.oh') } : null;
 var routesP = TV ? TV.querySelector('.ysum .routes p') : null;
 var MODES = [
-  { key: 'itse', lab: 'Mittaat itse', h: 'Tarkat mitat', d: 'Tarkat mitat, saranapuolet ja karmisyvyydet ovat hankkeessasi. Kaski käy ne läpi ennen kuin maksat.',
+  { key: 'itse', lab: 'Mittaat itse', h: 'Tarkat mitat', d: 'Tarkat millimitat ovat hankkeessasi. Saranapuolen ja karmisyvyyden kysymme, kun tarkistamme tilauksen. Kaski käy kaiken läpi ennen kuin maksat.',
     ohh: 'Näin tarkistus toimii', o1: 'Kaski käy jokaisen mitan läpi ja soittaa, jos jokin näyttää oudolta.', o2: 'Voit vielä muuttaa mittoja hankkeessa ennen kuin lähetät tiedot.',
     cta: 'Lähetä tiedot tarkistettavaksi', row: '', slots: false,
     routes: 'Kaski käy mitat läpi, ja saat maksulinkin sähköpostiisi. Hinta muuttuu vain, jos muutat valintoja tai tarkka mitta muuttaa ikkunan tai oven kokoa.' },
@@ -5106,6 +5106,66 @@ function renderFreightTotal() {
 }
 var _rhR10 = renderHanke; renderHanke = function () { _rhR10(); renderTint(); renderFreightTotal(); };
 var _rnR10 = render; render = function () { _rnR10(); renderTint(); renderFreightTotal(); };
+/* Kierros 11: väriteksti uudelle ikkunalle, lasiosio vain lasiovelle, tarjouksesta takaisin, luvan pakollisuus, huonevalinta näkyviin, ajat järjestykseen */
+var varP = WR ? WR.querySelector('[aria-labelledby^="s-var"] .lab p') : null, varP0 = varP ? varP.textContent : '';
+function renderVarText() {
+  if (!varP || !draft) return;
+  var i = draft.col ? draft.col[0] : 0, nm = colors[0] ? colors[0][i] : '';
+  var t = i ? 'Väri: ' + nm + ', sama kuin valitsemasi. Voit vaihtaa sen.' : varP0;
+  if (varP.textContent !== t) varP.textContent = t;
+}
+/* Ovi: lasiosio piiloon umpiovelta */
+function renderGlassSec() {
+  if (!door) return;
+  var m = dByClass('md4')[0], el = m ? m.items[door.sel[m.k]] : null, st = el ? el.getAttribute('data-style') : '';
+  var v = VIEW['ovi-ominaisuudet'], sec = v ? v.querySelector('section[aria-labelledby^="s-las"]') : null;
+  if (sec) sec.hidden = st === 'umpi';
+  DKEYS.forEach(function (k) {
+    var dl = VIEW[k].querySelector('aside dl.sum'); if (!dl) return;
+    $$('dt', dl).forEach(function (dt) { if (txt(dt) === 'Lasi') { var dd = dt.nextElementSibling; if (!dd._t0 || st !== 'umpi') dd._t0 = dd.textContent; if (st === 'umpi') dd.textContent = 'Ei lasia'; } });
+  });
+}
+/* Tarjous: paluu hankkeeseen sivun lopussa, purku vain Kasken asentamille */
+(function () {
+  if (!TJ) return; var nb = TJ.querySelector('.tm > .navb'); if (!nb) return;
+  var p = D.createElement('p'); p.className = 'sm'; p.innerHTML = '<a class="lk" href="#hanke">Takaisin hankkeeseen</a>'; nb.parentNode.insertBefore(p, nb.nextSibling);
+})();
+var _roR11 = renderOffer; renderOffer = function () {
+  _roR11();
+  if (!tjRows.purku) return;
+  var iw = 0, id = 0; allRows().forEach(function (r) { if (!(r.qty > 0)) return; var it = r.door ? r.door.state && r.door.state.inst : r.cfg && r.cfg.inst; if (it === 'itse') return; if (r.door) id += r.qty; else iw += r.qty; });
+  var g = []; if (iw) g.push(iw > 1 ? 'ikkunoiden' : 'ikkunan'); if (id) g.push(id > 1 ? 'ovien' : 'oven');
+  tjRows.purku.hidden = !g.length;
+  if (g.length) tjRows.purku.children[0].textContent = (iw > 1 || id > 1 ? 'Vanhojen ' : 'Vanhan ') + g.join(' ja ') + ' purku';
+};
+/* Lähetä itsellesi: puhelin pakollinen, kun lupa on annettu */
+(function () {
+  var box = WH ? WH.querySelector('.x-send') : null; if (!box) return;
+  var lupa = box.querySelector('.x-lupa input'), lab = box.querySelector('label[for="lis-p"] .mu'); if (!lupa || !lab) return;
+  var t0 = lab.textContent;
+  lupa.addEventListener('change', function () { lab.textContent = lupa.checked ? '(pakollinen, kun annat luvan)' : t0; });
+})();
+/* Hanke: huonevalinta näkyviin alapalkin yläpuolelle */
+if (WH) WH.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a,button') : null; if (!a || !/Lisää huone/.test(a.textContent)) return;
+  setTimeout(function () { var pk = $$('[data-room]', WH).filter(function (x) { return !x.closest('[hidden]'); })[0]; var box = pk ? pk.parentNode : null; if (box) { box.style.scrollMarginBottom = '160px'; box.scrollIntoView({ block: 'nearest' }); } }, 60);
+});
+/* Tilaa: varattu aika järjestyksessä ja yhteystietojen ohje mittaustavan mukaan */
+function sortSlots() {
+  if (!TV) return; var dl = TV.querySelector('.dl'); if (!dl) return;
+  var days = $$('.day', dl); days.sort(function (a, b) { return dayOf(txt(a.querySelector('p'))) - dayOf(txt(b.querySelector('p'))); });
+  days.forEach(function (d) {
+    dl.appendChild(d); var cl = d.querySelector('.cl'); if (!cl) return;
+    $$('.slot', cl).sort(function (a, b) { return parseFloat(txt(a)) - parseFloat(txt(b)); }).forEach(function (b) { cl.appendChild(b); });
+  });
+  var more = dl.parentNode.querySelector('button.more'); if (more) dl.parentNode.appendChild(more);
+}
+var _psR11 = pickSlot; pickSlot = function (sl) { _psR11(sl); sortSlots(); };
+var callNode = null;
+if (TV) $$('.oh-txt', TV).forEach(function (p) { if (/Soitamme, jos jokin mitta/.test(p.textContent)) callNode = { p: p, t0: p.textContent }; });
+var _amR11 = applyMode; applyMode = function () { _amR11(); if (callNode) callNode.p.textContent = modeOf().key === 'kaski' ? 'Soitamme, jos tarvitsemme lisätietoja ennen mittauskäyntiä.' : callNode.t0; };
+var _rnR11 = render; render = function () { _rnR11(); renderVarText(); renderGlassSec(); };
+var _rdR11 = renderDoor; renderDoor = function () { _rdR11(); renderGlassSec(); };
 })();
 
 route();
@@ -5290,6 +5350,7 @@ D.addEventListener('keydown', function (e) {
     } else if (ys) {
       big = ys.querySelector('.tot .v'); target = ys.querySelector('.jr a.x-pri') || ys.querySelector('.jr a'); backT = null;
       lab = 'Hanke yhteensä'; t = target ? target.textContent.trim() : '';
+      var fr = ys.querySelector('.x-freight:not([hidden]) .num'); if (fr) { big = fr; lab = 'Yhteensä rahteineen'; }
       chipT = ys;
       if (!target) { var nb2 = nbs; target = nb2.length ? nb2[nb2.length - 1] : null; backT = Array.prototype.filter.call(v.querySelectorAll('.navb a.btn2'), shown)[0] || null; lab = 'Yhteensä'; t = target ? target.textContent.trim() : ''; chipT = null; }
     } else {
