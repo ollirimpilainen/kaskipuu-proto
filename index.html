@@ -823,6 +823,9 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-reset { margin:6px 0 0 } .x-reset .x-what { display:inline-flex;margin:0 }
 .x-save { margin-left:auto }
 
+.x-tov { position:absolute;box-sizing:border-box;border-style:solid;border-radius:2px;pointer-events:none }
+.x-freight { font-weight:650 }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -950,7 +953,7 @@ details.x-inopen > .mxb { margin-top:12px }
 <nav class="stp" aria-label="Vaiheet"><ol><li aria-current="step"><span class="k">1</span>Rakenne ja ulkonäkö</li><li><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
   <div class="main" style="gap:0">
-    <div class="modebar"><a class="sw" role="switch" aria-checked="false" aria-describedby="sw-v" href="#ap-ikkuna"><span class="sw-t" aria-hidden="true"><span class="sw-k"></span></span><span class="b">Näytä kaikki Kasken valinnat</span></a><p id="sw-v" class="sm mu">Päällä näet kaikki valinnat yhdellä sivulla.</p></div>
+    <div class="modebar"><a class="sw" role="switch" aria-checked="false" aria-describedby="sw-v" href="#ap-ikkuna"><span class="sw-t" aria-hidden="true"><span class="sw-k"></span></span><span class="b">Näytä kaikki Kasken valinnat</span></a><p id="sw-v" class="sm mu">Ammattilaisille: päällä näet kaikki Kasken valinnat, myös tunnukset ja millimitat.</p></div>
     <div class="s8" style="margin-bottom:24px"><h1>Millainen ikkuna?</h1></div>
     <section class="sec" aria-labelledby="s-huo">
       <div class="lab"><h2 id="s-huo" class="t3">Huone</h2><p class="sm mu">Valitsemme huoneen mukaan sopivat lasit valmiiksi.</p></div>
@@ -1150,7 +1153,7 @@ details.x-inopen > .mxb { margin-top:12px }
 </div></header>
 <nav class="stp" aria-label="Vaiheet"><ol><li aria-current="step"><span class="k">1</span>Rakenne ja ulkonäkö</li><li><span class="k">2</span>Ominaisuudet</li><li><span class="k">3</span>Lisävarusteet</li></ol></nav>
 <main class="c pg"><div class="row">
-  <div class="main" style="gap:0"><div class="x-apsw"><button type="button" class="x-sw" role="switch" aria-checked="false"><span class="x-tr" aria-hidden="true"></span>Näytä kaikki Kasken valinnat</button><p class="sm mu">Ammattilaisille: päällä näet myös tunnuksen, millimitat, helapaketit ja lasit.</p></div><p class="x-mban" role="status" hidden></p>
+  <div class="main" style="gap:0"><div class="x-apsw"><button type="button" class="x-sw" role="switch" aria-checked="false"><span class="x-tr" aria-hidden="true"></span>Näytä kaikki Kasken valinnat</button><p class="sm mu">Ammattilaisille: päällä näet kaikki Kasken valinnat, myös tunnukset ja millimitat.</p></div><p class="x-mban" role="status" hidden></p>
     <div class="s8" style="margin-bottom:24px"><h1>Millainen ovi?</h1></div>
     <section class="sec" aria-labelledby="s-typ-ovi">
       <div class="lab"><h2 id="s-typ-ovi" class="t3">Ulko-ovi vai parvekeovi</h2></div>
@@ -5069,6 +5072,40 @@ var _ritR9 = renderInstText; renderInstText = function () {
   }
   if (payTerms) payTerms.textContent = amt ? payTerms0.replace(/^Toimitamme kotiovelle/, 'Toimitamme kotiovelle, ja Kaski asentaa ' + items.join(', ') + '. Toimitus') : payTerms0;
 };
+/* Kierros 10: ikkunan esikatselu valitun värin mukaan, rahti mukaan hankkeen loppusummaan */
+function winHex(c) { var b = c && colBtns[0] ? colBtns[0][c.col[0]] : null, q = b ? b.querySelector('.sq') : null; return q ? q.style.background : ''; }
+function isWhiteCol(h) { h = String(h || '').replace(/\s/g, '').toLowerCase(); return !h || h === '#ffffff' || h === '#fff' || h === 'rgb(255,255,255)'; }
+function tint(img, hex) {
+  if (!img || !img.getAttribute('src')) return;
+  var ov = img.nextElementSibling && img.nextElementSibling.classList.contains('x-tov') ? img.nextElementSibling : null;
+  var on = !isWhiteCol(hex);
+  if (!on) { if (ov) ov.hidden = true; return; }
+  if (!ov) { ov = D.createElement('span'); ov.className = 'x-tov'; ov.setAttribute('aria-hidden', 'true'); img.parentNode.insertBefore(ov, img.nextSibling); if (getComputedStyle(img.parentNode).position === 'static') img.parentNode.style.position = 'relative'; }
+  ov.hidden = false;
+  ov.style.left = img.offsetLeft + 'px'; ov.style.top = img.offsetTop + 'px'; ov.style.width = img.offsetWidth + 'px'; ov.style.height = img.offsetHeight + 'px';
+  ov.style.borderColor = hex; ov.style.borderWidth = Math.max(3, Math.round(img.offsetWidth * 0.06)) + 'px';
+}
+function renderTint() {
+  if (draft) [WR, WO, WL].forEach(function (v) { if (!v) return; $$('aside .pvw img', v).forEach(function (im) { tint(im, winHex(draft)); }); });
+  if (WH) $$('.it[data-row]', WH).forEach(function (it) { var loc = findRow(it.getAttribute('data-row')); if (!loc || loc.row.door) return; tint(it.querySelector('img'), winHex(loc.row.cfg)); });
+  ['tilaa', 'tarkistus', 'maksa', 'vahvistus'].forEach(function (k) {
+    var t = crTpl[k]; if (!t) return;
+    var rows = []; hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (r.qty > 0) rows.push(r); }); });
+    $$('.cr', t.parent).forEach(function (el, i) { var r = rows[i]; if (r && !r.door) tint(el.querySelector('img'), winHex(r.cfg)); });
+  });
+}
+/* Hanke: loppusumma rahteineen samaan muotoon kuin tilauksessa */
+function renderFreightTotal() {
+  if (!WH) return;
+  var b = WH.querySelector('.ysum-b'), tot = b ? b.querySelector('.tot') : null; if (!tot) return;
+  var r = b.querySelector('.x-freight');
+  if (!r) { r = D.createElement('div'); r.className = 'sr x-freight'; r.innerHTML = '<span>Yhteensä rahteineen</span><span class="num"></span>'; tot.parentNode.insertBefore(r, tot.nextSibling); }
+  var T = totAdd(totAdd(hankeTotal(allRows()), { known: true, ex: instTotal(), ph: [] }), { known: true, ex: 9000, ph: [] });
+  r.hidden = !allRows().some(function (x) { return x.qty > 0; });
+  putPrice(r.lastChild, T);
+}
+var _rhR10 = renderHanke; renderHanke = function () { _rhR10(); renderTint(); renderFreightTotal(); };
+var _rnR10 = render; render = function () { _rnR10(); renderTint(); renderFreightTotal(); };
 })();
 
 route();
