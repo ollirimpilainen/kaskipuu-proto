@@ -826,6 +826,19 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-tov { position:absolute;box-sizing:border-box;border-style:solid;border-radius:2px;pointer-events:none }
 .x-freight { font-weight:650 }
 
+.sr-only { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap }
+.x-prosec[hidden] { display:none }
+.x-aptw { overflow-x:auto;margin:12px 0 0 }
+.x-aptbl { min-width:980px }
+.x-aptbl td { vertical-align:top }
+.x-aptbl .x-apest { display:block;margin-top:2px }
+.x-apia { display:flex;gap:12px;white-space:nowrap }
+.x-apia a { font-size:14px;font-weight:600;min-height:32px;display:inline-flex;align-items:center }
+.x-apbar { display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 12px;margin:12px 0 0;background:var(--sf);border-radius:6px }
+.x-apadd { display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 0 }
+.x-apst { margin:12px 0 0 } .x-apst .x-what { display:inline-flex;margin:0 }
+.x-apsum .routes .jr a { display:flex;justify-content:center;width:100%;box-sizing:border-box }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -5166,6 +5179,211 @@ if (TV) $$('.oh-txt', TV).forEach(function (p) { if (/Soitamme, jos jokin mitta/
 var _amR11 = applyMode; applyMode = function () { _amR11(); if (callNode) callNode.p.textContent = modeOf().key === 'kaski' ? 'Soitamme, jos tarvitsemme lisätietoja ennen mittauskäyntiä.' : callNode.t0; };
 var _rnR11 = render; render = function () { _rnR11(); renderVarText(); renderGlassSec(); };
 var _rdR11 = renderDoor; renderDoor = function () { _rdR11(); renderGlassSec(); };
+/* Kierros 12: ammattilaisnäkymä samaan hankkeeseen (yksi hanke, kaksi näkymää) */
+var APV = VIEW['ap-hanke'], PROW = false, toTable = false;
+/* Ikkunan ammattilaistila kuluttajan vaiheissa */
+function setProW(on) {
+  PROW = !!on; D.body.classList.toggle('x-prow', PROW);
+  $$('a.sw', D).forEach(function (a) { if (a.closest('.modebar')) a.setAttribute('aria-checked', PROW ? 'true' : 'false'); });
+  if (PROW && draft) { if (!draft.pro) draft.pro = { id: '', karmi: '170 mm', sarana: '' }; if (!draft.exact && sizeBtns[exactIdx]) sizeBtns[exactIdx].click(); }
+  render();
+}
+(function () {
+  var mb = WR ? WR.querySelector('.modebar') : null; if (!mb) return;
+  [WO, WL].forEach(function (v) {
+    if (!v || v.querySelector('.modebar')) return;
+    var m = v.querySelector('.main') || v.querySelector('.tm'); if (!m) return;
+    var c = mb.cloneNode(true); var p = c.querySelector('p[id]'); if (p) p.removeAttribute('id'); var a = c.querySelector('a.sw'); if (a) a.removeAttribute('aria-describedby');
+    m.insertBefore(c, m.firstChild);
+  });
+})();
+window.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('.modebar a.sw') : null; if (!a) return;
+  var v = a.closest('.x-view'); if (!v || [WR, WO, WL].indexOf(v) < 0) return;
+  e.preventDefault(); e.stopImmediatePropagation(); setProW(!PROW);
+}, true);
+var proSec = null;
+(function () {
+  var kok = WR ? WR.querySelector('section[aria-labelledby^="s-kok"]') : null; if (!kok) return;
+  proSec = D.createElement('section'); proSec.className = 'sec x-prosec'; proSec.setAttribute('aria-labelledby', 'x-pro-h');
+  var chips = function (k, vals) { return '<div class="x-chips" role="radiogroup">' + vals.map(function (v) { return '<button type="button" class="chip" data-wp="' + k + '" aria-pressed="false">' + v + '</button>'; }).join('') + '</div>'; };
+  proSec.innerHTML = '<div class="lab"><h2 id="x-pro-h" class="t3">Ammattilaisen tiedot</h2><p class="sm mu">Näkyvät hankkeen taulukossa ja tilauksessa.</p></div>'
+    + '<div class="x-pcol"><label class="x-f1"><span class="x-lab">Tunnus</span><input class="x-in" data-wp="id" placeholder="esim. I1"></label>'
+    + '<div class="x-f1"><span class="x-lab">Karmisyvyys</span>' + chips('karmi', ['115 mm', '130 mm', '170 mm', '210 mm']) + '</div>'
+    + '<div class="x-f1 x-sar"><span class="x-lab">Saranapuoli sisältä katsoen</span>' + chips('sarana', ['Vasen', 'Oikea']) + '</div>'
+    + '<p class="sm mu">Mitat annetaan millimetreinä yllä.</p></div>';
+  kok.parentNode.insertBefore(proSec, kok.nextSibling);
+  proSec.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-wp]'); if (!b || !draft) return; e.preventDefault(); e.stopPropagation();
+    if (!draft.pro) draft.pro = { id: '', karmi: '170 mm', sarana: '' };
+    draft.pro[b.getAttribute('data-wp')] = b.textContent; render();
+  }, true);
+  proSec.addEventListener('input', function (e) { var i = e.target; if (i.getAttribute('data-wp') !== 'id' || !draft) return; if (!draft.pro) draft.pro = { id: '', karmi: '170 mm', sarana: '' }; draft.pro.id = i.value.trim(); });
+})();
+function renderProSec() {
+  if (!proSec || !draft) return;
+  proSec.hidden = !PROW;
+  var p = draft.pro || {};
+  $$('button[data-wp]', proSec).forEach(function (b) { b.setAttribute('aria-pressed', p[b.getAttribute('data-wp')] === b.textContent ? 'true' : 'false'); });
+  var i = proSec.querySelector('input[data-wp="id"]'); if (i && D.activeElement !== i) i.value = p.id || '';
+  var sr = proSec.querySelector('.x-sar'); if (sr) sr.hidden = draft.type !== refType;
+}
+var _riR12 = rowInfo; rowInfo = function (c) {
+  var s = _riR12(c), p = c && c.pro; if (!p) return s;
+  var x = []; if (p.karmi) x.push('karmi ' + p.karmi); if (p.sarana && c.type === refType) x.push('saranat ' + (p.sarana === 'Vasen' ? 'vasemmalla' : 'oikealla'));
+  return x.length ? s + ', ' + x.join(', ') : s;
+};
+/* Hankkeen taulukko samasta hankkeesta */
+function rowsFlat() { var o = []; hanke.forEach(function (s) { s.rows.forEach(function (r) { o.push({ s: s, r: r }); }); }); return o; }
+function tunnusOf(x, iw, id) { if (x.r.door) { var p = x.r.door.state && x.r.door.state.pro; return (p && p.tunnus) || 'UO' + id; } return (x.r.cfg.pro && x.r.cfg.pro.id) || 'I' + iw; }
+var apSel = {}, apUndo = null, apTblWrap = null, apAside = null, apStatus = null;
+(function () {
+  if (!APV) return;
+  var plan = APV.querySelector('section.plan'), lay = APV.querySelector('.lay'); if (!plan || !lay) return;
+  $$('.tbl, .selbar, .x-dtbl, .x-dempty, .addl, .x-dadd, .x-dmass, .x-dhead', APV).forEach(function (el) { el.hidden = true; el.classList.add('x-old'); });
+  Array.prototype.forEach.call(plan.children, function (ch) { if (!ch.classList.contains('hh')) { ch.hidden = true; ch.classList.add('x-old'); } });
+  var oldAside = lay.querySelector('aside'); if (oldAside) { oldAside.hidden = true; oldAside.classList.add('x-old'); }
+  apStatus = D.createElement('p'); apStatus.className = 'sm x-apst'; apStatus.setAttribute('role', 'status'); apStatus.hidden = true; plan.appendChild(apStatus);
+  var sb = D.createElement('div'); sb.className = 'x-apbar';
+  sb.innerHTML = '<span class="sm b x-apn"></span><button type="button" class="btn bs x-apmass">Muokkaa valittuja ikkunoita</button><button type="button" class="x-what x-apclr">Poista valinnat</button>';
+  plan.appendChild(sb);
+  apTblWrap = D.createElement('div'); apTblWrap.className = 'x-aptw'; plan.appendChild(apTblWrap);
+  var add = D.createElement('div'); add.className = 'x-apadd';
+  add.innerHTML = '<button type="button" class="btn2 bs x-apaddw">+ Lisää ikkuna</button><button type="button" class="btn2 bs x-apaddd">+ Lisää ovi</button>';
+  plan.appendChild(add);
+  apAside = D.createElement('aside'); apAside.className = 'ysum x-apsum'; apAside.setAttribute('aria-labelledby', 'x-apsum-h');
+  apAside.innerHTML = '<h2 id="x-apsum-h" class="ysum-h">Yhteenveto</h2><div class="ysum-b"><div class="x-apsr"></div>'
+    + '<div class="tot"><span class="sm b">Yhteensä</span><span class="v num"></span><span class="sm">Sis. alv. Lisäksi rahti 90 €.</span></div>'
+    + '<div class="sr x-apfr"><span>Yhteensä rahteineen</span><span class="num"></span></div>'
+    + '<div class="routes"><h3 class="sm b">Miten jatketaan?</h3><div class="jr"><a class="btn x-pri" href="#tilaa">Tilaa itse</a></div><div class="jr"><a class="btn2" href="#mittaus">Kaski mittaa ja asentaa</a></div></div></div>';
+  lay.appendChild(apAside);
+})();
+function apCell(tag, cls, html) { var e = D.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+function renderApTable() {
+  if (!apTblWrap) return;
+  var list = rowsFlat(), iw = 0, id = 0;
+  var t = D.createElement('table'); t.className = 'tbl x-aptbl';
+  t.innerHTML = '<thead><tr><th><span class="sr-only">Valitse</span></th><th>Tunnus</th><th>Huone</th><th>Tuote</th><th>Mitat, mm</th><th>Karmi</th><th>Saranat</th><th>Valinnat</th><th>Määrä</th><th class="r">Hinta</th><th><span class="sr-only">Toiminnot</span></th></tr></thead><tbody></tbody>';
+  var tb = t.querySelector('tbody');
+  list.forEach(function (x) {
+    var r = x.r, isD = !!r.door; if (isD) id++; else iw++;
+    var tun = tunnusOf(x, iw, id), tr = D.createElement('tr'); tr.setAttribute('data-row', r.id); if (apSel[r.id]) tr.className = 'on';
+    var c = r.cfg || {}, st = isD ? r.door.state : null, info = isD ? doorInfo(st) : null, pro = isD ? (st.pro || {}) : (c.pro || {});
+    var ck = apCell('td'); if (!isD) { var b = apCell('button', 'ck'); b.type = 'button'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', apSel[r.id] ? 'true' : 'false'); b.setAttribute('aria-label', 'Valitse ' + tun); ck.appendChild(b); } tr.appendChild(ck);
+    var tdT = apCell('td'), it = apCell('input', 'cell'); it.value = tun; it.setAttribute('aria-label', 'Tunnus, ' + tun); it.setAttribute('data-f', 'tun'); tdT.appendChild(it); tr.appendChild(tdT);
+    tr.appendChild(apCell('td', null, '')).textContent = secName(x.s);
+    tr.appendChild(apCell('td', null, '')).textContent = isD ? r.door.name : rowName(c);
+    var tdM = apCell('td');
+    if (isD) { var mm = /(\d{3,4}) × (\d{3,4}) mm/.exec(info.size || ''); tdM.textContent = mm ? mm[1] + ' × ' + mm[2] : (info.size || ''); }
+    else {
+      var w = c.exact ? c.w : String(Math.round(num(c.w) * 10)), h = c.exact ? c.h : String(Math.round(num(c.h) * 10));
+      tdM.innerHTML = '<span class="wh"><input class="cell n" data-f="w"><span aria-hidden="true">×</span><input class="cell n" data-f="h"></span>';
+      var ins = tdM.querySelectorAll('input'); ins[0].value = w; ins[1].value = h; ins[0].setAttribute('aria-label', 'Leveys, ' + tun); ins[1].setAttribute('aria-label', 'Korkeus, ' + tun);
+      if (!c.exact) { var s0 = apCell('span', 'xs mu x-apest'); s0.textContent = 'likimitta'; tdM.appendChild(s0); }
+    }
+    tr.appendChild(tdM);
+    var karmi = isD ? (xmG && st.sel[xmG.k] >= 0 ? gTitle(xmG, st.sel[xmG.k]) : 'Valitse') : (pro.karmi || 'Tarkistetaan');
+    tr.appendChild(apCell('td', 'sm')).textContent = karmi;
+    var sar = isD ? gSel('xk', st) : (c.type !== refType ? 'Ei aukea' : (pro.sarana || 'Tarkistetaan'));
+    tr.appendChild(apCell('td', 'sm')).textContent = sar;
+    var val = isD ? [info.rak, info.color, info.luk && info.luk !== 'Yksi lukko' ? info.luk : '', pro.hela && !/^Ei /.test(pro.hela) ? shortHela(pro.hela) : ''].filter(Boolean).join(', ') : rowInfo(c).replace(/^noin [^,]+, |^\d+ × \d+ mm, /, '').replace(/, karmi [^,]+/, '').replace(/, saranat [^,]+/, '');
+    if (instOf(r)) val += (val ? ', ' : '') + 'Kaski asentaa';
+    tr.appendChild(apCell('td', 'val sm')).textContent = val;
+    var tdQ = apCell('td'), qi = apCell('input', 'cell n'); qi.value = r.qty; qi.setAttribute('aria-label', 'Määrä, ' + tun); qi.setAttribute('data-f', 'q'); qi.style.width = '48px'; tdQ.appendChild(qi); tr.appendChild(tdQ);
+    var P = isD ? r.door.price : priceOf(c), tdP = apCell('td', 'r'), pr = apCell('span', 'pr'), pk = apCell('span', 'pk');
+    putPrice(pr, P.known ? { known: true, ex: P.ex * r.qty, ph: P.ph.map(function (a) { return phMul(a, r.qty); }) } : P); putPrice(pk, P); pk.textContent += ' / kpl';
+    tdP.appendChild(pr); tdP.appendChild(pk); tr.appendChild(tdP);
+    var tdA = apCell('td', null, '<span class="x-apia"><a href="#" data-a="edit"></a><a href="#" data-a="copy"></a><a href="#" data-a="del"></a></span>');
+    var ln = tdA.querySelectorAll('a'); ['Muokkaa', 'Kopioi', 'Poista'].forEach(function (l, k) { ln[k].textContent = l; ln[k].setAttribute('role', 'button'); ln[k].setAttribute('aria-label', l + ' ' + tun); });
+    tr.appendChild(tdA);
+    tb.appendChild(tr);
+  });
+  apTblWrap.innerHTML = '';
+  if (!list.length) apTblWrap.appendChild(apCell('p', 'mu', 'Hankkeessa ei ole vielä tuotteita. Lisää ikkuna tai ovi.'));
+  else apTblWrap.appendChild(t);
+  var nSel = Object.keys(apSel).filter(function (k) { return apSel[k] && findRow(k); }).length, bar = APV.querySelector('.x-apbar');
+  if (bar) { bar.hidden = !nSel; bar.querySelector('.x-apn').textContent = nSel + (nSel === 1 ? ' ikkuna valittu' : ' ikkunaa valittu'); }
+  var all = allRows(), qW = 0, qD = 0; all.forEach(function (r) { if (r.door) qD += r.qty; else qW += r.qty; });
+  var sr = apAside.querySelector('.x-apsr'); sr.innerHTML = '';
+  [['Ikkunat, ' + qW + ' kpl', hankeTotal(all.filter(function (r) { return !r.door; })), qW], ['Ovet, ' + qD + ' kpl', hankeTotal(all.filter(function (r) { return r.door; })), qD], ['Asennus, arvio', { known: true, ex: instTotal(), ph: [] }, instTotal()]].forEach(function (x) {
+    if (!x[2]) return; var d = apCell('div', 'sr', '<span></span><span class="num"></span>'); d.firstChild.textContent = x[0]; putPrice(d.lastChild, x[1]); sr.appendChild(d);
+  });
+  var T = totAdd(hankeTotal(all), { known: true, ex: instTotal(), ph: [] });
+  putPrice(apAside.querySelector('.tot .v'), T);
+  putPrice(apAside.querySelector('.x-apfr .num'), totAdd(T, { known: true, ex: 9000, ph: [] }));
+  apAside.querySelector('.routes').hidden = !all.length;
+}
+function apStatusMsg(msg, undo) {
+  if (!apStatus) return; apStatus.hidden = false; apStatus.textContent = msg + ' ';
+  if (undo) { var b = apCell('button', 'x-what'); b.type = 'button'; b.textContent = 'Peru'; b.addEventListener('click', function () { hanke = copy(undo); apUndo = null; apStatus.hidden = true; renderHanke(); renderApTable(); }); apStatus.appendChild(b); }
+}
+if (APV) {
+  APV.addEventListener('change', function (e) {
+    var i = e.target, tr = i.closest && i.closest('tr[data-row]'); if (!tr) return;
+    var loc = findRow(tr.getAttribute('data-row')); if (!loc) return;
+    var f = i.getAttribute('data-f'), v = i.value.trim(), r = loc.row;
+    if (f === 'q') r.qty = Math.max(1, Math.min(99, parseInt(v, 10) || 1));
+    if (f === 'tun') { if (r.door) { r.door.state.pro = r.door.state.pro || {}; r.door.state.pro.tunnus = v; } else { r.cfg.pro = r.cfg.pro || { karmi: '', sarana: '' }; r.cfg.pro.id = v; } }
+    if ((f === 'w' || f === 'h') && !r.door) {
+      var mm = Math.round((parseInt(v.replace(/\D/g, ''), 10) || 0) / 10) * 10; if (!mm) { renderApTable(); return; }
+      var c = r.cfg; if (!c.exact) { c.w = String(Math.round(num(c.w) * 10)); c.h = String(Math.round(num(c.h) * 10)); c.exact = true; }
+      c[f] = String(mm);
+    }
+    renderHanke(); renderApTable(); saveHanke();
+  });
+  APV.addEventListener('input', function (e) { if (e.target.closest && e.target.closest('.x-aptbl')) e.stopPropagation(); });
+  window.addEventListener('click', function (e) {
+    var t = e.target; if (!t.closest || !APV.contains(t)) return;
+    var ck = t.closest('.x-aptbl .ck'); if (ck) { e.preventDefault(); e.stopPropagation(); var id0 = ck.closest('tr').getAttribute('data-row'); apSel[id0] = !apSel[id0]; renderApTable(); return; }
+    var a = t.closest('.x-apia a');
+    if (a) {
+      e.preventDefault(); e.stopPropagation();
+      var loc = findRow(a.closest('tr').getAttribute('data-row')); if (!loc) return;
+      var act = a.getAttribute('data-a'), r = loc.row;
+      if (act === 'edit') { toTable = true; if (r.door) { startDoorEdit(r.id); setPro(true); renderDoor(); } else { startEdit(r.id); setProW(true); } return; }
+      if (act === 'copy') { var nr = copy(r); nr.id = (r.door ? 'd' : 'w') + (++seq); delete nr.tag; if (nr.cfg && nr.cfg.pro) nr.cfg.pro.id = ''; if (nr.door && nr.door.state.pro) nr.door.state.pro.tunnus = ''; loc.sec.rows.splice(loc.idx + 1, 0, nr); renderHanke(); renderApTable(); apStatusMsg('Kopioitu rivi lisättiin.'); return; }
+      if (act === 'del') { var snap = copy(hanke), nm = r.door ? r.door.name : rowName(r.cfg); loc.sec.rows.splice(loc.idx, 1); delete apSel[r.id]; renderHanke(); renderApTable(); apStatusMsg('Poistit: ' + nm + '.', snap); return; }
+    }
+    if (t.closest('.x-apaddw')) { e.preventDefault(); toTable = true; startAdd(null); setProW(true); return; }
+    if (t.closest('.x-apaddd')) { e.preventDefault(); toTable = true; startDoorAdd(null); setPro(true); renderDoor(); return; }
+    if (t.closest('.x-apclr')) { e.preventDefault(); apSel = {}; renderApTable(); return; }
+    if (t.closest('.x-apmass')) { e.preventDefault(); var m = {}; Object.keys(apSel).forEach(function (k) { if (apSel[k] && findRow(k)) m[k] = true; }); if (Object.keys(m).length) { toTable = true; openEdit(m); } return; }
+  }, true);
+}
+/* Ovi ammattilaistilassa tallentuu samaan hankkeeseen */
+apCommit = function () { apMass = null; apEditing = null; toTable = true; doorCommit(); go(K4); };
+window.__apDoorSum = function () { return 0; };
+/* Hankkeeseen palatessa: taulukkoon, jos aloitettiin sieltä */
+window.addEventListener('hashchange', function () {
+  if (location.hash === '#hanke' && toTable) { toTable = false; location.replace('#ap-hanke'); return; }
+  var m = /^#ap-(ikkuna|ominaisuudet|lisavarusteet|muokkaa|tilaus)$/.exec(location.hash);
+  if (m) { var map = { ikkuna: 'rakenne', ominaisuudet: 'ominaisuudet', lisavarusteet: 'lisavarusteet', muokkaa: 'muokkaa', tilaus: 'tilaa' }; if (m[1] !== 'muokkaa' && m[1] !== 'tilaus') PROW = true; location.replace('#' + map[m[1]]); }
+  if (location.hash === '#ap-hanke') renderApTable();
+});
+/* Kuluttajan hankkeeseen sama näkymän vaihto */
+(function () {
+  var hh = WH ? WH.querySelector('.hh') : null, sg = APV ? APV.querySelector('.hh .seg') : null; if (!hh || !sg || hh.querySelector('.seg')) return;
+  var c = sg.cloneNode(true); var bs = c.querySelectorAll('button'); bs[0].setAttribute('aria-pressed', 'true'); bs[1].setAttribute('aria-pressed', 'false');
+  bs[1].addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); location.hash = '#ap-hanke'; });
+  bs[0].addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); });
+  hh.appendChild(c);
+})();
+/* Oven helapaketti näkyy yhteenvedossa myös kuluttajanäkymässä */
+function renderHela() {
+  if (!door) return; var h = door.pro && door.pro.hela && !/^Ei /.test(door.pro.hela) ? shortHela(door.pro.hela) : '';
+  DKEYS.forEach(function (k) {
+    var dl = VIEW[k].querySelector('aside dl.sum'); if (!dl) return;
+    var dt = $$('dt', dl).filter(function (x) { return txt(x) === 'Helapaketti'; })[0];
+    if (!h) { if (dt) { dt.nextElementSibling.remove(); dt.remove(); } return; }
+    if (!dt) { dt = D.createElement('dt'); dt.textContent = 'Helapaketti'; dl.appendChild(dt); dl.appendChild(D.createElement('dd')); }
+    dt.nextElementSibling.textContent = h;
+  });
+}
+var _rdR12 = renderDoor; renderDoor = function () { _rdR12(); renderHela(); };
+var _rnR12 = render; render = function () { _rnR12(); renderProSec(); if (current === 'ap-hanke') renderApTable(); };
+var _rhR12 = renderHanke; renderHanke = function () { _rhR12(); if (current === 'ap-hanke') renderApTable(); };
+if (/^#ap-(ikkuna|ominaisuudet|lisavarusteet|muokkaa|tilaus)$/.test(location.hash)) { var m0 = /^#ap-(\w+)$/.exec(location.hash)[1]; location.replace('#' + ({ ikkuna: 'rakenne', ominaisuudet: 'ominaisuudet', lisavarusteet: 'lisavarusteet', muokkaa: 'muokkaa', tilaus: 'tilaa' })[m0]); }
+var _cmR12 = commit; commit = function () { if (PROW) toTable = true; _cmR12(); };
 })();
 
 route();
