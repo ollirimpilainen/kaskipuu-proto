@@ -864,6 +864,11 @@ details.x-inopen > .mxb { margin-top:12px }
 #v-ap-hanke .x-aptbl td.val, #v-ap-hanke .x-aptbl td:nth-child(4) { white-space:normal;overflow-wrap:break-word;min-width:0 }
 .stp a.x-fwd { color:inherit }
 
+select.x-sel[data-pro="hela"] { width:100%;max-width:none }
+.x-aproom { min-width:140px }
+
+.x-hinst { margin:8px 0 0 }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -5003,7 +5008,7 @@ var _ritR8b = renderInstText; renderInstText = function () {
 };
 (function () {
   var v = VIEW['maksa'], h = v ? v.querySelector('#s-tt, [id^="s-tt"]') : null; if (!h) return;
-  var p = D.createElement('p'); p.className = 'sm mu'; p.style.margin = '-8px 0 12px'; p.textContent = 'Mitat on tarkistettu mittauskäynnillä, joten ne näkyvät nyt millimetreinä.';
+  var p = D.createElement('p'); p.className = 'sm mu'; p.style.margin = '-8px 0 12px'; p.textContent = 'Mitat on tarkistettu, joten ne näkyvät nyt millimetreinä.';
   h.parentNode.insertBefore(p, h.nextSibling);
 })();
 /* Vapaat ajat tästä päivästä eteenpäin (ei testikehyksessä, jossa päivät ovat kiinteät) */
@@ -5197,7 +5202,7 @@ var _roR11 = renderOffer; renderOffer = function () {
 /* Hanke: huonevalinta näkyviin alapalkin yläpuolelle */
 if (WH) WH.addEventListener('click', function (e) {
   var a = e.target && e.target.closest ? e.target.closest('a,button') : null; if (!a || !/Lisää huone/.test(a.textContent)) return;
-  setTimeout(function () { var pk = $$('[data-room]', WH).filter(function (x) { return !x.closest('[hidden]'); })[0]; var box = pk ? pk.parentNode : null; if (box) { box.style.scrollMarginBottom = '160px'; box.scrollIntoView({ block: 'nearest' }); } }, 60);
+  setTimeout(function () { var pk = $$('[data-room]', WH).filter(function (x) { return !x.closest('[hidden]'); })[0]; var box = pk ? pk.parentNode : null; if (box) { box.style.scrollMarginBottom = '160px'; box.scrollIntoView({ block: 'center' }); } }, 60);
 });
 /* Tilaa: varattu aika järjestyksessä ja yhteystietojen ohje mittaustavan mukaan */
 function sortSlots() {
@@ -5425,7 +5430,7 @@ var rowNameBase = rowName;
 rowName = function (c) { var n = rowNameBase(c); return c && c.pro && c.pro.id ? c.pro.id + ' · ' + n : n; };
 var _dsR13 = doorSnap; doorSnap = function (o) {
   var s = _dsR13(o), p = o.pro || {};
-  if (p.tunnus && PRO) s.name = p.tunnus + ' · ' + s.name;
+  if (p.tunnus && (PRO || PROW)) s.name = p.tunnus + ' · ' + s.name;
   var x = []; var sar = gSel('xk', o); if (PRO && sar) x.push('saranat ' + sar.toLowerCase());
   if (p.hela && !/^Ei /.test(p.hela)) x.push(shortHela(p.hela).toLowerCase());
   if (x.length) s.info += ', ' + x.join(', ');
@@ -5589,9 +5594,9 @@ window.addEventListener('click', function (e) {
   setTimeout(function () {
     ids.forEach(function (id) { var loc = findRow(id); if (loc && !loc.row.door) loc.row.cfg.inst = mi; });
     massInst = null; $$('.x-mip', massInstSec).forEach(function (x, i) { x.setAttribute('aria-checked', i === 0 ? 'true' : 'false'); });
-    if (current === K5) go(K4);
+    SM = null; if (current === K5) go(K4);
     renderHanke(); saveHanke();
-    toast((mi === 'kaski' ? 'Kaski asentaa ' : 'Asennat itse ') + ids.length + (ids.length === 1 ? ' ikkunan.' : ' ikkunaa.'));
+    var qn21 = 0; ids.forEach(function (id) { var l = findRow(id); if (l && !l.row.door) qn21 += l.row.qty || 0; }); toast((mi === 'kaski' ? 'Kaski asentaa ' : 'Asennat itse ') + qn21 + (qn21 === 1 ? ' ikkunan.' : ' ikkunaa.'));
   }, 0);
 }, true);
 var _rnR16 = render; render = function () { _rnR16(); renderVent(); };
@@ -5827,6 +5832,146 @@ var _rbR20 = renderBookLink; renderBookLink = function () {
   });
 };
 var _ratR20 = renderApTable; renderApTable = function () { _ratR20(); renderBookLink(); };
+
+/* Kierros 21: ammattilaisen löydökset (rivit ja kappaleet, oven korkeus karmin mittana, uuden ikkunan tunnus, vanhentunut Peru, oven tunnus kaikkialla) */
+function qtyOf(ids) { var q = 0; ids.forEach(function (id) { var l = findRow(id); if (l) q += l.row.qty || 0; }); return q; }
+/* Valintapalkki: rivit ja kappaleet */
+var _ratR21 = renderApTable; renderApTable = function () {
+  _ratR21(); if (!APV) return;
+  var ids = Object.keys(apSel).filter(function (k) { return apSel[k] && findRow(k); }), lab = APV.querySelector('.x-apn');
+  if (lab && ids.length) { var q = qtyOf(ids); lab.textContent = (ids.length === 1 ? '1 rivi' : ids.length + ' riviä') + ' valittu, ' + q + (q === 1 ? ' ikkuna' : ' ikkunaa'); }
+  /* Ovirivin nimi taulukossa ilman tunnusta, koska tunnus on omassa sarakkeessa */
+  $$('tbody tr[data-row]', APV).forEach(function (tr) { var l = findRow(tr.getAttribute('data-row')); if (!l || !l.row.door) return; var td = tr.children[3]; if (td && /^\S+ · /.test(td.textContent) && !td.querySelector('*')) td.textContent = td.textContent.replace(/^\S+ · /, ''); });
+};
+/* Vanha Poistit/Peru-ilmoitus pois seuraavasta muutoksesta */
+function apStatusStale(e) {
+  if (!apStatus || apStatus.hidden || !APV || current !== 'ap-hanke') return;
+  if (e.target && e.target.closest && e.target.closest('.x-apstatus, .x-apst') ) return;
+  if (apStatus.contains(e.target)) return;
+  apStatus.hidden = true;
+}
+window.addEventListener('change', apStatusStale, true);
+window.addEventListener('click', function (e) { var t = e.target; if (!t || !t.closest) return; if (t.closest('.x-aptbl tbody a, .x-aptbl tbody button, .selbar a, .selbar button, .x-apia a')) apStatusStale(e); }, true);
+window.addEventListener('hashchange', function () { if (apStatus) apStatus.hidden = true; });
+/* Uusi ikkuna ehdottaa seuraavaa vapaata tunnusta */
+var _saR21 = startAdd; startAdd = function () {
+  _saR21.apply(this, arguments);
+  if (!draft || !draft.pro || !draft.pro.id) return;
+  var taken = allRows().some(function (r) { return !r.door && r.cfg && r.cfg.pro && r.cfg.pro.id === draft.pro.id; });
+  if (taken) { draft.pro.id = nextTunnus(draft.pro.id); render(); }
+};
+/* Oven korkeus karmin ulkomittana, moduulimitta suluissa */
+DKEYS.forEach(function (k) { $$('select[data-pro="korkeus"] option', VIEW[k]).forEach(function (o) { var m = /^M(\d+)$/.exec(o.value); if (m) o.textContent = (+m[1] * 100 - 10) + ' mm (moduuli ' + o.value + ')'; }); });
+$$('select[data-pro="leveys"]', D).forEach(function (s) { var l = s.closest('label'); var sp = l ? l.querySelector('.x-lab') : null; if (sp && /^Leveys$/.test(txt(sp))) sp.textContent = 'Leveys, mm'; });
+/* Oven ohjeteksti ammattilaistilassa */
+var dHint = null;
+if (WD) { var w21 = D.createTreeWalker(WD, NodeFilter.SHOW_TEXT, null), n21; while ((n21 = w21.nextNode())) if (/Saranapuoli kysytään vasta, kun tilaat\./.test(n21.nodeValue)) { dHint = { n: n21, t0: n21.nodeValue }; break; } }
+function renderDHint() { if (!dHint) return; var t = PROW ? dHint.t0.replace('Saranapuoli kysytään vasta, kun tilaat.', 'Tarkat mitat ja kätisyys annat alempana kohdissa Tunnus ja mitat sekä Kätisyys.') : dHint.t0; if (dHint.n.nodeValue !== t) dHint.n.nodeValue = t; }
+var _rdR21 = renderDoor; renderDoor = function () { _rdR21(); renderDHint(); };
+var _amR21 = applyMode; applyMode = function () { _amR21(); renderDHint(); };
+var _spR21 = setProW; setProW = function () { _spR21.apply(this, arguments); renderDHint(); };
+
+/* Kierros 22: lomakkeet ja varaukset säilyvät uudelleenlatauksessa, asennettu hinta hankkeessa, oven värin esikatselu */
+var FKEY = PKEY + '-form', FVIEWS = ['tilaa', 'mittaus', 'verkkotapaaminen', 'tarjous', 'tarkistus', 'maksa', 'ap-tilaus', 'hanke'];
+function formState() {
+  var st = { v: {}, slot: {}, kuka: -1, booked: {} };
+  $$('input[id], textarea[id], select[id]', D).forEach(function (i) {
+    if (i.closest('.x-aptbl') || /^(checkbox|radio|hidden|file)$/.test(i.type)) return;
+    var vw = i.closest('.x-view'); if (!vw || FVIEWS.indexOf(vw.id.replace(/^v-/, '')) < 0) return;
+    if (i.value && i.value.trim()) st.v[i.id] = i.value;
+  });
+  Object.keys(VIEW).forEach(function (k) { var v = VIEW[k]; if (!v) return; var sl = $$('.slot', v), j = sl.map(function (b) { return b.getAttribute('aria-pressed') === 'true'; }).indexOf(true); if (j >= 0) st.slot[k] = j; });
+  if (TV) { var kk = $$('[aria-labelledby=s-kuka] .pc', TV).map(function (c) { return c.getAttribute('aria-checked') === 'true'; }).indexOf(true); st.kuka = kk; }
+  if (TV) st.tslot = slotOf(TV);
+  Object.keys(booked).forEach(function (k) { if (booked[k]) st.booked[k] = 1; });
+  return st;
+}
+var formRestoring = PERSIST;
+function saveForm() { if (!PERSIST || formRestoring) return; try { sessionStorage.setItem(FKEY, JSON.stringify(formState())); } catch (x) {} }
+D.addEventListener('change', function () { setTimeout(saveForm, 0); }, true);
+D.addEventListener('input', function () { setTimeout(saveForm, 0); }, true);
+window.addEventListener('click', function () { setTimeout(saveForm, 0); }, true);
+window.addEventListener('hashchange', function () { setTimeout(saveForm, 0); });
+function restoreForm() {
+  if (!PERSIST) return; var st = null; formRestoring = false;
+  try { st = JSON.parse(sessionStorage.getItem(FKEY) || 'null'); } catch (x) {}
+  if (!st) return;
+  formRestoring = true;
+  try {
+    if (TV && st.kuka >= 0) { setKuka(st.kuka); try { applyMode(); } catch (x) {} }
+    Object.keys(st.slot || {}).forEach(function (k) { if (k === 'tilaa') return; var v = VIEW[k], sl = v ? $$('.slot', v) : [], b = sl[st.slot[k]]; if (b) sl.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); });
+    if (TV && st.tslot) pickSlot(st.tslot);
+    Object.keys(st.v || {}).forEach(function (id) { var i = D.getElementById(id), vw = i ? i.closest('.x-view') : null; if (!i || !vw || FVIEWS.indexOf(vw.id.replace(/^v-/, '')) < 0 || (i.value && i.value.trim() && i.value !== '[Sähköposti]' && !/esimerkki\.fi$/.test(i.value))) return; i.value = st.v[id]; i.dispatchEvent(new Event('input', { bubbles: true })); });
+    Object.keys(st.booked || {}).forEach(function (k) { if (BOOK[k] && !booked[k] && slotOf(VIEW[k])) setBooked(k, true); });
+  } catch (x) {}
+  formRestoring = false;
+  try { applyMode(); renderOrder(); renderOrderMeta(); render(); } catch (x) {}
+}
+/* Hanke: asennettu kokonaishinta näkyy ja asennuksen voi valita kaikille kerralla */
+function renderHankeInst() {
+  if (!WH) return; var b = WH.querySelector('.ysum-b'), tot = b ? b.querySelector('.tot') : null; if (!tot) return;
+  var p = b.querySelector('.x-hinst');
+  if (!p) { p = D.createElement('div'); p.className = 'x-hinst sm'; var fr = b.querySelector('.x-freight'); (fr || tot).parentNode.insertBefore(p, (fr || tot).nextSibling); }
+  var rows = allRows().filter(function (r) { return r.qty > 0; }); if (!rows.length) { p.hidden = true; return; }
+  var T = hankeTotal(rows), n = 0, all = 0; rows.forEach(function (r) { all += r.qty; if (instOf(r)) n += r.qty; });
+  if (!T || !T.known) { p.hidden = true; return; }
+  var full = 0; rows.forEach(function (r) { full += r.qty * (r.door ? INST.d : INST.w); });
+  p.hidden = false; p.innerHTML = '';
+  var t = D.createElement('span');
+  if (n < all) {
+    t.textContent = 'Jos Kaski asentaa kaikki: yhteensä ' + eur(T.ex + full + 9000) + ' rahteineen. ';
+    var bt = D.createElement('button'); bt.type = 'button'; bt.className = 'x-what x-hinstb'; bt.setAttribute('data-v', 'kaski'); bt.textContent = 'Valitse asennus kaikille';
+    p.appendChild(t); p.appendChild(bt);
+  } else {
+    t.textContent = 'Jos asennat itse: yhteensä ' + eur(T.ex + 9000) + ' rahteineen. ';
+    var bi = D.createElement('button'); bi.type = 'button'; bi.className = 'x-what x-hinstb'; bi.setAttribute('data-v', 'itse'); bi.textContent = 'Asennan itse kaikki';
+    p.appendChild(t); p.appendChild(bi);
+  }
+}
+window.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest ? e.target.closest('.x-hinstb') : null; if (!b) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  var v = b.getAttribute('data-v'), undo = copy(hanke);
+  setAllInst(v); renderHanke(); renderOrder(); saveHanke();
+  if (typeof apStatusMsg === 'function' && current === 'ap-hanke') apStatusMsg(v === 'kaski' ? 'Kaski asentaa kaikki tuotteet.' : 'Asennat itse kaikki tuotteet.', undo);
+  else toast(v === 'kaski' ? 'Kaski asentaa kaikki tuotteet.' : 'Asennat itse kaikki tuotteet.');
+}, true);
+var _rhR22 = renderHanke; renderHanke = function () { _rhR22(); renderHankeInst(); };
+/* Oven esikatselu valitun ulkovärin mukaan */
+function doorHex(o) {
+  var cols = dByClass('ccard'), g = cols.filter(function (x) { return !/in$/.test(x.k); })[0]; if (!g || !o) return '';
+  var el = g.items[o.sel[g.k]], q = el ? el.querySelector('.sq') : null; if (!q) return '';
+  var h = q.style.background, m = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(h); if (m && +m[1] > 235 && +m[2] > 235 && +m[3] > 230) return '';
+  return h;
+}
+function renderDoorTint() {
+  if (door) DKEYS.forEach(function (k) { var v = VIEW[k]; if (v) $$('aside.side img', v).forEach(function (im) { tint(im, doorHex(door)); }); });
+  if (WH) $$('.it[data-row]', WH).forEach(function (it) { var loc = findRow(it.getAttribute('data-row')); if (!loc || !loc.row.door) return; tint(it.querySelector('img'), doorHex(loc.row.door.state)); });
+  var chip = D.querySelector('.x-mchip img');
+  if (chip) { var hx = DKEYS.indexOf(current) >= 0 ? doorHex(door) : (['rakenne', 'ominaisuudet', 'lisavarusteet'].indexOf(current) >= 0 && draft ? winHex(draft) : ''); setTimeout(function () { tint(chip, hx); }, 30); }
+}
+var _rdR22 = renderDoor; renderDoor = function () { _rdR22(); renderDoorTint(); };
+var _rhT22 = renderHanke; renderHanke = function () { _rhT22(); renderDoorTint(); };
+var _rnT22 = render; render = function () { _rnT22(); renderDoorTint(); };
+/* Erittely: venttiilin malli ja hinta omalle rivilleen */
+var _wrR22 = winRowsNow; winRowsNow = function () {
+  var w = _wrR22(); if (ventAJ < 0 || !draft || !draft.chk || !draft.chk[ventAJ] || !w || !w.rows) return w;
+  var m = VENT.filter(function (x) { return x.id === (draft.vm || 'VS-40'); })[0];
+  w.rows.forEach(function (r) { if (/korvausilma/i.test(r[0]) && r[0].indexOf(m.t) < 0) r[0] = r[0] + ', ' + m.t; });
+  return w;
+};
+/* Usean ikkunan asennusmuutos: hanke asennuksineen muutoksen jälkeen */
+var _rmiR22 = renderMassInst; renderMassInst = function () {
+  _rmiR22(); if (!miLine || miLine.hidden || !massInst) return;
+  var x = massInstInfo(); if (!x.n) return;
+  var v = K5 ? VIEW[K5] : null, nt = v ? v.querySelector('.x-newtot') : null; if (nt && nt.getAttribute('data-y')) return;
+  var T = hankeTotal(allRows()); if (!T || !T.known) return;
+  var now = T.ex + instTotal();
+  if (nt) nt.textContent = 'Hanke asennuksineen ' + eur(now) + ', muutoksen jälkeen ' + eur(now + x.d);
+};
+var _rnR22b = render; render = function () { _rnR22b(); if (current === K5) renderMassInst(); };
+renderHankeInst();
+setTimeout(restoreForm, 80);
 })();
 
 route();
