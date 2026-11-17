@@ -842,6 +842,10 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-apst { margin:12px 0 0 } .x-apst .x-what { display:inline-flex;margin:0 }
 .x-apsum .routes .jr a { display:flex;justify-content:center;width:100%;box-sizing:border-box }
 
+.x-vent { display:flex;flex-direction:column;gap:6px;margin:10px 0 0 28px }
+.x-vent .rad { display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:start;font-weight:400;min-height:44px }
+.x-vent .num { font-weight:600;white-space:nowrap }
+
 /* mobiili */
 .x-mbar { display:none }
 .ysum .jr a.x-pri { display:flex;width:100%;box-sizing:border-box;justify-content:center;align-items:center;text-align:center }
@@ -5502,6 +5506,76 @@ var _rnR15 = render; render = function () {
   var v5 = K5 ? VIEW[K5] : null, nt = v5 ? v5.querySelector('.x-newtot') : null;
   if (nt && /^Hanke yhteensä/.test(nt.textContent)) nt.textContent = nt.textContent.replace(/^Hanke yhteensä/, 'Tuotteet yhteensä');
 };
+/* Kierros 16: korvausilmaventtiilin malli (stagingin hinnat 16.11.) ja asennus usean ikkunan muokkaukseen */
+var VENT = [
+  { id: 'VS-40', t: 'Biobe VS-40', d: 'Yleisin malli. Sopii useimpiin ikkunoihin.', ex: 11680 },
+  { id: 'VS-40 dB', t: 'Biobe VS-40 dB', d: 'Äänieristetty. Tien tai radan puolelle.', ex: 15130 },
+  { id: 'DUO30 dB', t: 'Biobe DUO30 dB', d: 'Paras äänieristys ja kaksi ilmakanavaa.', ex: 19931 },
+  { id: 'OneWay', t: 'OneWay raitisilmaventtiili', d: 'Edullinen perusmalli.', ex: 8061 }
+];
+var ventAJ = -1; adds.forEach(function (r, j) { if (/korvausilma/i.test(r.title || '')) ventAJ = j; });
+var ventBox = null;
+if (ventAJ >= 0) {
+  var vr = adds[ventAJ].el, why = vr.querySelector('.why');
+  if (why) why.textContent = why.textContent.replace(/Valittaessa: venttiilin malli, esimerkiksi äänieristetty\./, 'Valitse malli, kun olet valinnut venttiilin.');
+  ventBox = D.createElement('div'); ventBox.className = 'x-vent'; ventBox.hidden = true; ventBox.setAttribute('role', 'radiogroup'); ventBox.setAttribute('aria-label', 'Venttiilin malli');
+  VENT.forEach(function (m, i) {
+    var lab = D.createElement('label'); lab.className = 'rad';
+    var dd = m.ex - VENT[0].ex;
+    lab.innerHTML = '<input type="radio" name="x-vent"><span><span class="b"></span><br><span class="why"></span></span><span class="num"></span>';
+    lab.querySelector('input').value = m.id; lab.querySelector('.b').textContent = m.t; lab.querySelector('.why').textContent = m.d;
+    lab.querySelector('.num').textContent = !dd ? 'Sisältyy' : (dd > 0 ? '+' : '-') + eur(Math.abs(dd));
+    ventBox.appendChild(lab);
+  });
+  vr.appendChild(ventBox);
+  ventBox.addEventListener('change', function (e) { e.stopPropagation(); if (!draft) return; draft.vm = e.target.value; render(); });
+}
+function ventDelta(c) { if (ventAJ < 0 || !c || !c.chk || !c.chk[ventAJ] || !c.vm) return 0; var m = VENT.filter(function (x) { return x.id === c.vm; })[0]; return m ? m.ex - VENT[0].ex : 0; }
+var _poR16 = priceOf; priceOf = function (c) { var P = _poR16.apply(this, arguments), d = ventDelta(c); if (!d || !P || !P.known) return P; var Q = {}; for (var k in P) Q[k] = P[k]; Q.ex = P.ex + d; return Q; };
+var _riR16 = rowInfo; rowInfo = function (c) {
+  var s = _riR16(c); if (ventAJ < 0 || !c || !c.chk || !c.chk[ventAJ]) return s;
+  var m = VENT.filter(function (x) { return x.id === (c.vm || 'VS-40'); })[0];
+  return s.replace(/korvausilmaventtiili/, 'korvausilmaventtiili ' + m.t);
+};
+function renderVent() {
+  if (!ventBox || !draft) return;
+  var on = !!draft.chk[ventAJ]; ventBox.hidden = !on;
+  var cur = draft.vm || 'VS-40';
+  $$('input', ventBox).forEach(function (i) { i.checked = i.value === cur; });
+}
+/* Usean ikkunan muokkaus: asennus */
+var massInst = null, massInstSec = null;
+(function () {
+  var v = K5 ? VIEW[K5] : null; if (!v) return;
+  var secs = $$('section.sec', v), last = secs[secs.length - 1]; if (!last) return;
+  massInstSec = D.createElement('section'); massInstSec.className = 'sec x-minst'; massInstSec.setAttribute('aria-labelledby', 'x-mi-h');
+  massInstSec.innerHTML = '<div class="lab"><h2 id="x-mi-h" class="t3">Asennus</h2><p class="sm mu">Valitse, jos haluat muuttaa valittujen ikkunoiden asennuksen.</p></div>'
+    + '<div><div class="pair x-three" role="radiogroup" aria-labelledby="x-mi-h">'
+    + '<div class="pc x-mip" role="radio" tabindex="0" aria-checked="true" data-mi=""><span class="pc-t">Ei muutosta</span><span class="pc-d">Jokainen ikkuna pitää nykyisen valintansa.</span><span class="pc-p"></span></div>'
+    + '<div class="pc x-mip" role="radio" tabindex="0" aria-checked="false" data-mi="kaski"><span class="pc-t">Kaski asentaa</span><span class="pc-d">Purku, asennus, tilkitys, pellit ja listat sekä jätteiden vienti.</span><span class="pc-p">+' + eur(INST.w) + ' / ikkuna</span></div>'
+    + '<div class="pc x-mip" role="radio" tabindex="0" aria-checked="false" data-mi="itse"><span class="pc-t">Asennan itse</span><span class="pc-d">Toimitus kotiovelle asennusohjeineen.</span><span class="pc-p">Sisältyy</span></div>'
+    + '</div></div>';
+  last.parentNode.insertBefore(massInstSec, last.nextSibling);
+  massInstSec.addEventListener('click', function (e) {
+    var c = e.target.closest('.x-mip'); if (!c) return; e.preventDefault(); e.stopPropagation();
+    massInst = c.getAttribute('data-mi') || null;
+    $$('.x-mip', massInstSec).forEach(function (x) { x.setAttribute('aria-checked', x === c ? 'true' : 'false'); });
+  }, true);
+})();
+function massIds() { if (!E || !E.sel) return []; return Object.keys(E.sel).filter(function (id) { return (E.sel[id] || []).some(Boolean); }); }
+window.addEventListener('click', function (e) {
+  var v = K5 ? VIEW[K5] : null; if (!v || current !== K5 || !massInst) return;
+  var b = e.target && e.target.closest ? e.target.closest('.navb a.btn, .x-asbtn') : null; if (!b || !v.contains(b)) return;
+  var ids = massIds(), mi = massInst;
+  setTimeout(function () {
+    ids.forEach(function (id) { var loc = findRow(id); if (loc && !loc.row.door) loc.row.cfg.inst = mi; });
+    massInst = null; $$('.x-mip', massInstSec).forEach(function (x, i) { x.setAttribute('aria-checked', i === 0 ? 'true' : 'false'); });
+    if (current === K5) go(K4);
+    renderHanke(); saveHanke();
+    toast((mi === 'kaski' ? 'Kaski asentaa ' : 'Asennat itse ') + ids.length + (ids.length === 1 ? ' ikkunan.' : ' ikkunaa.'));
+  }, 0);
+}, true);
+var _rnR16 = render; render = function () { _rnR16(); renderVent(); };
 })();
 
 route();
