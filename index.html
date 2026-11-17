@@ -765,7 +765,7 @@ details.x-inopen > .mxb { margin-top:12px }
 
 .x-colp { display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0 }
 .x-crow { display:inline-flex;align-items:center;gap:6px }
-.x-cdot { width:14px;height:14px;border-radius:50%;border:1px solid var(--ln2);display:inline-block }
+.x-cdot { width:16px;height:16px;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.35);border:1px solid var(--ln2);display:inline-block }
 .x-slot-err { margin:10px 0 0 }
 .x-sendst { margin:6px 0 0;color:#b4232a;font-weight:650 }
 .x-sendst.x-ok { color:var(--ink);font-weight:400 }
@@ -845,6 +845,12 @@ details.x-inopen > .mxb { margin-top:12px }
 .x-vent { display:flex;flex-direction:column;gap:6px;margin:10px 0 0 28px }
 .x-vent .rad { display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:start;font-weight:400;min-height:44px }
 .x-vent .num { font-weight:600;white-space:nowrap }
+
+#v-ap-hanke .lay { grid-template-columns:minmax(0,1fr) 280px }
+.x-aptbl { min-width:820px }
+.x-aptbl td:nth-child(4) { max-width:150px }
+.x-aptbl .val { max-width:160px }
+.x-aproom { min-height:36px;max-width:130px }
 
 /* mobiili */
 .x-mbar { display:none }
@@ -5073,7 +5079,7 @@ var _rdR9 = renderDoor; renderDoor = function () { _rdR9(); renderDoorSave(); li
 var _rnR9 = render; render = function () { renderDrill(); _rnR9(); renderDoorSave(); renderBookLink(); liveNoInst(); };
 var _rhR9 = renderHanke; renderHanke = function () { _rhR9(); renderBookLink(); };
 /* Kierros 9b: vahvistettu asennus maksussa, aikajanan asennusvaihe, toimitusteksti, asennusrivin sisältö */
-function instItems() { var a = []; hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (r.qty > 0 && instOf(r)) a.push(secName(s0) + ': ' + (r.door ? 'ulko-ovi' : 'ikkuna') + (r.qty > 1 ? ' ' + r.qty + ' kpl' : '')); }); }); return a; }
+function instItems() { var a = []; hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (!(r.qty > 0) || !instOf(r)) return; var tn = r.door ? (r.door.state.pro || {}).tunnus : (r.cfg.pro || {}).id; a.push((tn ? tn : secName(s0) + ': ' + (r.door ? 'ulko-ovi' : 'ikkuna')) + (r.qty > 1 ? ' (' + r.qty + ' kpl)' : '')); }); }); return a; }
 function instQty() { var q = 0; allRows().forEach(function (r) { if (r.qty > 0 && instOf(r)) q += r.qty; }); return q; }
 var vvInstLi = null;
 if (VV) {
@@ -5305,7 +5311,7 @@ function renderApTable() {
     var sar = isD ? gSel('xk', st) : (c.type !== refType ? 'Ei aukea' : (pro.sarana || 'Tarkistetaan'));
     tr.appendChild(apCell('td', 'sm')).textContent = sar;
     var val = isD ? [info.rak, info.color, info.luk && info.luk !== 'Yksi lukko' ? info.luk : '', pro.hela && !/^Ei /.test(pro.hela) ? shortHela(pro.hela) : ''].filter(Boolean).join(', ') : rowInfo(c).replace(/^noin [^,]+, |^\d+ × \d+ mm, /, '').replace(/, karmi [^,]+/, '').replace(/, saranat [^,]+/, '');
-    if (instOf(r)) val += (val ? ', ' : '') + 'Kaski asentaa';
+    if (instOf(r) && !/Kaski asentaa/.test(val)) val += (val ? ', ' : '') + 'Kaski asentaa';
     tr.appendChild(apCell('td', 'val sm')).textContent = val;
     var tdQ = apCell('td'), qi = apCell('input', 'cell n'); qi.value = r.qty; qi.setAttribute('aria-label', 'Määrä, ' + tun); qi.setAttribute('data-f', 'q'); qi.style.width = '48px'; tdQ.appendChild(qi); tr.appendChild(tdQ);
     var P = isD ? r.door.price : priceOf(c), tdP = apCell('td', 'r'), pr = apCell('span', 'pr'), pk = apCell('span', 'pk');
@@ -5352,7 +5358,7 @@ if (APV) {
   APV.addEventListener('input', function (e) { if (e.target.closest && e.target.closest('.x-aptbl')) e.stopPropagation(); });
   window.addEventListener('click', function (e) {
     var t = e.target; if (!t.closest || !APV.contains(t)) return;
-    var ck = t.closest('.x-aptbl .ck'); if (ck) { e.preventDefault(); e.stopPropagation(); var id0 = ck.closest('tr').getAttribute('data-row'); apSel[id0] = !apSel[id0]; renderApTable(); return; }
+    var ck = t.closest('.x-aptbl tbody .ck'); if (ck) { e.preventDefault(); e.stopPropagation(); var id0 = ck.closest('tr').getAttribute('data-row'); apSel[id0] = !apSel[id0]; renderApTable(); return; }
     var a = t.closest('.x-apia a');
     if (a) {
       e.preventDefault(); e.stopPropagation();
@@ -5560,6 +5566,7 @@ var massInst = null, massInstSec = null;
     var c = e.target.closest('.x-mip'); if (!c) return; e.preventDefault(); e.stopPropagation();
     massInst = c.getAttribute('data-mi') || null;
     $$('.x-mip', massInstSec).forEach(function (x) { x.setAttribute('aria-checked', x === c ? 'true' : 'false'); });
+    setTimeout(function () { if (typeof renderMassInst === 'function') { renderMassInst(); renderEditAside(); } }, 0);
   }, true);
 })();
 function massIds() { if (!E || !E.sel) return []; return Object.keys(E.sel).filter(function (id) { return (E.sel[id] || []).some(Boolean); }); }
@@ -5576,6 +5583,91 @@ window.addEventListener('click', function (e) {
   }, 0);
 }, true);
 var _rnR16 = render; render = function () { _rnR16(); renderVent(); };
+/* Kierros 17: asennusmuutos näkyy heti, tarjouksen lisäasennus kerrotaan, venttiilin kokonaishinta, asennus riveillä */
+function massInstInfo() {
+  var ids = massIds(), n = 0, d = 0;
+  ids.forEach(function (id) { var loc = findRow(id); if (!loc || loc.row.door) return; var was = loc.row.cfg.inst === 'kaski'; if (massInst === 'kaski' && !was) { n += loc.row.qty; d += INST.w * loc.row.qty; } if (massInst === 'itse' && was) { n += loc.row.qty; d -= INST.w * loc.row.qty; } });
+  return { n: n, d: d };
+}
+var miLine = null;
+function renderMassInst() {
+  var v = K5 ? VIEW[K5] : null; if (!v) return;
+  var as = v.querySelector('aside.side'), big = as ? as.querySelector('p.big') : null; if (!big) return;
+  if (!miLine) { miLine = D.createElement('p'); miLine.className = 'sm b x-miline'; big.parentNode.insertBefore(miLine, big.nextSibling); }
+  if (!massInst) { miLine.hidden = true; return; }
+  var x = massInstInfo(); miLine.hidden = false;
+  miLine.textContent = x.n ? 'Asennus: ' + (massInst === 'kaski' ? 'Kaski asentaa ' : 'asennat itse ') + x.n + (x.n === 1 ? ' ikkunan, ' : ' ikkunaa, ') + (x.d >= 0 ? '+' : '-') + eur(Math.abs(x.d)) : 'Asennus: valituissa ikkunoissa on jo tämä valinta.';
+  if (big.classList.contains('big-ph') && x.n) { big.classList.remove('big-ph'); big.textContent = (x.d >= 0 ? '+' : '-') + eur(Math.abs(x.d)); }
+  var nb = $$('.navb a.btn', v).pop();
+  if (nb && x.n && /^Valitse muutos$|^Muuta 0 /.test(txt(nb))) { var ids = massIds().length; nb.textContent = 'Muuta ' + ids + (ids === 1 ? ' ikkuna' : ' ikkunaa'); nb.removeAttribute('aria-disabled'); }
+}
+var _reR17 = renderEdit; renderEdit = function () { _reR17.apply(this, arguments); renderMassInst(); };
+/* Tarjous: kerrotaan, jos asennus lisättiin tuotteille ilman valintaa */
+var _roR17 = renderOffer; renderOffer = function () {
+  _roR17(); if (!TJ) return;
+  var added = []; hanke.forEach(function (s0) { s0.rows.forEach(function (r) { if (!(r.qty > 0)) return; var it = r.door ? r.door.state && r.door.state.inst : r.cfg && r.cfg.inst; if (!it) added.push(secName(s0) + ': ' + (r.door ? 'ulko-ovi' : 'ikkuna')); }); });
+  var p = TJ.querySelector('.x-tj-add');
+  if (!p) { p = D.createElement('p'); p.className = 'sm x-tj-add'; var own = TJ.querySelector('.x-tj-own'); own.parentNode.insertBefore(p, own.nextSibling); }
+  p.hidden = !added.length; p.textContent = added.length ? 'Tarjoukseen on lisätty asennus myös tuotteille, joiden asennusta et ollut vielä valinnut: ' + added.join(', ') + '. Asennus on ' + eur(INST.w) + ' tuotteelta.' : '';
+};
+/* Asennus näkyy rivillä hintoineen */
+var _riR17 = rowInfo; rowInfo = function (c) { return _riR17(c).replace(/, Kaski asentaa$/, ', Kaski asentaa (+' + eur(INST.w) + ')').replace(/, Kaski asentaa,/, ', Kaski asentaa (+' + eur(INST.w) + '),'); };
+var _dsR17 = doorSnap; doorSnap = function (o) { var s = _dsR17(o); s.info = s.info.replace(/, Kaski asentaa/, ', Kaski asentaa (+' + eur(INST.d) + ')'); return s; };
+/* Venttiili: mallien kokonaishinnat ja valitun hinta rivillä */
+if (ventBox) $$('label', ventBox).forEach(function (lab, i) { lab.querySelector('.num').textContent = eur(VENT[i].ex); });
+var ventRowNum = ventAJ >= 0 ? $$('span.num', adds[ventAJ].el.querySelector('label.orow')).pop() : null;
+var _rvR17 = renderVent; renderVent = function () {
+  _rvR17(); if (!ventRowNum || !draft) return;
+  var m = VENT.filter(function (x) { return x.id === (draft.vm || 'VS-40'); })[0];
+  ventRowNum.textContent = '+' + eur(draft.chk[ventAJ] ? m.ex : VENT[0].ex);
+};
+/* Tilaa: postitoimipaikka varauksen osoitteesta */
+var _pfR17 = prefillFromBooking; prefillFromBooking = function () {
+  _pfR17(); if (!TV) return;
+  var pt = TV.querySelector('#pt'), os = D.querySelector('#v-mittaus #os'); if (!pt || pt.value.trim() || !os) return;
+  var m = /,\s*(?:(\d{5})\s+)?([A-Za-zÅÄÖåäö -]+)$/.exec(os.value.trim()); if (m) { pt.value = m[2].trim(); var pn = TV.querySelector('#pn'); if (m[1] && pn && !pn.value.trim()) pn.value = m[1]; }
+};
+
+/* Kierros 18: taulukon huonevalinta ja valitse kaikki, toimitusviikot maksussa, ammattilaisen tekstit */
+var _ratR18 = renderApTable; renderApTable = function () {
+  _ratR18(); if (!APV) return;
+  var t = APV.querySelector('.x-aptbl'); if (!t) return;
+  var th = t.querySelector('thead th'); if (th && !th.querySelector('.x-apall')) { th.innerHTML = ''; var b = D.createElement('button'); b.type = 'button'; b.className = 'ck x-apall'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-label', 'Valitse kaikki ikkunat'); th.appendChild(b); }
+  var wins = allRows().filter(function (r) { return !r.door; }), on = wins.filter(function (r) { return apSel[r.id]; }).length;
+  var ab = t.querySelector('.x-apall'); if (ab) ab.setAttribute('aria-checked', !on ? 'false' : (on === wins.length ? 'true' : 'mixed'));
+  $$('tbody tr[data-row]', t).forEach(function (tr) {
+    var loc = findRow(tr.getAttribute('data-row')); if (!loc) return; var td = tr.children[2];
+    var sel = D.createElement('select'); sel.className = 'cell x-aproom'; sel.setAttribute('aria-label', 'Huone, ' + (tr.querySelector('input[data-f=tun]') || {}).value);
+    rooms.forEach(function (rm, ri) { var o = D.createElement('option'); o.value = ri; o.textContent = rm.name; if (ri === loc.sec.room) o.selected = true; sel.appendChild(o); });
+    td.textContent = ''; td.appendChild(sel);
+  });
+};
+window.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest ? e.target.closest('.x-apall') : null; if (!b || !APV || !APV.contains(b)) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  var wins = allRows().filter(function (r) { return !r.door; }), all = wins.every(function (r) { return apSel[r.id]; });
+  wins.forEach(function (r) { apSel[r.id] = !all; }); renderApTable();
+}, true);
+if (APV) APV.addEventListener('change', function (e) {
+  var s0 = e.target; if (!s0.classList || !s0.classList.contains('x-aproom')) return; e.stopImmediatePropagation();
+  var loc = findRow(s0.closest('tr').getAttribute('data-row')); if (!loc) return;
+  var ri = +s0.value; if (ri === loc.sec.room) return;
+  loc.sec.rows.splice(loc.idx, 1); if (loc.row.cfg) loc.row.cfg.room = ri;
+  var dst = firstSecOf(ri); if (!dst) { dst = { id: 's' + (++seq), room: ri, rows: [] }; hanke.push(dst); }
+  dst.rows.push(loc.row);
+  if (!loc.sec.rows.length) hanke.splice(hanke.indexOf(loc.sec), 1);
+  renderHanke(); renderApTable(); saveHanke();
+}, true);
+var _rwR18 = renderWeeks; renderWeeks = function () {
+  _rwR18(); if (!PERSIST || !payTerms) return;
+  var b = new Date(), w = [6, 7, 8].map(function (k) { var d = new Date(b.getTime()); d.setDate(d.getDate() + 7 * k); return isoWeek(d); });
+  var t = payTerms.textContent.replace(/viikolla \d+, \d+ tai \d+/, 'viikolla ' + w[0] + ', ' + w[1] + ' tai ' + w[2]); if (t !== payTerms.textContent) payTerms.textContent = t;
+};
+var _amR18 = applyMode; applyMode = function () {
+  _amR18();
+  if (AE && AE.d && modeOf().key === 'itse' && hasPro() && !proComplete()) AE.d.textContent = 'Tarkat millimitat ovat hankkeessasi. Kaski tarkistaa saranapuolet ja karmisyvyydet ennen kuin maksat.';
+};
+var _rnR18 = render; render = function () { _rnR18(); if (mmNote && hasPro()) mmNote.hidden = true; };
 })();
 
 route();
@@ -5754,7 +5846,7 @@ D.addEventListener('keydown', function (e) {
     if (sb) {
       var cnt = sb.querySelector('.grow > .sm.b:not([hidden])'), tv0 = v.querySelector('.ysum .tot .v');
       big = cnt || sb; target = sb.querySelector('a.btn'); backT = sb.querySelector('a.lk');
-      lab = tv0 ? 'Valittu, hanke yhteensä ' + tv0.textContent.trim() : 'Valittu';
+      var fr0 = v.querySelector('.ysum .x-freight:not([hidden]) .num'); lab = fr0 ? 'Valittu, yhteensä rahteineen ' + fr0.textContent.trim() : (tv0 ? 'Valittu, hanke yhteensä ' + tv0.textContent.trim() : 'Valittu');
       val = cnt ? cnt.textContent.trim().replace(/ valittu$/, '') : 'Ei vielä valintoja';
       t = target ? target.textContent.trim() : '';
     } else if (ys) {
