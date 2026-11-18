@@ -4073,7 +4073,7 @@ var AE = aikaS ? { h: aikaS.querySelector('h2'), d: aikaS.querySelector('h2 + p'
   ohh: ohTextNode(aikaS.querySelector('.oh-h')), oh: $$('.oh-txt', aikaS), aside: aikaS.querySelector('aside.oh') } : null;
 var routesP = TV ? TV.querySelector('.ysum .routes p') : null;
 var MODES = [
-  { key: 'itse', lab: 'Mittaat itse', h: 'Tarkat mitat', d: 'Tarkat millimitat ovat hankkeessasi. Saranapuolen ja karmisyvyyden kysymme, kun tarkistamme tilauksen. Kaski käy kaiken läpi ennen kuin maksat.',
+  { key: 'itse', lab: 'Mittaat itse', h: 'Tarkat mitat', d: 'Tarkat millimitat ovat hankkeessasi. Saranapuolen kysymme, kun tarkistamme tilauksen. Kaski käy kaiken läpi ennen kuin maksat.',
     ohh: 'Näin tarkistus toimii', o1: 'Kaski käy jokaisen mitan läpi ja soittaa, jos jokin näyttää oudolta.', o2: 'Voit vielä muuttaa mittoja hankkeessa ennen kuin lähetät tiedot.',
     cta: 'Lähetä tiedot tarkistettavaksi', row: '', slots: false,
     routes: 'Kaski käy mitat läpi, ja saat maksulinkin sähköpostiisi. Hinta muuttuu vain, jos muutat valintoja tai tarkka mitta muuttaa ikkunan tai oven kokoa.' },
@@ -4716,7 +4716,7 @@ var _amR6 = applyMode; applyMode = function () {
     var names = [];
     hanke.forEach(function (s) { s.rows.forEach(function (r) {
       if (!(r.qty > 0)) return;
-      var ap = r.door ? /tarkistetaan/.test(r.door.info || '') : /^noin /.test(rowInfo(r.cfg));
+      var ap = r.door ? /tarkistetaan/.test(r.door.info || '') : (/^noin /.test(rowInfo(r.cfg)) || (typeof wKarmiOpen === 'function' && wKarmiOpen(r.cfg)));
       if (ap) names.push(secName(s) + ': ' + (r.door ? r.door.name : rowName(r.cfg)));
     }); });
     tiNote.textContent = 'Mittaan itse vaatii tarkat mitat. Likimitat tai avoin karmisyvyys: ' + names.join('; ') + '. Muokkaa ne hankkeessa ja valitse Tarkat mitat, tai valitse, että asiantuntija opastaa tai Kaski mittaa. ';
@@ -5465,7 +5465,7 @@ var tiAutoItse = false;
 var _rnR13 = render; render = function () {
   if (current === 'tilaa' && !tiAutoItse && !bookedKey() && proComplete()) { tiAutoItse = true; setKuka(0); }
   _rnR13();
-  if (kokHint) kokHint.n.nodeValue = PROW ? kokHint.t0.replace(/Tarkat mitat, avautumissuunta ja karmisyvyys kysytään vasta, kun tilaat\./, 'Anna mitat millimetreinä. Karmisyvyys ja saranapuoli valitaan alla.') : kokHint.t0;
+  if (kokHint) kokHint.n.nodeValue = PROW ? kokHint.t0.replace(/Tarkat mitat(, avautumissuunta ja karmisyvyys| ja avautumissuunta) kysytään vasta, kun tilaat\./, 'Anna mitat millimetreinä. Karmisyvyys ja saranapuoli valitaan alla.') : kokHint.t0;
 };
 /* Yritystiedot ammattilaisen tilaukseen */
 var compBox = null;
@@ -5972,6 +5972,60 @@ var _rmiR22 = renderMassInst; renderMassInst = function () {
 var _rnR22b = render; render = function () { _rnR22b(); if (current === K5) renderMassInst(); };
 renderHankeInst();
 setTimeout(restoreForm, 80);
+
+/* Kierros 23: ikkunan karmisyvyys valittavana kaikille, ei vain ammattilaisille */
+var WKARMI = ['96 mm', '115 mm', '130 mm', '170 mm', '210 mm', 'Tarkistetaan mittauksessa'];
+var wkSec = null;
+(function () {
+  var kok = WR ? WR.querySelector('section[aria-labelledby^="s-kok"]') : null; if (!kok) return;
+  wkSec = D.createElement('section'); wkSec.className = 'sec x-wkarmi'; wkSec.setAttribute('aria-labelledby', 's-wkarmi');
+  wkSec.innerHTML = '<div class="lab"><h2 id="s-wkarmi" class="t3">Karmisyvyys</h2><p class="sm mu">Valitse seinän paksuuden mukaan. Jos et ole varma, valitse Tarkistetaan mittauksessa.</p></div>'
+    + '<div class="x-pcol"><div class="x-chips" role="radiogroup" aria-labelledby="s-wkarmi">'
+    + WKARMI.map(function (v) { return '<button type="button" class="chip" data-wk aria-pressed="false">' + v + '</button>'; }).join('') + '</div></div>';
+  kok.parentNode.insertBefore(wkSec, kok.nextSibling);
+  WHAT.karmiw = WHAT.karmi.replace('oven kohdalta', 'ikkunan kohdalta'); SV.karmiw = SV.karmi;
+  addWhat('karmiw', wkSec.querySelector('.lab').lastElementChild);
+  wkSec.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-wk]'); if (!b || !draft) return; e.preventDefault(); e.stopPropagation();
+    if (!draft.pro) draft.pro = { id: '', karmi: '', sarana: '' };
+    draft.pro.karmi = b.textContent; render();
+  }, true);
+  /* Ammattilaisen tiedoista karmisyvyys pois, koska se valitaan nyt kaikille yhteisessä osiossa */
+  if (proSec) $$('button[data-wp="karmi"]', proSec).forEach(function (b) { var f = b.closest('.x-f1'); if (f) f.remove(); });
+})();
+function renderWKarmi() {
+  if (!wkSec || !draft) return;
+  var k = (draft.pro && draft.pro.karmi) || '';
+  $$('button[data-wk]', wkSec).forEach(function (b) { b.setAttribute('aria-pressed', b.textContent === k ? 'true' : 'false'); });
+  /* Yhteenvedon loppuun, jotta muiden rivien järjestys ei muutu */
+  [WR, WO, WL].forEach(function (v) {
+    var dl = v ? v.querySelector('aside dl.sum') : null; if (!dl) return;
+    var ko = $$('dt', dl).filter(function (x) { return txt(x) === 'Koko'; })[0]; if (!ko) return;
+    var dt = $$('dt', dl).filter(function (x) { return txt(x) === 'Karmisyvyys'; })[0];
+    if (!dt) { dt = D.createElement('dt'); dt.textContent = 'Karmisyvyys'; dl.appendChild(dt); dl.appendChild(D.createElement('dd')); }
+    else if (dt.nextElementSibling.nextElementSibling) { var dd1 = dt.nextElementSibling; dl.appendChild(dt); dl.appendChild(dd1); }
+    var val = k ? (/^Tarkistetaan/.test(k) ? 'tarkistetaan mittauksessa' : k) : 'Valitse';
+    if (dt.nextElementSibling.textContent !== val) dt.nextElementSibling.textContent = val;
+  });
+}
+var _rnR23 = render; render = function () { _rnR23(); renderWKarmi(); };
+/* Hankkeen ja taulukon teksti: tarkistettava karmisyvyys pienellä */
+var _riR23 = rowInfo; rowInfo = function (c) { return _riR23(c).replace('karmisyvyys Tarkistetaan mittauksessa', 'karmisyvyys tarkistetaan mittauksessa'); };
+/* Mittaan itse vaatii myös ikkunalle valitun karmisyvyyden */
+function wKarmiOpen(c) { var k = c && c.pro && c.pro.karmi; return !k || /^Tarkistetaan/.test(k); }
+approxRows = function () {
+  var n = 0;
+  allRows().forEach(function (r) {
+    if (!(r.qty > 0)) return;
+    if (r.door) { if (/tarkistetaan/.test(r.door.info || '')) n += r.qty; }
+    else if (/^noin /.test(rowInfo(r.cfg)) || wKarmiOpen(r.cfg)) n += r.qty;
+  });
+  return n;
+};
+/* Ammattilaistiedoksi lasketaan tunnus tai saranapuoli, ei pelkkä karmisyvyys */
+hasPro = function () { return allRows().some(function (r) { return r.door ? !!((r.door.state.pro || {}).tunnus) && PRO : !!(r.cfg.pro && (r.cfg.pro.id || r.cfg.pro.sarana)); }); };
+if (kokHint) { kokHint.t0 = kokHint.t0.replace('Tarkat mitat, avautumissuunta ja karmisyvyys kysytään vasta, kun tilaat.', 'Tarkat mitat ja avautumissuunta kysytään vasta, kun tilaat.'); kokHint.n.nodeValue = kokHint.t0; }
+renderWKarmi();
 })();
 
 route();
