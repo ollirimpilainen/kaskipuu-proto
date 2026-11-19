@@ -910,8 +910,6 @@ select.x-sel[data-pro="hela"] { width:100%;max-width:none }
 #v-tuote .x-two > div > p:last-child { margin-top:auto }
 #v-tuote .x-pdf a, #v-tuote .x-two .lk { display:inline-flex;align-items:center;min-height:44px }
 @media (min-width: 768px) and (max-height: 860px) { #v-tuote .x-pside { position:static } }
-#v-tuote .x-pdf a, #v-tuote .x-two .lk { display:inline-flex;align-items:center;min-height:44px }
-@media (min-width: 768px) and (max-height: 860px) { #v-tuote .x-pside { position:static } }
 #v-tuote .x-pdf { list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0 }
 #v-tuote .x-pdf li { display:flex;align-items:center;gap:6px;min-height:44px }
 #v-tuote .x-faq { border-top:1px solid var(--ln) }
@@ -938,7 +936,6 @@ select.x-sel[data-pro="hela"] { width:100%;max-width:none }
   #v-tuote .x-orow img { width:88px;height:66px }
   #v-tuote .x-two { grid-template-columns:minmax(0,1fr) }
   #v-tuote .x-pbox { padding:20px }
-  #v-tuote .x-psz { grid-template-columns:1fr 1fr }
   #v-tuote .x-psz { grid-template-columns:1fr 1fr }
   #v-tuote .row > .main { display:contents }
   #v-tuote .x-hero { order:1 } #v-tuote .x-ps { order:4 } #v-tuote .x-ps:first-of-type { order:2 } #v-tuote .x-pside { order:3 } #v-tuote .x-pnav { order:5 }
@@ -6272,9 +6269,9 @@ var SVC_I = '<svg class="svc-i" viewBox="0 0 32 32" aria-hidden="true"><rect x="
     + '<section class="x-ps" aria-labelledby="t-tapa"><h2 id="t-tapa">Kaksi tapaa tilata</h2><div class="g2 x-two">'
     + '<div class="s8"><h3 class="need-h" style="margin:0">Tilaa itse</h3><p class="sm">Suunnittele ikkuna verkossa ja tilaa se toimitettuna. Asennat itse tai omalla asentajalla.</p><p><a class="lk x-pgo2" href="#rakenne">Suunnittele tämä ikkuna</a></p></div>'
     + '<div class="s8"><h3 class="need-h" style="margin:0">Kaski mittaa ja asentaa</h3><p class="sm">Hoidamme mittauksen, asennuksen ja vanhojen ikkunoiden poiskuljetuksen. Työn osuudesta voi hakea kotitalousvähennystä. Mittauskäynti on maksuton eikä sido mihinkään.</p><p><a class="lk" href="#mittaus">Varaa maksuton mittauskäynti</a></p></div></div></section>'
-    + '<section class="x-ps" aria-labelledby="t-pdf"><h2 id="t-pdf">Tuotekortit</h2><ul class="x-pdf sm">'
+    + '<section class="x-ps" aria-labelledby="t-pdf"><h2 id="t-pdf">Tuotekortit</h2><p class="sm mu">PDF-tiedostot avautuvat uuteen välilehteen.</p><ul class="x-pdf sm">'
     + [['2026/04/msea-kaski.pdf', 'Kaski MSEA'], ['2026/04/kaski-msea-thermo-1.pdf', 'Kaski MSEA Thermo'], ['2026/04/kaski-msea22-thermo.pdf', 'Kaski MSEA 2+2 Thermo'], ['2020/11/kaski-msea-musta.pdf', 'Kaski MSEA Thermo musta']].map(function (p) {
-      return '<li><a class="lk" href="' + PDF + p[0] + '" target="_blank" rel="noopener">' + p[1] + '</a> <span class="mu">PDF, avautuu uuteen välilehteen</span></li>';
+      return '<li><a class="lk" href="' + PDF + p[0] + '" target="_blank" rel="noopener">' + p[1] + '</a> <span class="mu">PDF</span></li>';
     }).join('') + '</ul></section>'
     + '<section class="x-ps" aria-labelledby="t-takuu"><h2 id="t-takuu">Takuu ja vastuut</h2><p class="sm">Kaski-ikkunoiden tuotetakuu on [LEGAL: vuodet]. Kun asennus tilataan Kaskipuun kautta, asennustyölle on erillinen [LEGAL: vuodet] takuu. Takuu ei kata asennusvirheitä, jos asennus on tehty itse tai Kaskipuun verkoston ulkopuolella. Tarkat takuuehdot toimitetaan tarjouksen yhteydessä.</p></section>'
     + '<section class="x-ps" aria-labelledby="t-ukk"><h2 id="t-ukk">Usein kysytyt kysymykset</h2><div class="x-faq">'
@@ -6346,7 +6343,7 @@ PV.addEventListener('click', function (e) {
   if (e.target.closest('.x-pchg')) { var li = PV.querySelector('#p-lev'); li.scrollIntoView({ block: 'center' }); li.focus({ preventScroll: true }); li.select(); return; }
   var g = e.target.closest('.x-pgo,.x-pgo2,.x-pgo3'); if (!g) return;
   e.preventDefault();
-  if (!pSize()) { PV.querySelector('#p-lev').focus(); return; }
+  if (!pSize()) { (PV.querySelector('[aria-invalid="true"]') || PV.querySelector('#p-lev')).focus(); return; }
   /* Uusi ikkuna tuotesivun koolla ja lasitasolla: konfiguraattori ei kysy niitä uudelleen */
   draft = copy(draft0); editing = null; target = null;
   draft.exact = false; draft.w = String(PS.w); draft.h = String(PS.h); draft.type = refType; draft.jako = jako0;
