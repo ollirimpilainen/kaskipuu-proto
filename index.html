@@ -953,6 +953,18 @@ select.x-sel[data-pro="hela"] { width:100%;max-width:none }
 .x-tier .x-k115 { margin-top:12px }
 .x-lev .x-err { margin:8px 0 0;color:#b4232a;font-weight:650;font-size:14px }
 .x-lev .x-err[hidden] { display:none }
+/* Kierros 26: ilmoitukset mittojen ja valintojen alla, venttiilin ja älylukon pois käytöstä olevat mallit */
+.x-note { margin:12px 0 0;padding:12px 16px;background:var(--sf);border-radius:6px }
+.x-note[hidden], .x-smart[hidden], .x-lok[hidden], .x-vwhy[hidden], .x-v60[hidden], .x-lwhy[hidden] { display:none }
+.x-wlim { margin:0 }
+.x-vent .x-note { margin:0 0 4px }
+.x-vent .rad.dis, .x-smart .rad.dis { cursor:not-allowed }
+.x-vent .rad.dis .num, .x-smart .rad.dis .num { color:var(--mu) }
+.x-smart .x-smt { display:block }
+@media (max-width: 767px) {
+  .pair.x-three > .x-smart { order:1 }
+  .pair.x-three > .x-plast { order:2 }
+}
 
 /* mobiili */
 .x-mbar { display:none }
@@ -6235,7 +6247,7 @@ var FAQ = [
   ['Mitä MSEA tarkoittaa?', '<p>Mallitunnus ei kerro puulajia vaan rakenteen ja aukeamissuunnan. Tunnukset perustuvat RT 41-10947 -korttiin: M = moduulimittainen (moduulimitta 100 mm, koot ilmoitetaan esimerkiksi 12M × 12M), S = sisään aukeava, U = ulos aukeava, E = eristyslasi- eli umpiolasielementti sisäpuitteessa, A = alumiininen ulkopuite ja karmin ulko-osa eli puu-alumiini-ikkuna. K tarkoittaa MEK-ikkunassa kiinteää ja MSK-ikkunassa kolmipuitteista.</p><p>MSEA on siis moduulimittainen, sisään aukeava, kaksipuitteinen ja kolmilasinen ikkuna, jonka sisäpuitteessa on eristyslasielementti ja jonka ulkopuite ja karmin ulko-osa ovat alumiinia. MSA-mallista puuttuu E: siinä ei ole eristyslasielementtiä vaan kaksinkertainen lasitus. Puuosat ovat Kaskella mäntyä, mutta puulaji on materiaalivalinta eikä näy tunnuksessa.</p>'],
   ['Mikä ero on Perus- ja Thermo-tasolla?', '<p>Itse ikkuna on sama. Thermossa on energiatehokkaampi lasipaketti: U-arvo 0,80 vastaan 0,98, ja huurtumaton ulkolasi kuuluu vakiona.</p>'],
   ['Riittääkö perustason lämmöneristys?', '<p>Riittää normaalisti eristettyyn taloon. Perustason U-arvo vastaa uudisrakentamisen nykyvaatimusta.</p>'],
-  ['Mikä karmisyvyys minun pitää valita?', '<p>Karmin pitää olla seinärakennetta ohuempi. Remonttikohteissa yleisin on 130 mm, uudisrakentamisessa 170 mm. Valitset karmisyvyyden suunnittelun ensimmäisessä vaiheessa. Jos et ole varma, valitse Tarkistetaan mittauksessa, niin asiantuntija mittaa seinän ja valitsee oikean.</p>'],
+  ['Mikä karmisyvyys minun pitää valita?', '<p>Karmin pitää olla seinärakennetta ohuempi. Remonttikohteissa yleisin on 130 mm, uudisrakentamisessa 170 mm. Valitset karmisyvyyden suunnittelun ensimmäisessä vaiheessa. Jos et ole varma, valitse Tarkistetaan mittauksessa, niin asiantuntija mittaa seinän ja valitsee oikean. Hinta lasketaan silloin Kasken oletuksella 170 mm.</p>'],
   ['Voiko saman kohteen ikkunoissa käyttää eri lasitasoja?', '<p>Voi. Yleinen ratkaisu on Thermo kylmään ilmansuuntaan ja Perus muualle.</p>']
 ];
 var OPTS = [
@@ -6251,11 +6263,11 @@ var SVC_I = '<svg class="svc-i" viewBox="0 0 32 32" aria-hidden="true"><rect x="
   var hdr = v1 ? v1.querySelector('header.top') : null;
   PV.innerHTML = '<div class="w">' + (hdr ? hdr.outerHTML : '') + '<main class="c pg x-pp"><div class="row"><div class="main">'
     + '<div class="x-hero"><div class="s16"><p class="eb">Avattavat ikkunat</p><h1>Kaski MSEA</h1>'
-    + '<p class="lead">Sisään aukeava puu-alumiini-ikkuna. Yksi runko, neljä lasitasoa: valitse taso käyttökohteen mukaan.</p>'
+    + '<p class="lead">Sisään aukeava puu-alumiini-ikkuna. Yksi runko, kolme lasitasoa: valitse taso käyttökohteen mukaan.</p>'
     + '<p>MSEA on Kasken yleisin ikkuna ja useimpien remonttikohteiden oletusvalinta. Se käy makuuhuoneisiin, joissa vaaditaan hätäpoistumistie, ja pesu onnistuu sisäpuolelta.</p></div>'
     + '<img class="x-himg" src="' + IMG_MSEA + '" alt=""></div>'
     + '<section class="x-ps" aria-labelledby="t-tasot"><div class="s8"><h2 id="t-tasot">Valitse lasitaso</h2>'
-    + '<p>Karmi, puite ja mitat ovat kaikissa neljässä samat. Vain lasipaketti vaihtuu, ja sen mukana lämmöneristys ja hinta.</p>'
+    + '<p>Karmi, puite ja mitat ovat kaikissa kolmessa samat. Vain lasipaketti vaihtuu, ja sen mukana lämmöneristys ja hinta.</p>'
     + '<p class="sm mu"><span class="x-pfor"></span> <button type="button" class="x-lkb x-pchg">Muuta kokoa</button></p></div>'
     + '<div class="x-tlist" role="radiogroup" aria-labelledby="t-tasot">' + TIERS.map(function (t, k) {
       return '<div class="x-trow" role="radio" tabindex="-1" aria-checked="false" data-tier="' + k + '"><span class="x-tn"><span class="b">' + t.n + '</span>' + (k === 0 ? '<span class="x-tdef">Kasken oletus</span>' : '') + '</span>'
@@ -6457,16 +6469,16 @@ var k115 = null, k115Note = null, tierNote = null;
 if (wkSec) {
   $$('button[data-wk]', wkSec).forEach(function (b) { if (b.textContent === '96 mm') b.remove(); if (b.textContent === '115 mm') k115 = b; });
   k115Note = D.createElement('p'); k115Note.className = 'sm x-k115'; k115Note.setAttribute('role', 'status'); k115Note.hidden = true;
-  k115Note.textContent = 'Valitsemasi 115 mm ei sovi Thermo-tasoille. Valitse toinen karmisyvyys.';
+  k115Note.textContent = 'Valitsemasi 115 mm ei sovi Thermo 2+2 -tasoon. Valitse toinen karmisyvyys.';
   wkSec.querySelector('.x-pcol').appendChild(k115Note);
   wkSec.addEventListener('click', function (e) { if (e.target.closest('button[data-wk]') && draft) { draft.k115 = false; renderK115(); } }, true);
 }
 if (tierBox) {
   tierNote = D.createElement('p'); tierNote.className = 'sm x-k115'; tierNote.setAttribute('role', 'status'); tierNote.hidden = true;
-  tierNote.innerHTML = 'Karmisyvyyttä 115 mm ei ole Thermo-tasoissa, joten poistimme sen. <a class="lk" href="#' + K1 + '">Valitse karmisyvyys</a>';
+  tierNote.innerHTML = 'Karmisyvyyttä 115 mm ei ole Thermo 2+2 -tasossa, joten poistimme sen. <a class="lk" href="#' + K1 + '">Valitse karmisyvyys</a>';
   tierBox.appendChild(tierNote);
 }
-function noThin(c) { return tierOf(c) >= 2; }
+function noThin(c) { return tierOf(c) === 3; }
 function renderK115() {
   if (!draft) return;
   if (noThin(draft) && draft.pro && draft.pro.karmi === '115 mm') { draft.pro.karmi = ''; draft.k115 = true; }
@@ -6546,7 +6558,7 @@ applyEdit = function () {
   var before = 0; winRows().forEach(function (r) { if (r.cfg.pro && r.cfg.pro.karmi === '115 mm') before += r.qty; });
   var ok = _aeR25();
   var after = 0; winRows().forEach(function (r) { if (r.cfg.pro && r.cfg.pro.karmi === '115 mm') after += r.qty; });
-  if (ok && after < before) setTimeout(function () { toast('Karmisyvyyttä 115 mm ei ole Thermo-tasoissa, joten poistimme sen ' + (before - after === 1 ? 'yhdestä ikkunasta' : (before - after) + ' ikkunasta') + '. Valitse uusi karmisyvyys ikkunan muokkauksesta.'); }, 0);
+  if (ok && after < before) setTimeout(function () { toast('Karmisyvyyttä 115 mm ei ole Thermo 2+2 -tasossa, joten poistimme sen ' + (before - after === 1 ? 'yhdestä ikkunasta' : (before - after) + ' ikkunasta') + '. Valitse uusi karmisyvyys ikkunan muokkauksesta.'); }, 0);
   return ok;
 };
 
@@ -6561,6 +6573,261 @@ applyEdit = function () {
 })();
 var _rnR25 = render; render = function () { renderK115(); _rnR25(); renderMuu(); renderK115(); };
 renderMuu(); renderK115(); renderLev();
+/* Kierros 26: Henrin tarkistukset Kasken rajapinnasta 20.11.2026. Loisto pois lasitasoista, karmisyvyydet ikkunatyypin mukaan,
+   korvausilmaventtiilin leveysraja, Futureen ei levikettä, leveys- ja korkeusrajat mittaa syötettäessä, Yale Linus vain sopiviin oviin. */
+
+/* ---------- Loisto pois: lasitasot ovat Perus, Thermo ja Thermo 2+2 ---------- */
+/* Tason numerot säilyvät (0 Perus, 2 Thermo, 3 Thermo 2+2), jotta tallennetut ikkunat ja hintataulukot pysyvät ennallaan. */
+var T3 = [0, 2, 3];
+var _toR26 = tierOf; tierOf = function (c, sel) { var t = _toR26(c, sel); return t === 1 ? 0 : t; };
+$$('.x-trow[data-tier="1"], .pc[data-tier="1"]').forEach(remove);
+$$('.pair.x-tier4 > .pc').forEach(function (pc) { if (txt(pc.querySelector('.pc-t')) === 'Loisto') remove(pc); });
+var ventMO = null;
+if (M && M.needs) M.needs.forEach(function (o) {
+  if (o.feat && o.feat.kind === 'sel' && o.feat.i === iH) {
+    for (var k = o.cards.length - 1; k >= 0; k--) if (o.info[k].title === 'Loisto') { o.cards.splice(k, 1); o.info.splice(k, 1); }
+    o.last = o.cards.length - 1;
+  }
+  if (o.feat && o.feat.kind === 'chk' && o.feat.j === ventAJ) ventMO = o;
+});
+/* Kolme tasoa samalle riville */
+$$('.pair.x-tier4').forEach(function (p) { if (!tierBox || !tierBox.contains(p)) p.classList.add('x-three'); });
+/* Tuotesivun nuolinäppäimet: rivin järjestysnumero ei ole enää tason numero */
+PV.addEventListener('keydown', function (e) {
+  var r = e.target.closest ? e.target.closest('.x-trow') : null; if (!r) return;
+  var all = $$('.x-trow', PV), i = all.indexOf(r), k = -1;
+  if (e.key === 'Enter' || e.key === ' ') k = i;
+  else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') k = (i + 1) % all.length;
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') k = (i - 1 + all.length) % all.length;
+  if (k < 0) return;
+  e.preventDefault(); e.stopPropagation(); pickP(+all[k].getAttribute('data-tier')); all[k].focus();
+}, true);
+
+/* Massamuokkaus: kortin järjestysnumero muunnetaan tasoksi */
+var _anR26 = applyNeed;
+applyNeed = function (c, o, k, st) {
+  if (o.feat && o.feat.kind === 'sel' && o.feat.i === iH) {
+    var t = T3[k]; if (t == null) return;
+    if (c.type !== refType && t === 3) return;
+    if (tierOf(c) === t) return;
+    setTier(c, t);
+    if (t === 3 && c.pro && c.pro.karmi === '115 mm') c.pro.karmi = '';
+    return;
+  }
+  /* Korvausilmaventtiili ei mahdu alle 51 cm leveään ikkunaan: se jää ennalleen */
+  if (o.feat && o.feat.kind === 'chk' && o.feat.j === ventAJ && k === o.last && !ventFits(c, 40)) return;
+  _anR26(c, o, k, st);
+};
+var _soR26 = stateOf;
+stateOf = function (c, o) { return o.feat && o.feat.kind === 'sel' && o.feat.i === iH ? Math.max(0, T3.indexOf(tierOf(c))) : _soR26(c, o); };
+var _alR26 = alreadyLabels;
+alreadyLabels = function (cfg) {
+  var out = _alR26(cfg);
+  if (ventMO && chosen(ventMO) && E.ch[ventMO.nid] === ventMO.last && !ventFits(cfg, 40)) { var l = choiceLabel(ventMO), i = out.indexOf(l); if (i >= 0) out.splice(i, 1); }
+  return out;
+};
+
+/* ---------- Karmisyvyys: 115 mm poistuu vain Thermo 2+2:lta. Tarkistettavan hinta lasketaan 170 mm:llä ---------- */
+var k170Note = null;
+if (wkSec) {
+  k170Note = D.createElement('p'); k170Note.className = 'sm x-note'; k170Note.hidden = true;
+  k170Note.textContent = 'Hinta lasketaan Kasken oletuksella 170 mm. Jos mittauksessa karmiksi tulee 210 mm, hinta voi nousta.';
+  wkSec.querySelector('.x-pcol').appendChild(k170Note);
+}
+function renderK170() { if (k170Note && draft) k170Note.hidden = !/^Tarkistetaan/.test((draft.pro && draft.pro.karmi) || ''); }
+
+/* ---------- Korvausilmaventtiili: 40 cm venttiili vaatii 510 mm ja 60 cm venttiili 710 mm karmileveyden ---------- */
+function wMm(c) { var w = num(c && c.w); return w === null ? null : (c.exact ? w : w * 10); }
+function hMm(c) { var h = num(c && c.h); return h === null ? null : (c.exact ? h : h * 10); }
+function ventFits(c, cm) { var w = wMm(c); return w === null || w >= (cm === 60 ? 710 : 510); }
+var ventWhy = null, why60 = null, vent60Note = null;
+if (ventAJ >= 0) {
+  VENT.push({ id: 'VS-60', t: 'Biobe VS-60', d: 'Edullisempi 60 cm pitkä malli leveisiin ikkunoihin.', ex: 8954 });
+  var vy26 = adds[ventAJ].el.querySelector('.why');
+  ventWhy = D.createElement('span'); ventWhy.className = 'b x-vwhy'; ventWhy.hidden = true;
+  if (vy26) vy26.appendChild(ventWhy);
+  if (ventBox) {
+    var l60 = D.createElement('label'); l60.className = 'rad';
+    l60.innerHTML = '<input type="radio" name="x-vent" value="VS-60"><span><span class="b">Biobe VS-60</span><br><span class="why"></span><span class="b x-v60" hidden></span></span><span class="num"></span>';
+    l60.querySelector('.why').textContent = VENT[VENT.length - 1].d;
+    l60.querySelector('.num').textContent = eur(8954);
+    ventBox.appendChild(l60);
+    why60 = l60.querySelector('.x-v60'); why60.textContent = ' Ei mahdu alle 71 cm leveään ikkunaan.';
+    vent60Note = D.createElement('p'); vent60Note.className = 'sm x-note'; vent60Note.setAttribute('role', 'status'); vent60Note.hidden = true;
+    vent60Note.textContent = 'Vaihdoimme malliksi Biobe VS-40, koska 60 cm venttiili ei mahdu alle 71 cm leveään ikkunaan.';
+    ventBox.insertBefore(vent60Note, ventBox.firstChild);
+    ventBox.addEventListener('change', function () { if (draft) delete draft.ventGone; }, true);
+  }
+  adds[ventAJ].el.addEventListener('change', function () { if (draft) delete draft.ventGone; }, true);
+}
+/* Ennen piirtoa: valinta pois, jos venttiili ei enää mahdu */
+function fixVent() {
+  if (ventAJ < 0 || !draft) return;
+  if (draft.chk[ventAJ] && !ventFits(draft, 40)) { draft.chk[ventAJ] = false; draft.ventGone = 'all'; }
+  else if (draft.chk[ventAJ] && draft.vm === 'VS-60' && !ventFits(draft, 60)) { draft.vm = ''; draft.ventGone = '60'; }
+  if (draft.ventGone === 'all' && ventFits(draft, 40)) delete draft.ventGone;
+  if (draft.ventGone === '60' && (ventFits(draft, 60) || !draft.chk[ventAJ])) delete draft.ventGone;
+}
+function renderVent26() {
+  if (ventAJ < 0 || !draft) return;
+  var r = adds[ventAJ], ok = ventFits(draft, 40), ok60 = ventFits(draft, 60);
+  if (r.cb) { r.cb.disabled = !ok; if (!ok) r.cb.checked = false; }
+  r.el.classList.toggle('dis', !ok);
+  if (!ok && typeof ventRowNum !== 'undefined' && ventRowNum) ventRowNum.textContent = 'Ei saatavilla';
+  if (ventWhy) {
+    ventWhy.hidden = ok;
+    ventWhy.textContent = draft.ventGone === 'all' ? ' Poistimme venttiilin, koska se ei mahdu alle 51 cm leveään ikkunaan.' : ' Venttiili ei mahdu alle 51 cm leveään ikkunaan.';
+  }
+  if (ventBox) {
+    if (!ok) ventBox.hidden = true;
+    var i60 = ventBox.querySelector('input[value="VS-60"]');
+    if (i60) { i60.disabled = !ok60; i60.closest('label').classList.toggle('dis', !ok60); }
+    if (why60) why60.hidden = ok60;
+    if (vent60Note) vent60Note.hidden = draft.ventGone !== '60';
+  }
+}
+/* Massamuokkaus: kerrotaan, moneenko valituista venttiili mahtuu */
+var _reR26 = renderEdit;
+renderEdit = function () {
+  _reR26();
+  if (!ventMO || !E) return;
+  var W = selWins(), n = 0, fit = 0, now = ventMO.info[ventMO.last] ? ventMO.info[ventMO.last].now : null;
+  W.forEach(function (w) { n += w.q; if (ventFits(w.row.cfg, 40)) fit += w.q; });
+  if (now && n && fit < n) {
+    now.textContent = '';
+    var b = D.createElement('span'); b.className = 'b';
+    b.textContent = 'Mahtuu ' + fit + ' ikkunaan ' + n + ':' + elat(n) + '. Alle 51 cm leveisiin venttiili ei mahdu.';
+    now.appendChild(b);
+  }
+};
+
+/* ---------- Leveys- ja korkeusrajat heti mittaa syötettäessä (Kasken tarkistus, ei estä jatkamista) ---------- */
+var ONECOL = /^(Yksi osa|Kaksi osaa päällekkäin|Kolme päällekkäin|Neljä päällekkäin)$/;
+function sizeLimit(c) {
+  var w = wMm(c), h = hMm(c), jn = jakos[c.jako] ? jakos[c.jako].name : '', out = [];
+  if (w !== null && ONECOL.test(jn)) {
+    if (c.type === refType) {
+      if (w > 2500) out.push('Yli 2,5 metriä leveä ikkuna ei aukea yhtenä osana. Valitse jaoksi kaksi tai useampi osa rinnakkain.');
+      else if (w > 2400) out.push('Näin leveään yhden osan ikkunaan tarvittaisiin yli 2,3 metriä pitkä lasi, eikä niin pitkää lasia tehdä. Valitse jaoksi kaksi tai useampi osa rinnakkain.');
+      else if (w > 2300) out.push('Yli 2,3 metriä leveä avattava ikkuna tarvitsee paksummat 6 mm lasit, ja hinta voi nousta. Kahdella osalla rinnakkain riittävät tavalliset lasit.');
+    } else if (w > 2200) out.push('Yli 2,2 metriä leveä kiinteä ikkuna tarvitsee paksummat 6 mm lasit, ja hinta voi nousta. Kahdella osalla rinnakkain riittävät tavalliset lasit.');
+  }
+  if (h !== null && (jn === 'Yksi osa' || (/rinnakkain/.test(jn) && !/päällekkäin/.test(jn)))) {
+    if (h >= 2700) out.push('Näin korkea ikkuna on korkeampi kuin Kaski valmistaa. Valitse jaoksi osat päällekkäin.');
+    else if (h > 2300) out.push('Yli 2,3 metriä korkea ikkuna ei välttämättä onnistu yhtenä osana. Valitse jaoksi osat päällekkäin, niin korkeus ei ole ongelma.');
+  }
+  return out;
+}
+var wLim = null;
+(function () {
+  var kor = WR ? WR.querySelector('#kor') : null, f = kor ? kor.closest('.f') : null; if (!f) return;
+  wLim = D.createElement('p'); wLim.id = 'x-wlim'; wLim.className = 'sm x-note x-wlim'; wLim.setAttribute('role', 'status'); wLim.hidden = true;
+  f.parentNode.insertBefore(wLim, f.nextSibling);
+})();
+function renderWLim() {
+  if (!wLim || !draft) return;
+  var m = sizeLimit(draft).join(' ');
+  if (wLim.textContent !== m) wLim.textContent = m;
+  wLim.hidden = !m;
+}
+var pLim = D.createElement('p'); pLim.className = 'sm x-note x-wlim'; pLim.setAttribute('role', 'status'); pLim.hidden = true;
+(function () { var e = PV.querySelector('#p-err'); if (e) e.parentNode.insertBefore(pLim, e.nextSibling); })();
+function renderPLim() {
+  var w = parseInt(String(PV.querySelector('#p-lev').value).replace(/\D/g, ''), 10), h = parseInt(String(PV.querySelector('#p-kor').value).replace(/\D/g, ''), 10);
+  var err = !PV.querySelector('#p-err').hidden, m = '';
+  if (!err && w >= 23 && w <= 329 && h >= 27 && h <= 329) { var c = pCfg(PS.tier); c.w = String(w); c.h = String(h); m = sizeLimit(c).join(' '); }
+  if (pLim.textContent !== m) pLim.textContent = m;
+  pLim.hidden = !m;
+}
+var _rtR26 = renderTuote; renderTuote = function () { _rtR26(); renderPLim(); };
+PV.addEventListener('input', function (e) { if (e.target.matches('#p-lev,#p-kor')) setTimeout(renderPLim, 0); });
+
+/* ---------- Ovet: Futureen ei levikettä eikä pariovea, Yale Linus vain sopiviin malleihin ---------- */
+var dModelG = dByClass('md4')[0];
+function doorModel(o) {
+  var el = dModelG && o ? dModelG.items[o.sel[dModelG.k]] : null, l = el ? (el.getAttribute('aria-label') || '').split(',') : [];
+  return { name: (l[0] || '').trim(), col: (l[1] || '').replace(/^\s*Kaski\s*/, '').trim() };
+}
+function isFuture(o) { return doorModel(o).col === 'Future'; }
+var LINUS_NO = {
+  'Design': ['Vuoksi'],
+  'Vähähiilinen Puudesign': ['Niini', 'Tyrsky', 'Loimu', 'Nova', 'Säde', 'Otso', 'Louna', 'Aava', 'Tyrni', 'Pihka', 'Havu', 'Aura 1', 'Aura 2', 'Usva 1', 'Usva 2', 'Usva 3', 'Kajo']
+};
+function linusOk(o) { var m = doorModel(o), l = LINUS_NO[m.col]; return !(l && l.indexOf(m.name) >= 0); }
+var futNote = null;
+(function () {
+  var g = WD ? WD.querySelector('section[aria-labelledby="s-mal"] .g4m') : null; if (!g) return;
+  futNote = D.createElement('p'); futNote.className = 'sm x-note'; futNote.setAttribute('role', 'status'); futNote.hidden = true;
+  futNote.textContent = 'Future-malleihin ei saa levikettä, joten poistimme sen.';
+  g.parentNode.insertBefore(futNote, g.nextSibling);
+})();
+var lukG = dFindPc(/lukitus/i), smartI = -1, smartSub = null;
+if (lukG) lukG.items.forEach(function (el, i) { if (gTitle(lukG, i) === 'Älylukko') smartI = i; });
+if (lukG && smartI >= 0) {
+  var sc26 = lukG.items[smartI], sd26 = sc26.querySelector('.pc-d');
+  if (sd26) sd26.textContent = 'Avaat oven puhelimella tai koodilla. Yale Doorman L3 tai Yale Linus.';
+  smartSub = D.createElement('div'); smartSub.className = 'pc-sub x-smart'; smartSub.hidden = true;
+  smartSub.innerHTML = '<span class="x-smt"></span><details class="vp"><summary>Vaihda älylukkoa</summary><div role="radiogroup" aria-label="Älylukon malli">'
+    + '<label class="rad"><input type="radio" name="x-smart" value=""><span><span class="b">Yale Doorman L3</span><br><span class="why">Sopii kaikkiin malleihin.</span></span><span class="num">Sisältyy</span></label>'
+    + '<label class="rad"><input type="radio" name="x-smart" value="linus"><span><span class="b">Yale Linus</span><br><span class="why x-lok">Sopii tähän oveen.</span><span class="b x-lwhy" hidden></span></span><span class="num">+0,55 €</span></label>'
+    + '</div></details>';
+  var pr26 = sc26.parentNode; pr26.appendChild(smartSub);
+  var last26 = lukG.items[lukG.items.length - 1]; if (last26 !== sc26) last26.classList.add('x-plast');
+  smartSub.addEventListener('change', function (e) {
+    e.stopPropagation(); if (!door || !e.target.matches('input[name="x-smart"]')) return;
+    door.smart = e.target.value; delete door.smartGone; renderDoor();
+  }, true);
+}
+function smartOn(o) { return !!(lukG && o && o.sel[lukG.k] === smartI); }
+var _dcR26 = doorCalc;
+doorCalc = function (o) {
+  var P = _dcR26(o);
+  if (!P || !P.known || !o || o.smart !== 'linus' || !smartOn(o)) return P;
+  var Q = copy(P); Q.ex += 55; return Q;
+};
+var _diR26 = doorInfo;
+doorInfo = function (o) {
+  var I = _diR26(o);
+  if (smartOn(o)) I.luk = 'Älylukko ' + (o.smart === 'linus' ? 'Yale Linus' : 'Yale Doorman L3');
+  return I;
+};
+var _rdR26 = renderDoor;
+renderDoor = function () {
+  if (door) {
+    var fut = isFuture(door);
+    if (fut && door.lev !== 0) { if (door.lev === 1) door.levGone = true; door.lev = 0; door.levAuto = true; }
+    if (!fut) { if (door.levAuto) { delete door.lev; delete door.levAuto; } delete door.levGone; }
+    if (door.smart === 'linus' && !linusOk(door)) { door.smart = ''; if (smartOn(door)) door.smartGone = doorModel(door).name; }
+    if (door.smartGone && linusOk(door)) delete door.smartGone;
+  }
+  _rdR26();
+  if (!door) return;
+  if (levSec) levSec.hidden = isFuture(door);
+  if (futNote) futNote.hidden = !door.levGone;
+  if (smartSub) {
+    var on = smartOn(door), ok = linusOk(door), nm = doorModel(door).name;
+    smartSub.hidden = !on;
+    smartSub.querySelector('.x-smt').textContent = door.smartGone
+      ? 'Yale Linus ei sovi malliin ' + door.smartGone + ', joten vaihdoimme lukoksi Yale Doorman L3:n.'
+      : 'Lukko on ' + (door.smart === 'linus' ? 'Yale Linus.' : 'Yale Doorman L3.');
+    $$('input[name="x-smart"]', smartSub).forEach(function (i) { i.checked = i.value === (door.smart || ''); });
+    var li = smartSub.querySelector('input[value="linus"]'), lw = smartSub.querySelector('.x-lwhy');
+    li.disabled = !ok; li.closest('label').classList.toggle('dis', !ok);
+    lw.hidden = ok; lw.textContent = 'Ei sovi malliin ' + nm + '.';
+    smartSub.querySelector('.x-lok').hidden = !ok;
+  }
+};
+
+/* ---------- Piirto ---------- */
+var _rnR26 = render;
+render = function () {
+  fixVent();
+  _rnR26();
+  renderVent26(); renderWLim(); renderK170();
+  if (tierBox && draft) tierBox.querySelector('.x-tier4').classList.toggle('x-three', draft.type === refType);
+};
+renderTuote(); fixVent(); renderVent26(); renderWLim(); renderK170(); renderDoor();
+if (tierBox && draft) tierBox.querySelector('.x-tier4').classList.toggle('x-three', draft.type === refType);
 })();
 
 route();
